@@ -8,74 +8,93 @@ session_start();
 
 $activeUser = $_SESSION['username'];
 
-//Menambah pelanggan Baru
-if (isset($_POST['submitTambahData'])) {
-  $id_pelanggan = getLastID($conn, 'tb_pelanggan', 'id_pelanggan', 'PG');
-  $id_user = getLastUser($conn);
-  $nama = $_POST['nama'];
-  $username = createUsername($_POST['email']);
-  $password = $username;
-  $nik = $_POST['nik'];
-  $jenis_kelamin = $_POST['jenis_kelamin'];
-  $email = $_POST['email'];
-  $telp = $_POST['telp'];
-  $tgl_lahir = $_POST['tgl_lahir'];
-  $alamat = $_POST['alamat'];
+//Menambah Motor Baru
+if (isset($_POST['submitTambahMotorMasuk'])) {
 
-  $insertUserQuery = "INSERT INTO users (id, name, email, password)
-                      VALUES ('$id_user','$username','$email','$password')";
+  $id_motor_masuk = getLastID($conn, 'tb_motor_masuk', 'id_motor_masuk', 'MM');
+  $jumlah = $_POST['jumlah'];
+  $id_motor = $_POST['id_motor'];
+  $id_supplier = $_POST['id_supplier'];
+  $id_karyawan = $_POST['id_karyawan'];
+  $tgl_masuk = $_POST['tgl_masuk'];
 
-  $insertPelangganQuery = "INSERT INTO tb_pelanggan (id_pelanggan, id_user, nama, nik, jenis_kelamin, telp, tgl_lahir, alamat) 
-                  VALUES ('$id_pelanggan', '$id_user' , '$nama', '$nik', '$jenis_kelamin', '$telp','$tgl_lahir', '$alamat')";
 
-  $addUser = mysqli_query($conn, $insertUserQuery);
-  if ($addUser) {
-    $addPelanggan = mysqli_query($conn, $insertPelangganQuery);
-    if ($addPelanggan) {
-      header('refresh:0; url=daftar-pelanggan.php');
-      echo "<script>alert('Yeay, Tambah pelanggan berhasil!')</script>";
+  //Update Stock Motor
+  $ambil_stock = mysqli_query($conn, "SELECT (stock + $jumlah) AS new_stock FROM tb_motor WHERE id_motor='$id_motor'");
+  $row = mysqli_fetch_assoc($ambil_stock);
+  $stock_baru = $row['new_stock'];
+
+  $insertQuery = "INSERT INTO tb_motor_masuk (id_motor_masuk, id_motor, id_supplier, id_karyawan, jumlah, tgl_masuk) 
+  VALUES ('$id_motor_masuk', '$id_motor', '$id_supplier', '$id_karyawan', '$jumlah', '$tgl_masuk')";
+
+  $addData = mysqli_query($conn, $insertQuery);
+  if ($addData) {
+    $update_stock = mysqli_query($conn, "UPDATE tb_motor SET stock='$stock_baru' WHERE id_motor='$id_motor'");
+    if ($update_stock) {
+      header('refresh:0; url=motor-masuk.php');
+      echo "<script>alert('Yeay, Tambah Motor Masuk berhasil!')</script>";
     }
   } else {
-    echo "<script>alert('Yahh :( Tambah pelanggan gagal!')</script>";
+    echo "<script>alert('Yahh :( Tambah Motor Masuk gagal!')</script>";
     // header('location:stock.php');
   }
 }
 
-// Edit pelanggan
-if (isset($_POST['submitEditData'])) {
-  $id_pelanggan = $_POST['id_pelanggan'];
-  $nama = $_POST['nama'];
-  $jenis_kelamin = $_POST['jenis_kelamin'];
-  $telp = $_POST['telp'];
-  $tgl_lahir = $_POST['tgl_lahir'];
-  $alamat = $_POST['alamat'];
-  $posisi = $_POST['posisi'];
-  $gaji = $_POST['gaji'];
+// Edit Motor
+// if (isset($_POST['submitEditMotor'])) {
+//   $id_motor = $_POST['id_motor'];
+//   $nama = $_POST['nama'];
+//   $id_merk = $_POST['id_merk'];
+//   $id_jenis_motor = $_POST['id_jenis_motor'];
+//   $harga = $_POST['harga'];
+//   $persentase_laba = $_POST['persentase_laba'];
+//   $persentase_sparepart = $_POST['persentase_sparepart'];
+//   $stock = $_POST['stock'];
+//   $description = $_POST['description'];
+//   $img_src = '';
+//   $tipe_mesin = $_POST['tipe_mesin'];
+//   $volume_silinder = $_POST['volume_silinder'];
+//   $tipe_transmisi = $_POST['tipe_transmisi'];
+//   $kapasitas_bbm = $_POST['kapasitas_bbm'];
 
-  $editQuery = "UPDATE tb_pelanggan SET nama='$nama', jenis_kelamin='$jenis_kelamin', telp='$telp', tgl_lahir='$tgl_lahir', alamat='$alamat', posisi='$posisi', gaji='$gaji' WHERE id_pelanggan='$id_pelanggan'";
+//   $editMotorQuery = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description', img_src='' WHERE id_motor='$id_motor'";
 
-  $editData = mysqli_query($conn, $editQuery);
-  if ($editData) {
-    header('refresh:0; url=daftar-pelanggan.php');
-    echo "<script>alert('Yeay, Edit pelanggan berhasil!')</script>";
-  } else {
-    echo "<script>alert('Yahh :( Edit pelanggan gagal!')</script>";
-    // header('location:stock.php');
-  }
-}
+//   $editSpesifikasiQuery = "UPDATE tb_spesifikasi SET tipe_mesin='$tipe_mesin', volume_silinder='$volume_silinder', tipe_transmisi='$tipe_transmisi', kapasitas_bbm='$kapasitas_bbm' WHERE id_motor='$id_motor'";
+
+//   $editMotor = mysqli_query($conn, $editMotorQuery);
+//   if ($editMotor) {
+//     $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
+//     if ($editSpesifikasi) {
+//       header('refresh:0; url=stock.php');
+//       echo "<script>alert('Yeay, Edit Motor berhasil!')</script>";
+//     }
+//   } else {
+//     echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
+//     // header('location:stock.php');
+//   }
+// }
 
 
-//Hapus pelanggan
-
+//Hapus  Motor Masuk
 if (isset($_POST['submitHapus'])) {
-  $id_pelanggan = $_POST['id_pelanggan'];
+  $id_motor_masuk = $_POST['id_motor_masuk'];
+  $id_motor = $_POST['id_motor'];
+  $jumlah = $_POST['jumlah'];
 
-  $delData =  mysqli_query($conn, "DELETE FROM tb_pelanggan WHERE id_pelanggan='$id_pelanggan'");
+  //Update Stock Motor
+  $ambil_stock = mysqli_query($conn, "SELECT (stock - $jumlah) AS new_stock FROM tb_motor WHERE id_motor='$id_motor'");
+  $row = mysqli_fetch_assoc($ambil_stock);
+  $stock_baru = $row['new_stock'];
 
-  if ($delData) {
-    echo "<script>alert('Yeay, Hapus pelanggan berhasil!')</script>";
+  $delTableMotorMasuk =  mysqli_query($conn, "DELETE FROM tb_motor_masuk WHERE id_motor_masuk='$id_motor_masuk'");
+
+  if ($delTableMotorMasuk) {
+    $update_stock = mysqli_query($conn, "UPDATE tb_motor SET stock='$stock_baru' WHERE id_motor='$id_motor'");
+    if ($update_stock) {
+      echo "<script>alert('Yeay, Hapus Motor Masuk berhasil!')</script>";
+    }
   } else {
-    echo "<script>alert('Yahh :( Hapus pelanggan gagal!')</script>";
+    echo "<script>alert('Yahh :( Hapus Motor Masuk gagal!')</script>";
   }
 }
 
@@ -88,7 +107,7 @@ if (isset($_POST['submitHapus'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>pelanggan - Rooda</title>
+  <title>Motor - Rooda</title>
 
   <meta name="description" content="" />
 
@@ -113,17 +132,10 @@ if (isset($_POST['submitHapus'])) {
 
   <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
 
-  <!-- <link rel="stylesheet" href="../../assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
-
   <!-- Page CSS -->
 
   <!-- Helpers -->
   <script src="../../assets/vendor/js/helpers.js"></script>
-
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-  <script src="../../assets/js/config.js"></script>
-
 
   <!-- Datatable -->
   <!-- <link rel="stylesheet" href="../../assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
@@ -132,6 +144,9 @@ if (isset($_POST['submitHapus'])) {
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
 
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="../../assets/js/config.js"></script>
 </head>
 
 <body>
@@ -164,7 +179,7 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Persediaan Motor -->
-          <li class="menu-item">
+          <li class="menu-item active open">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-package"></i>
               <div data-i18n="Layouts">Persediaan Motor</div>
@@ -176,7 +191,7 @@ if (isset($_POST['submitHapus'])) {
                   <div data-i18n="Without navbar">Stock Motor</div>
                 </a>
               </li>
-              <li class="menu-item">
+              <li class="menu-item active">
                 <a href="../motor/motor-masuk.php" class="menu-link">
                   <div data-i18n="Without navbar">Motor Masuk</div>
                 </a>
@@ -221,7 +236,6 @@ if (isset($_POST['submitHapus'])) {
               <div data-i18n="Analytics">Perbaikan</div>
             </a>
           </li>
-
           <!-- NOTE : Karyawan -->
           <li class="menu-item">
             <a href="../karyawan/daftar-karyawan.php" class="menu-link">
@@ -231,7 +245,7 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Pelanggan -->
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="../pelanggan/daftar-pelanggan.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Pelanggan</div>
@@ -267,6 +281,7 @@ if (isset($_POST['submitHapus'])) {
 
       <!-- Layout container -->
       <div class="layout-page">
+
         <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
           <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
@@ -293,7 +308,7 @@ if (isset($_POST['submitHapus'])) {
                 </tr>
                 <tr>
                   <td>
-                    <h3>Daftar Pelanggan</h3>
+                    <h3>Motor Masuk</h3>
                   </td>
                 </tr>
 
@@ -367,6 +382,7 @@ if (isset($_POST['submitHapus'])) {
             </ul>
           </div>
         </nav>
+
         <!-- Content wrapper -->
         <div class="content-wrapper">
           <!-- Content -->
@@ -383,45 +399,42 @@ if (isset($_POST['submitHapus'])) {
               <div class="card">
                 <h3 class="card-header"></h3>
                 <div class="table-responsive text-nowrap">
-                  <table id="example" class="table table-hover">
+                  <table id=example class="table table-hover">
                     <thead>
                       <tr class="text-nowrap">
                         <th></th>
                         <th>ID</th>
-                        <th>Nama</th>
-                        <th>Username</th>
-                        <th>NIK</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Email</th>
-                        <th>Telp</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Alamat</th>
+                        <th>Nama Motor</th>
+                        <th>Supplier</th>
+                        <th>Karyawan</th>
+                        <th>Jumlah</th>
+                        <th>Tanggal</th>
                       </tr>
                     </thead>
                     <tbody>
+
                       <?php
 
-
-
-                      $ambil_data = mysqli_query(
+                      $ambil_data_stock = mysqli_query(
                         $conn,
-                        "SELECT *
-                          FROM tb_pelanggan p
-                          JOIN users u
-                          WHERE p.id_user = u.id
-                          ORDER BY p.id_pelanggan"
+                        "SELECT mm.id_motor_masuk, mm.jumlah, mm.tgl_masuk, mm.id_motor, mt.nama nama_motor, sr.nama nama_supplier, kr.nama nama_karyawan
+                        FROM tb_motor_masuk mm
+                        JOIN tb_motor mt
+                        USING(id_motor)
+                        JOIN tb_supplier sr
+                        USING(id_supplier)
+                        JOIN tb_karyawan kr
+                        USING(id_karyawan);"
                       );
 
-                      while ($data = mysqli_fetch_array($ambil_data)) {
-                        $id_pelanggan = $data['id_pelanggan'];
-                        $nama = $data['nama'];
-                        $username = $data['name'];
-                        $nik = $data['nik'];
-                        $jenis_kelamin = $data['jenis_kelamin'];
-                        $email = $data['email'];
-                        $telp = $data['telp'];
-                        $tgl_lahir = $data['tgl_lahir'];
-                        $alamat = $data['alamat'];
+                      while ($data = mysqli_fetch_array($ambil_data_stock)) {
+                        $id_motor_masuk = $data['id_motor_masuk'];
+                        $id_motor = $data['id_motor'];
+                        $nama_motor = $data['nama_motor'];
+                        $nama_karyawan = $data['nama_karyawan'];
+                        $nama_supplier = $data['nama_supplier'];
+                        $jumlah = $data['jumlah'];
+                        $tgl_masuk = $data['tgl_masuk'];
                       ?>
 
                         <tr>
@@ -431,105 +444,36 @@ if (isset($_POST['submitHapus'])) {
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu">
-
-                                <a class="dropdown-item" href="#editModal<?= $id_pelanggan; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_pelanggan; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                <input type="hidden" name="id_hapus" value="<?= $id_pelanggan; ?>">
-                                <a class="dropdown-item" href="#hapusModal<?= $id_pelanggan; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_pelanggan; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
-
+                                <input type="hidden" name="id_motor_masuk" value="<?= $id_motor_masuk; ?>">
+                                <a class="dropdown-item" href="#hapusModal<?= $id_motor_masuk; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_motor_masuk; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
                               </div>
                             </div>
                           </td>
-                          <td><b><?= $id_pelanggan ?></b></td>
-                          <td><?= $nama ?></td>
-                          <td><?= $username ?></td>
-                          <td><?= $nik ?></td>
-                          <td><?= $jenis_kelamin ?></td>
-                          <td><?= $email ?></td>
-                          <td><?= $telp ?></td>
-                          <td><?= tanggal($tgl_lahir) ?></td>
-                          <td><?= $alamat ?></td>
+                          <td><b><?= $id_motor_masuk ?></b></td>
+                          <td><?= $nama_motor ?></td>
+                          <td><?= $nama_supplier ?></td>
+                          <td><?= $nama_karyawan ?></td>
+                          <td><?= $jumlah ?></td>
+                          <td><?= tanggal($tgl_masuk) ?></td>
                         </tr>
 
-                        <!-- Modal Edit -->
-                        <div class="modal fade" id="editModal<?= $id_pelanggan; ?>" tabindex="-1" aria-hidden="true">
-                          <div class="modal-dialog modal-lg" role="document">
-                            <form method="POST">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel3">Edit pelanggan</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Nama</label>
-                                      <input type="text" name="nama" class="form-control" value="<?= $nama ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">NIK</label>
-                                      <input type="number" name="nik" class="form-control" value="<?= $nik ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-0">
-                                      <label for="emailLarge" class="form-label">Jenis Kelamin</label>
-                                      <select class="form-select" name="jenis_kelamin" aria-label="Default select example">
-                                        <option selected value="L">Laki-laki</option>
-                                        <option value="P">Perempuan</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Email</label>
-                                      <input type="email" name="email" class="form-control" value="<?= $email ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Telepon</label>
-                                      <input type="number" name="telp" class="form-control" value="<?= $telp ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal Lahir</label>
-                                      <input class="form-control" type="date" value="<?= $tgl_lahir ?>" id="tgl_lahir" name="tgl_lahir" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Alamat</label>
-                                      <textarea class="form-control" name="alamat" rows="3" placeholder="<?= $alamat ?>"></textarea>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Batal
-                                  </button>
-                                  <button type="submit" name="submitEditData" class="btn btn-primary">Simpan</button>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
+                        <!-- Modal Edit NOT USED-->
 
                         <!-- Modal Hapus -->
-                        <div class="modal fade" id="hapusModal<?= $id_pelanggan; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                        <div class="modal fade" id="hapusModal<?= $id_motor_masuk; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h3 class="modal-title" id="modalToggleLabel">Hapus pelanggan</h3>
+                                <h3 class="modal-title" id="modalToggleLabel">Hapus Motor Masuk</h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
 
                               <form method="POST">
                                 <div class="modal-body">
-                                  <input type="hidden" name="id_pelanggan" value="<?= $id_pelanggan ?>">
-                                  <p>Yakin hapus <b><?= $nama; ?></b> dengan ID <b><?= $id_pelanggan ?>?</b></p>
+                                  <input type="hidden" name="id_motor_masuk" value="<?= $id_motor_masuk ?>">
+                                  <input type="hidden" name="id_motor" value="<?= $id_motor ?>">
+                                  <input type="hidden" name="jumlah" value="<?= $jumlah ?>">
+                                  <p>Yakin hapus <b><?= $nama_motor ?></b> dengan ID <b><?= $id_motor_masuk ?>?</b></p>
                                 </div>
                                 <div class="modal-footer">
                                   <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapus">Hapus</button>
@@ -581,53 +525,87 @@ if (isset($_POST['submitHapus'])) {
       <form method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel3">Tambah Pelanggan</h5>
+            <h5 class="modal-title" id="exampleModalLabel3">Tambah Motor</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Pelanggan" />
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Nama Motor</label>
+                <select class="form-select" name="id_motor" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_motor = mysqli_query(
+                    $conn,
+                    "SELECT nama, id_motor FROM tb_motor ORDER BY nama"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_motor)) {
+                    $nama_motor = $data['nama'];
+                    $id_motor = $data['id_motor'];
+                  ?>
+                    <option value="<?= $id_motor ?>"><?= $nama_motor ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
               </div>
             </div>
-            <div class="row">
-              <div class="col mb-3">
-                <label for="nameLarge" class="form-label">NIK</label>
-                <input type="number" name="nik" class="form-control" placeholder="Masukkan NIK" />
+            <div class="row g-2">
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Nama Supplier</label>
+                <select class="form-select" name="id_supplier" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_supplier = mysqli_query(
+                    $conn,
+                    "SELECT nama, id_supplier FROM tb_supplier ORDER BY nama"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_supplier)) {
+                    $id_supplier = $data['id_supplier'];
+                    $nama_supplier = $data['nama'];
+                  ?>
+                    <option value="<?= $id_supplier ?>"><?= $nama_supplier ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
               </div>
-            </div>
-            <div class="row">
-              <div class="col mb-0">
-                <label for="emailLarge" class="form-label">Jenis Kelamin</label>
-                <select class="form-select" name="jenis_kelamin" aria-label="Default select example">
-                  <option selected value="L">Laki-laki</option>
-                  <option value="P">Perempuan</option>
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Nama Karyawan</label>
+                <select class="form-select" name="id_karyawan" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_karyawan = mysqli_query(
+                    $conn,
+                    "SELECT nama, id_karyawan FROM tb_karyawan WHERE posisi='Sales' ORDER BY nama"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_karyawan)) {
+                    $id_karyawan = $data['id_karyawan'];
+                    $nama_karyawan = $data['nama'];
+                  ?>
+                    <option value="<?= $id_karyawan ?>"><?= $nama_karyawan ?></option>
+                  <?php
+                  }
+                  ?>
+
                 </select>
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Masukkan Email" />
+                <label for="nameLarge" class="form-label">Jumlah</label>
+                <input type="number" name="jumlah" class="form-control" placeholder="Masukkan Jumlah" />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Telepon</label>
-                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col mb-3">
-                <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal Lahir</label>
-                <input class="form-control" type="date" value="2002-11-21" id="tgl_lahir" name="tgl_lahir" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Alamat</label>
-                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat"></textarea>
+                <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal Masuk</label>
+                <input class="form-control" type="date" value="2022-11-21" id="tgl_masuk" name="tgl_masuk" />
               </div>
             </div>
           </div>
@@ -635,7 +613,7 @@ if (isset($_POST['submitHapus'])) {
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
               Batal
             </button>
-            <button type="submit" name="submitTambahData" class="btn btn-primary">Tambah</button>
+            <button type="submit" name="submitTambahMotorMasuk" class="btn btn-primary">Tambah</button>
           </div>
         </div>
       </form>
@@ -649,13 +627,13 @@ if (isset($_POST['submitHapus'])) {
     });
   </script>
 
+
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
   <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
   <script src="../../assets/vendor/libs/popper/popper.js"></script>
   <script src="../../assets/vendor/js/bootstrap.js"></script>
   <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
 
   <script src="../../assets/vendor/js/menu.js"></script>
   <!-- endbuild -->
@@ -671,6 +649,10 @@ if (isset($_POST['submitHapus'])) {
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 
