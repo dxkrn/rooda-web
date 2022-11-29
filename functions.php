@@ -141,3 +141,42 @@ function getTotalKaryawan($conn)
         return $row['total_karyawan'];
     }
 }
+
+
+
+
+//GET MOTOR TERLARIS
+function getIDMotorTerlaris($conn)
+{
+    $sql = 'SELECT id_motor, SUM(jumlah) AS terlaris
+    FROM tb_detail_transaksi GROUP BY id_motor ORDER BY(terlaris) DESC LIMIT 1';
+
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row; // ['id_motor', 'totalTerlaris']
+    }
+}
+
+function getDataMotorTerlaris($conn, $idMotorTerlaris)
+{
+    $sql = "SELECT nama, img_src, description FROM tb_motor WHERE id_motor='$idMotorTerlaris'";
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $data = mysqli_fetch_assoc($result);
+        return $data;
+    }
+}
+
+
+//GET MOTOR TERBANYAK
+function getDataStockMotorTerbanyak($conn)
+{
+    $sql = 'SELECT nama, stock, img_src FROM tb_motor ORDER BY(stock) DESC LIMIT 1';
+
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row; // ['nama', 'stock', 'img_src']
+    }
+}

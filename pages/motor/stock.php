@@ -619,11 +619,11 @@ if (isset($_POST['submitHapus'])) {
                           <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h3 class="modal-title" id="modalToggleLabel">Gambar Motor <?= $nama ?></h3>
+                                <h3 class="modal-title" id="modalToggleLabel">Gambar <?= $nama ?></h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
-                                <img src="../../assets/gambar/motor/<?= $img_src ?>" width="500" alt="<?= $img_src ?>">
+                                <div class="text-center"><img src="../../assets/gambar/motor/<?= $img_src ?>" width="500" alt="<?= $img_src ?>"></div>
                               </div>
                             </div>
                           </div>
