@@ -645,7 +645,9 @@ if (isset($_POST['submitHapus'])) {
 
   <script>
     $(document).ready(function() {
-      $('#example').DataTable();
+      $('#example').DataTable({
+        scrollX: true,
+      });
     });
   </script>
 
