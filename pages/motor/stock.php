@@ -25,23 +25,48 @@ if (isset($_POST['submitTambahMotor'])) {
   $tipe_transmisi = $_POST['tipe_transmisi'];
   $kapasitas_bbm = $_POST['kapasitas_bbm'];
 
+  //Menangani file foto
+  $ekstensi =  array('png');
+  $filename = $_FILES['img_src']['name'];
+  $ukuran = $_FILES['img_src']['size'];
+  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+  //query-query yang akan digunakan
   $insertMotorQuery = "INSERT INTO tb_motor (id_motor, id_jenis_motor, id_merk, nama, harga, persentase_laba, persentase_sparepart, stock, description, img_src) 
-                  VALUES ('$id_motor', '$id_jenis_motor' , '$id_merk', '$nama','$harga', '$persentase_laba', '$persentase_sparepart', '$stock', '$description', '')";
+                  VALUES ('$id_motor', '$id_jenis_motor' , '$id_merk', '$nama','$harga', '$persentase_laba', '$persentase_sparepart', '$stock', '$description', '$filename')";
 
   $insertSpesifikasiQuery = "INSERT INTO tb_spesifikasi (id_motor, tipe_mesin, volume_silinder, tipe_transmisi, kapasitas_bbm) 
                   VALUES ('$id_motor', '$tipe_mesin', '$volume_silinder', '$tipe_transmisi', '$kapasitas_bbm')";
 
-  $addtotableMotor = mysqli_query($conn, $insertMotorQuery);
-  if ($addtotableMotor) {
-    $addtotableSpesifikasi = mysqli_query($conn, $insertSpesifikasiQuery);
-    if ($addtotableSpesifikasi) {
-      header('refresh:0; url=stock.php');
-      echo "<script>alert('Yeay, Tambah Motor berhasil!')</script>";
-    }
+  //menangani data dan input ke db
+  if (!in_array($ext, $ekstensi)) {
+    echo "<script>alert('Ekstensi File tidak sesuai')</script>";
   } else {
-    echo "<script>alert('Yahh :( Tambah Motor gagal!')</script>";
-    // header('location:stock.php');
+    $addtotableMotor = mysqli_query($conn, $insertMotorQuery);
+    if ($addtotableMotor) {
+      move_uploaded_file($_FILES['img_src']['tmp_name'], '../../assets/gambar/motor/' . $filename);
+      $addtotableSpesifikasi = mysqli_query($conn, $insertSpesifikasiQuery);
+      if ($addtotableSpesifikasi) {
+        header('refresh:0; url=stock.php');
+        echo "<script>alert('Yeay, Tambah Motor berhasil!')</script>";
+      }
+    } else {
+      echo "<script>alert('Yahh :( Tambah Motor gagal!')</script>";
+    }
   }
+
+
+  // $addtotableMotor = mysqli_query($conn, $insertMotorQuery);
+  // if ($addtotableMotor) {
+  //   $addtotableSpesifikasi = mysqli_query($conn, $insertSpesifikasiQuery);
+  //   if ($addtotableSpesifikasi) {
+  //     header('refresh:0; url=stock.php');
+  //     echo "<script>alert('Yeay, Tambah Motor berhasil!')</script>";
+  //   }
+  // } else {
+  //   echo "<script>alert('Yahh :( Tambah Motor gagal!')</script>";
+  //   // header('location:stock.php');
+  // }
 }
 
 // Edit Motor
@@ -394,6 +419,7 @@ if (isset($_POST['submitHapus'])) {
                       <tr class="text-nowrap">
                         <th></th>
                         <th>ID Motor</th>
+                        <!-- <th>Gambar</th> -->
                         <th>Nama</th>
                         <th>Merk</th>
                         <th>Jenis</th>
@@ -412,7 +438,7 @@ if (isset($_POST['submitHapus'])) {
 
                       $ambil_data_stock = mysqli_query(
                         $conn,
-                        "SELECT mt.id_motor, mt.nama, mr.nama_merk, jm.nama_jenis_motor, mt.harga, mt.stock, mt.persentase_laba, mt.persentase_sparepart, mt.description,
+                        "SELECT mt.id_motor, mt.img_src, mt.nama, mr.nama_merk, jm.nama_jenis_motor, mt.harga, mt.stock, mt.persentase_laba, mt.persentase_sparepart, mt.description,
                           sp.tipe_mesin, sp.volume_silinder, sp.tipe_transmisi, sp.kapasitas_bbm
                           FROM tb_motor mt
                           JOIN tb_merk mr
@@ -426,6 +452,7 @@ if (isset($_POST['submitHapus'])) {
 
                       while ($data = mysqli_fetch_array($ambil_data_stock)) {
                         $id_motor = $data['id_motor'];
+                        $img_src = $data['img_src'];
                         $nama = $data['nama'];
                         $nama_merk = $data['nama_merk'];
                         $nama_jenis_motor = $data['nama_jenis_motor'];
@@ -448,6 +475,7 @@ if (isset($_POST['submitHapus'])) {
                               </button>
                               <div class="dropdown-menu">
 
+                                <a class="dropdown-item" href="#gambarModal<?= $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#gambarModal<?= $id_motor; ?>"><i class="bx bx-image me-1"></i> Lihat</a>
                                 <a class="dropdown-item" href="#editModal<?= $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_motor; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
                                 <input type="hidden" name="id_motor_to_hapus" value="<?= $id_motor; ?>">
                                 <a class="dropdown-item" href="#hapusModal<?= $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_motor; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
@@ -586,6 +614,21 @@ if (isset($_POST['submitHapus'])) {
                           </div>
                         </div>
 
+                        <!-- Modal Gambar -->
+                        <div class="modal fade" id="gambarModal<?= $id_motor; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h3 class="modal-title" id="modalToggleLabel">Gambar Motor <?= $nama ?></h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <img src="../../assets/gambar/motor/<?= $img_src ?>" width="500" alt="<?= $img_src ?>">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                       <?php
                       }
                       ?>
@@ -625,7 +668,7 @@ if (isset($_POST['submitHapus'])) {
 
   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel3">Tambah Motor</h5>
@@ -676,10 +719,14 @@ if (isset($_POST['submitHapus'])) {
                 <input type="number" name="persentase_sparepart" class="form-control" placeholder="Masukkan Persentase Sparepart" />
               </div>
             </div>
-            <div class="row">
+            <div class="row g-2">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Stock</label>
                 <input type="number" name="stock" class="form-control" placeholder="Masukkan Stock" />
+              </div>
+              <div class="col mb-3">
+                <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
+                <input type="file" name="img_src" class="form-control" />
               </div>
             </div>
             <div class="row">

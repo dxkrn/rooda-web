@@ -8,68 +8,59 @@ session_start();
 
 $activeUser = $_SESSION['username'];
 
-//Menambah sparepart Baru
+//Menambah perbaikan Baru
 if (isset($_POST['submitTambahData'])) {
-  $id_sparepart = getLastID($conn, 'tb_sparepart', 'id_sparepart', 'SP');
+  $id_perbaikan = getLastID($conn, 'tb_perbaikan', 'id_perbaikan', 'SR');
 
   $nama = $_POST['nama'];
-  $harga = $_POST['harga'];
+  $telp = $_POST['telp'];
+  $alamat = $_POST['alamat'];
 
-  //Menangani file foto
-  $ekstensi =  array('png');
-  $filename = $_FILES['img_src']['name'];
-  $ukuran = $_FILES['img_src']['size'];
-  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+  $insertQuery = "INSERT INTO tb_perbaikan (id_perbaikan, nama, telp, alamat) 
+                  VALUES ('$id_perbaikan', '$nama' , '$telp', '$alamat')";
 
-  $insertQuery = "INSERT INTO tb_sparepart (id_sparepart, nama_sparepart, harga, img_src) 
-                  VALUES ('$id_sparepart', '$nama' , '$harga', '$filename')";
-
-  //menangani data dan input ke db
-  if (!in_array($ext, $ekstensi)) {
-    echo "<script>alert('Ekstensi File tidak sesuai')</script>";
+  $addtotable = mysqli_query($conn, $insertQuery);
+  if ($addtotable) {
+    header('refresh:0; url=daftar-perbaikan.php');
+    echo "<script>alert('Yeay, Tambah perbaikan berhasil!')</script>";
   } else {
-    $addtotable = mysqli_query($conn, $insertQuery);
-    if ($addtotable) {
-      move_uploaded_file($_FILES['img_src']['tmp_name'], '../../assets/gambar/sparepart/' . $filename);
-      header('refresh:0; url=stock.php');
-      echo "<script>alert('Yeay, Tambah sparepart berhasil!')</script>";
-    } else {
-      echo "<script>alert('Yahh :( Tambah sparepart gagal!')</script>";
-    }
+    echo "<script>alert('Yahh :( Tambah perbaikan gagal!')</script>";
+    // header('location:stock.php');
   }
 }
 
-// Edit sparepart
+// Edit perbaikan
 if (isset($_POST['submitEditData'])) {
-  $id_sparepart = $_POST['id_sparepart'];
+  $id_perbaikan = $_POST['id_perbaikan'];
   $nama = $_POST['nama'];
-  $harga = $_POST['harga'];
+  $telp = $_POST['telp'];
+  $alamat = $_POST['alamat'];
 
-  $editQuery = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga' WHERE id_sparepart='$id_sparepart'";
-
+  $editQuery = "UPDATE tb_perbaikan SET nama='$nama', telp='$telp', alamat='$alamat' WHERE id_perbaikan='$id_perbaikan'";
+  // $editQuery = "UPDATE tb_perbaikan SET nama='asfasdf', telp='8342569', alamat='sdgkjhf', WHERE id_perbaikan='SR0007'";
 
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
-    header('refresh:0; url=stock.php');
-    echo "<script>alert('Yeay, Edit sparepart berhasil!')</script>";
+    header('refresh:0; url=daftar-perbaikan.php');
+    echo "<script>alert('Yeay, Edit perbaikan berhasil!')</script>";
   } else {
-    header('refresh:0; url=stock.php');
-    echo "<script>alert('Yahh :( Edit sparepart gagal!')</script>";
+    echo "<script>alert('Yahh :( Edit perbaikan gagal!')</script>";
+    // header('location:stock.php');
   }
 }
 
 
-//Hapus sparepart
+//Hapus perbaikan
 
 if (isset($_POST['submitHapus'])) {
-  $id_sparepart = $_POST['id_sparepart'];
+  $id_perbaikan = $_POST['id_perbaikan'];
 
-  $delData =  mysqli_query($conn, "DELETE FROM tb_sparepart WHERE id_sparepart='$id_sparepart'");
+  $delData =  mysqli_query($conn, "DELETE FROM tb_perbaikan WHERE id_perbaikan='$id_perbaikan'");
 
   if ($delData) {
-    echo "<script>alert('Yeay, Hapus sparepart berhasil!')</script>";
+    echo "<script>alert('Yeay, Hapus perbaikan berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Hapus sparepart gagal!')</script>";
+    echo "<script>alert('Yahh :( Hapus perbaikan gagal!')</script>";
   }
 }
 
@@ -82,7 +73,7 @@ if (isset($_POST['submitHapus'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>sparepart - Rooda</title>
+  <title>perbaikan - Rooda</title>
 
   <meta name="description" content="" />
 
@@ -180,7 +171,7 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Persediaan Sparepart -->
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="../part/stock.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-box"></i>
               <div data-i18n="Layouts">Persediaan Part</div>
@@ -209,7 +200,7 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Perbaikan -->
-          <li class="menu-item">
+          <li class="menu-item active">
             <a href="../perbaikan/daftar-perbaikan.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-analyse"></i>
               <div data-i18n="Analytics">Perbaikan</div>
@@ -231,7 +222,7 @@ if (isset($_POST['submitHapus'])) {
             </a>
           </li>
 
-          <!-- NOTE : supplier -->
+          <!-- NOTE : Supplier -->
           <li class="menu-item">
             <a href="../supplier/daftar-supplier.php" class="menu-link">
               <i class="menu-icon tf-icons bx bx-archive-in"></i>
@@ -286,7 +277,7 @@ if (isset($_POST['submitHapus'])) {
                 </tr>
                 <tr>
                   <td>
-                    <h3>Daftar Sparepart</h3>
+                    <h3>Daftar perbaikan</h3>
                   </td>
                 </tr>
 
@@ -381,27 +372,38 @@ if (isset($_POST['submitHapus'])) {
                       <tr class="text-nowrap">
                         <th></th>
                         <th>ID</th>
-                        <th>Nama</th>
-                        <th>Harga</th>
+                        <th>Pelanggan</th>
+                        <th>Motor</th>
+                        <th>Karyawan</th>
+                        <th>Tanggal</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
 
-
-
                       $ambil_data = mysqli_query(
                         $conn,
-                        "SELECT *
-                          FROM tb_sparepart
-                          ORDER BY id_sparepart"
+                        "SELECT pb.id_perbaikan, pb.id_motor, pb.id_pelanggan, pb.id_karyawan, pb.tgl_perbaikan,
+                                pg.nama nama_pelanggan, kr.nama nama_karyawan, mt.nama nama_motor
+                          FROM tb_perbaikan pb
+                          JOIN tb_pelanggan pg
+                          USING(id_pelanggan)
+                          JOIN tb_karyawan kr
+                          USING(id_karyawan)
+                          JOIN tb_motor mt
+                          USING(id_motor)
+                          ORDER BY id_perbaikan"
                       );
 
                       while ($data = mysqli_fetch_array($ambil_data)) {
-                        $id_sparepart = $data['id_sparepart'];
-                        $nama = $data['nama_sparepart'];
-                        $harga = $data['harga'];
-                        $img_src = $data['img_src'];
+                        $id_perbaikan = $data['id_perbaikan'];
+                        $id_pelanggan = $data['id_pelanggan'];
+                        $nama_pelanggan = $data['nama_pelanggan'];
+                        $id_karyawan = $data['id_karyawan'];
+                        $nama_karyawan = $data['nama_karyawan'];
+                        $id_motor = $data['id_motor'];
+                        $nama_motor = $data['nama_motor'];
+                        $tgl_perbaikan = $data['tgl_perbaikan'];
 
                       ?>
 
@@ -413,27 +415,134 @@ if (isset($_POST['submitHapus'])) {
                               </button>
                               <div class="dropdown-menu">
 
-                                <a class="dropdown-item" href="#gambarModal<?= $id_sparepart; ?>" data-bs-toggle="modal" data-bs-target="#gambarModal<?= $id_sparepart; ?>"><i class="bx bx-image me-1"></i> Lihat</a>
-                                <a class="dropdown-item" href="#editModal<?= $id_sparepart; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_sparepart; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                <input type="hidden" name="id_hapus" value="<?= $id_sparepart; ?>">
-                                <a class="dropdown-item" href="#hapusModal<?= $id_sparepart; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_sparepart; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+                                <a class="dropdown-item" href="#detailModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#detailModal<?= $id_perbaikan; ?>"><i class="bx bx-detail me-1"></i> Detail</a>
+                                <a class="dropdown-item" href="#editModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_perbaikan; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <input type="hidden" name="id_hapus" value="<?= $id_perbaikan; ?>">
+                                <a class="dropdown-item" href="#hapusModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_perbaikan; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
 
                               </div>
                             </div>
                           </td>
-                          <td><b><?= $id_sparepart ?></b></td>
-                          <td><?= $nama ?></td>
-                          <td><?= rupiah($harga) ?></td>
+                          <td><b><?= $id_perbaikan ?></b></td>
+                          <td><?= $nama_pelanggan ?></td>
+                          <td><?= $nama_motor ?></td>
+                          <td><?= $nama_karyawan ?></td>
+                          <td><?= tanggal($tgl_perbaikan) ?></td>
                         </tr>
 
-                        <!-- Modal Edit -->
-                        <div class="modal fade" id="editModal<?= $id_sparepart; ?>" tabindex="-1" aria-hidden="true">
+                        <!-- Modal Detail -->
+                        <div class="modal fade" id="detailModal<?= $id_perbaikan; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <form method="POST">
-                              <input type="hidden" name="id_sparepart" value="<?= $id_sparepart; ?>">
+                              <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel3">Edit sparepart</h5>
+                                  <h3 class="modal-title" id="exampleModalLabel3">Perbaikan <b><?= $id_perbaikan ?></b></h3>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <h5>Nama Pelanggan</h5>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <h5>: <?= $nama_pelanggan ?></h5>
+                                    </div>
+                                  </div>
+
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <h5>Nama Motor</h5>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <h5>: <?= $nama_motor ?></h5>
+                                    </div>
+                                  </div>
+
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <h5>Nama Karyawan</h5>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <h5>: <?= $nama_karyawan ?></h5>
+                                    </div>
+                                  </div>
+
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <h5>Tanggal Perbaikan</h5>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <h5>: <?= tanggal($tgl_perbaikan) ?></h5>
+                                    </div>
+                                  </div>
+
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <h5>Detail Perbaikan</h5>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <h5>:</h5>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <ul>
+
+                                        <li>
+                                          <h5><?= $nama_perbaikan ?> [<?= $nama_sparepart ?>]</h5>
+                                        </li>
+                                        <li>
+                                          <h5><?= $nama_perbaikan ?> [<?= $nama_sparepart ?>]</h5>
+                                        </li>
+
+                                      </ul>
+                                    </div>
+
+                                    <div class="col mb-3">
+                                      <ul class="list-unstyled">
+                                        <li>
+                                          <h5>: Rp65.000,00</h5>
+                                        </li>
+                                        <li>
+                                          <h5>: Rp125.000,00</h5>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="row g-2">
+                                    <div class="col mb-3">
+                                      <h5>Total</h5>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <h5>: Rp190.000,00</h5>
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    Batal
+                                  </button>
+                                  <button type="submit" name="submitEditData" class="btn btn-primary">Simpan</button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+
+                        <!-- Modal Edit -->
+                        <div class="modal fade" id="editModal<?= $id_perbaikan; ?>" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <form method="POST">
+                              <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel3">Edit perbaikan</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -445,8 +554,14 @@ if (isset($_POST['submitHapus'])) {
                                   </div>
                                   <div class="row">
                                     <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Harga</label>
-                                      <input type="number" name="harga" class="form-control" value="<?= $harga; ?>" />
+                                      <label for="nameLarge" class="form-label">Telepon</label>
+                                      <input type="number" name="telp" class="form-control" value="<?= $telp; ?>" />
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col mb-3">
+                                      <label for="nameLarge" class="form-label">Alamat</label>
+                                      <textarea class="form-control" name="alamat" rows="3" placeholder="<?= $alamat; ?>" value="<?= $alamat; ?>"></textarea>
                                     </div>
                                   </div>
                                 </div>
@@ -462,38 +577,23 @@ if (isset($_POST['submitHapus'])) {
                         </div>
 
                         <!-- Modal Hapus -->
-                        <div class="modal fade" id="hapusModal<?= $id_sparepart; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                        <div class="modal fade" id="hapusModal<?= $id_perbaikan; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h3 class="modal-title" id="modalToggleLabel">Hapus sparepart</h3>
+                                <h3 class="modal-title" id="modalToggleLabel">Hapus perbaikan</h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
 
                               <form method="POST">
                                 <div class="modal-body">
-                                  <input type="hidden" name="id_sparepart" value="<?= $id_sparepart ?>">
-                                  <p>Yakin hapus <b><?= $nama; ?></b> dengan ID <b><?= $id_sparepart ?>?</b></p>
+                                  <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan ?>">
+                                  <p>Yakin hapus <b><?= $nama; ?></b> dengan ID <b><?= $id_perbaikan ?>?</b></p>
                                 </div>
                                 <div class="modal-footer">
                                   <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapus">Hapus</button>
                                 </div>
                               </form>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Modal Gambar -->
-                        <div class="modal fade" id="gambarModal<?= $id_sparepart; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h3 class="modal-title" id="modalToggleLabel">Gambar Sparepart <?= $nama ?></h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <div class="modal-body">
-                                <img src="../../assets/gambar/sparepart/<?= $img_src ?>" width="500" alt="<?= $img_src ?>">
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -537,29 +637,29 @@ if (isset($_POST['submitHapus'])) {
 
   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      <form method="POST" enctype="multipart/form-data">
+      <form method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel3">Tambah Sparepart</h5>
+            <h5 class="modal-title" id="exampleModalLabel3">Tambah perbaikan</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Sparepart" />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama perbaikan" />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Harga</label>
-                <input type="number" name="harga" class="form-control" placeholder="Masukkan Harga" />
+                <label for="nameLarge" class="form-label">Telepon</label>
+                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
-                <input type="file" name="img_src" class="form-control" />
+                <label for="nameLarge" class="form-label">Alamat</label>
+                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat"></textarea>
               </div>
             </div>
           </div>
@@ -577,7 +677,9 @@ if (isset($_POST['submitHapus'])) {
 
   <script>
     $(document).ready(function() {
-      $('#example').DataTable();
+      $('#example').DataTable({
+        // scrollX: true,
+      });
     });
   </script>
 
