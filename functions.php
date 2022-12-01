@@ -90,12 +90,15 @@ function getTotalPenjualan($conn)
 
 function getTotalPendapatan($conn)
 {
-    // $sql = 'SELECT COUNT(id_pelanggan) AS total_pelanggan FROM tb_pelanggan';
-    // $result = mysqli_query($conn, $sql);
-    // if($result->num_rows>0){
-    //     $row = mysqli_fetch_assoc($result);
-    //     return $row['total_pelanggan'];
-    // }
+    $sql = 'SELECT SUM(mt.persentase_laba /100 * mt.harga * dt.jumlah) AS total_pendapatan
+            FROM tb_detail_transaksi dt
+            JOIN tb_motor mt
+            USING(id_motor)';
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['total_pendapatan'];
+    }
 }
 
 function getTotalPelanggan($conn)

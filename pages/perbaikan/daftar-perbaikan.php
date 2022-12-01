@@ -446,7 +446,7 @@ if (isset($_POST['submitHapus'])) {
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#tambahDetailModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#tambahDetailModal<?= $id_perbaikan; ?>"><i class="bx bx-detail me-1"></i> Tambah Detail</a>
+                                <a class="dropdown-item" href="#tambahDetailModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#tambahDetailModal<?= $id_perbaikan; ?>"><i class="bx bx-bookmark-alt-plus me-1"></i> Tambah Detail</a>
 
                                 <form method="POST" action="invoice.php">
                                   <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
@@ -464,7 +464,7 @@ if (isset($_POST['submitHapus'])) {
                                   <button type="submit" name="submitDetailPerbaikan" class="dropdown-item"><i class="bx bx-detail me-1"></i> Lihat Detail</button>
                                 </form>
 
-                                <a class="dropdown-item" href="#editModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_perbaikan; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <!-- <a class="dropdown-item" href="#editModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_perbaikan; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a> -->
                                 <input type="hidden" name="id_hapus" value="<?= $id_perbaikan; ?>">
                                 <a class="dropdown-item" href="#hapusModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_perbaikan; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
 
