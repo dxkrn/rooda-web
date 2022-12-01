@@ -64,10 +64,6 @@ function createUsername($email)
 
 
 
-
-
-
-
 //NOTE : Data-data
 function getTotalPenjualan($conn)
 {

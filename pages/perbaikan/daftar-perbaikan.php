@@ -10,21 +10,49 @@ $activeUser = $_SESSION['username'];
 
 //Menambah perbaikan Baru
 if (isset($_POST['submitTambahData'])) {
-  $id_perbaikan = getLastID($conn, 'tb_perbaikan', 'id_perbaikan', 'SR');
+  $id_perbaikan = getLastID($conn, 'tb_perbaikan', 'id_perbaikan', 'PB');
 
-  $nama = $_POST['nama'];
-  $telp = $_POST['telp'];
-  $alamat = $_POST['alamat'];
+  $id_motor = $_POST['id_motor'];
+  $id_pelanggan = $_POST['id_pelanggan'];
+  $id_karyawan = $_POST['id_karyawan'];
+  $tgl_perbaikan = $_POST['tgl_perbaikan'];
 
-  $insertQuery = "INSERT INTO tb_perbaikan (id_perbaikan, nama, telp, alamat) 
-                  VALUES ('$id_perbaikan', '$nama' , '$telp', '$alamat')";
+  $id_jenis_perbaikan = $_POST['id_jenis_perbaikan'];
+  $id_sparepart = $_POST['id_sparepart'];
 
-  $addtotable = mysqli_query($conn, $insertQuery);
-  if ($addtotable) {
+
+  $insertPerbaikanQuery = "INSERT INTO tb_perbaikan (id_perbaikan, id_motor, id_pelanggan, id_karyawan, tgl_perbaikan) 
+                  VALUES ('$id_perbaikan', '$id_motor' , '$id_pelanggan', '$id_karyawan', '$tgl_perbaikan')";
+
+  $insertDetailQuery = "INSERT INTO tb_detail_perbaikan (id_perbaikan, id_jenis_perbaikan, id_sparepart) 
+                  VALUES ('$id_perbaikan', '$id_jenis_perbaikan' , '$id_sparepart')";
+
+  $addtotablePerbaikan = mysqli_query($conn, $insertPerbaikanQuery);
+  if ($addtotablePerbaikan) {
+    $addtotableDetail = mysqli_query($conn, $insertDetailQuery);
     header('refresh:0; url=daftar-perbaikan.php');
     echo "<script>alert('Yeay, Tambah perbaikan berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Tambah perbaikan gagal!')</script>";
+    // header('location:stock.php');
+  }
+}
+
+//Menambah detail perbaikan 
+if (isset($_POST['submitTambahDetail'])) {
+  $id_perbaikan = $_POST['id_perbaikan'];
+  $id_jenis_perbaikan = $_POST['id_jenis_perbaikan'];
+  $id_sparepart = $_POST['id_sparepart'];
+
+  $insertDetailQuery = "INSERT INTO tb_detail_perbaikan (id_perbaikan, id_jenis_perbaikan, id_sparepart) 
+                  VALUES ('$id_perbaikan', '$id_jenis_perbaikan' , '$id_sparepart')";
+
+  $addtotableDetail = mysqli_query($conn, $insertDetailQuery);
+  if ($addtotableDetail) {
+    header('refresh:0; url=daftar-perbaikan.php');
+    echo "<script>alert('Yeay, Tambah detail perbaikan berhasil!')</script>";
+  } else {
+    echo "<script>alert('Yahh :( Tambah detail perbaikan gagal!')</script>";
     // header('location:stock.php');
   }
 }
@@ -384,7 +412,8 @@ if (isset($_POST['submitHapus'])) {
                       $ambil_data = mysqli_query(
                         $conn,
                         "SELECT pb.id_perbaikan, pb.id_motor, pb.id_pelanggan, pb.id_karyawan, pb.tgl_perbaikan,
-                                pg.nama nama_pelanggan, kr.nama nama_karyawan, mt.nama nama_motor
+                                pg.nama nama_pelanggan, pg.alamat alamat_pelanggan, pg.telp telp_pelanggan,
+                                kr.nama nama_karyawan, kr.telp telp_karyawan, mt.nama nama_motor, mt.persentase_sparepart
                           FROM tb_perbaikan pb
                           JOIN tb_pelanggan pg
                           USING(id_pelanggan)
@@ -399,12 +428,15 @@ if (isset($_POST['submitHapus'])) {
                         $id_perbaikan = $data['id_perbaikan'];
                         $id_pelanggan = $data['id_pelanggan'];
                         $nama_pelanggan = $data['nama_pelanggan'];
+                        $alamat_pelanggan = $data['alamat_pelanggan'];
+                        $telp_pelanggan = $data['telp_pelanggan'];
                         $id_karyawan = $data['id_karyawan'];
                         $nama_karyawan = $data['nama_karyawan'];
+                        $telp_karyawan = $data['telp_karyawan'];
                         $id_motor = $data['id_motor'];
                         $nama_motor = $data['nama_motor'];
                         $tgl_perbaikan = $data['tgl_perbaikan'];
-
+                        $persentase_sparepart = $data['persentase_sparepart'];
                       ?>
 
                         <tr>
@@ -414,8 +446,24 @@ if (isset($_POST['submitHapus'])) {
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#tambahDetailModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#tambahDetailModal<?= $id_perbaikan; ?>"><i class="bx bx-detail me-1"></i> Tambah Detail</a>
 
-                                <a class="dropdown-item" href="#detailModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#detailModal<?= $id_perbaikan; ?>"><i class="bx bx-detail me-1"></i> Detail</a>
+                                <form method="POST" action="invoice.php">
+                                  <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
+                                  <input type="hidden" name="id_pelanggan" value="<?= $id_pelanggan; ?>">
+                                  <input type="hidden" name="id_karyawan" value="<?= $id_karyawan; ?>">
+                                  <input type="hidden" name="id_motor" value="<?= $id_motor; ?>">
+                                  <input type="hidden" name="nama_pelanggan" value="<?= $nama_pelanggan; ?>">
+                                  <input type="hidden" name="alamat_pelanggan" value="<?= $alamat_pelanggan; ?>">
+                                  <input type="hidden" name="telp_pelanggan" value="<?= $telp_pelanggan; ?>">
+                                  <input type="hidden" name="nama_karyawan" value="<?= $nama_karyawan; ?>">
+                                  <input type="hidden" name="telp_karyawan" value="<?= $telp_karyawan; ?>">
+                                  <input type="hidden" name="nama_motor" value="<?= $nama_motor; ?>">
+                                  <input type="hidden" name="tgl_perbaikan" value="<?= $tgl_perbaikan; ?>">
+                                  <input type="hidden" name="persentase_sparepart" value="<?= $persentase_sparepart; ?>">
+                                  <button type="submit" name="submitDetailPerbaikan" class="dropdown-item"><i class="bx bx-detail me-1"></i> Lihat Detail</button>
+                                </form>
+
                                 <a class="dropdown-item" href="#editModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_perbaikan; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
                                 <input type="hidden" name="id_hapus" value="<?= $id_perbaikan; ?>">
                                 <a class="dropdown-item" href="#hapusModal<?= $id_perbaikan; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_perbaikan; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
@@ -430,105 +478,94 @@ if (isset($_POST['submitHapus'])) {
                           <td><?= tanggal($tgl_perbaikan) ?></td>
                         </tr>
 
-                        <!-- Modal Detail -->
-                        <div class="modal fade" id="detailModal<?= $id_perbaikan; ?>" tabindex="-1" aria-hidden="true">
+                        <!-- Modal Tambah Detail -->
+                        <div class="modal fade" id="tambahDetailModal<?= $id_perbaikan; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <form method="POST">
-                              <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
+                              <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h3 class="modal-title" id="exampleModalLabel3">Perbaikan <b><?= $id_perbaikan ?></b></h3>
+                                  <h5 class="modal-title" id="exampleModalLabel3">Tambah Detail Perbaikan #<?= $id_perbaikan ?></h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                   <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <h5>Nama Pelanggan</h5>
+                                    <div class="col mb-2">
+                                      <label for="emailLarge" class="form-label">Nama Pelanggan</label>
+                                      <select class="form-select" name="id_pelanggan" aria-label="Default select example">
+                                        <option value="<?= $id_pelanggan ?>"><?= $nama_pelanggan ?></option>
+                                      </select>
                                     </div>
-                                    <div class="col mb-3">
-                                      <h5>: <?= $nama_pelanggan ?></h5>
+                                    <div class="col mb-2">
+                                      <label for="emailLarge" class="form-label">Nama Motor</label>
+                                      <select class="form-select" name="id_motor" aria-label="Default select example">
+                                        <option value="<?= $id_motor ?>"><?= $nama_motor ?></option>
+                                      </select>
                                     </div>
                                   </div>
-
                                   <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <h5>Nama Motor</h5>
+                                    <div class="col mb-2">
+                                      <label for="emailLarge" class="form-label">Nama Karyawan</label>
+                                      <select class="form-select" name="id_karyawan" aria-label="Default select example">
+                                        <option value="<?= $id_karyawan ?>"><?= $nama_karyawan ?></option>
+                                      </select>
                                     </div>
-                                    <div class="col mb-3">
-                                      <h5>: <?= $nama_motor ?></h5>
+                                    <div class="col mb-2">
+                                      <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal</label>
+                                      <input class="form-control" type="date" value="<?= $tgl_perbaikan ?>" id="tgl_perbaikan" name="tgl_perbaikan" />
                                     </div>
                                   </div>
-
                                   <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <h5>Nama Karyawan</h5>
-                                    </div>
-                                    <div class="col mb-3">
-                                      <h5>: <?= $nama_karyawan ?></h5>
-                                    </div>
-                                  </div>
+                                    <!-- <label for="nameLarge" class="form-label">Detail</label> -->
+                                    <div class="col mb-2">
+                                      <label for="emailLarge" class="form-label">Jenis Perbaikan</label>
+                                      <select class="form-select" name="id_jenis_perbaikan" aria-label="Default select example">
 
-                                  <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <h5>Tanggal Perbaikan</h5>
+                                        <?php
+                                        $ambil_data_jenis_perbaikan = mysqli_query(
+                                          $conn,
+                                          "SELECT id_jenis_perbaikan, nama_perbaikan FROM tb_jenis_perbaikan ORDER BY nama_perbaikan"
+                                        );
+
+                                        while ($data = mysqli_fetch_array($ambil_data_jenis_perbaikan)) {
+                                          $id_jenis_perbaikan = $data['id_jenis_perbaikan'];
+                                          $nama_perbaikan = $data['nama_perbaikan'];
+                                        ?>
+                                          <option value="<?= $id_jenis_perbaikan ?>"><?= $nama_perbaikan ?></option>
+                                        <?php
+                                        }
+                                        ?>
+
+                                      </select>
                                     </div>
-                                    <div class="col mb-3">
-                                      <h5>: <?= tanggal($tgl_perbaikan) ?></h5>
-                                    </div>
-                                  </div>
+                                    <div class="col mb-2">
+                                      <label for="emailLarge" class="form-label">Sparepart</label>
+                                      <select class="form-select" name="id_sparepart" aria-label="Default select example">
 
-                                  <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <h5>Detail Perbaikan</h5>
-                                    </div>
-                                    <div class="col mb-3">
-                                      <h5>:</h5>
-                                    </div>
-                                  </div>
+                                        <?php
+                                        $ambil_data_sparepart = mysqli_query(
+                                          $conn,
+                                          "SELECT id_sparepart, nama_sparepart FROM tb_sparepart ORDER BY nama_sparepart"
+                                        );
 
+                                        while ($data = mysqli_fetch_array($ambil_data_sparepart)) {
+                                          $id_sparepart = $data['id_sparepart'];
+                                          $nama_sparepart = $data['nama_sparepart'];
+                                        ?>
+                                          <option value="<?= $id_sparepart ?>"><?= $nama_sparepart ?></option>
+                                        <?php
+                                        }
+                                        ?>
 
-                                  <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <ul>
-
-                                        <li>
-                                          <h5><?= $nama_perbaikan ?> [<?= $nama_sparepart ?>]</h5>
-                                        </li>
-                                        <li>
-                                          <h5><?= $nama_perbaikan ?> [<?= $nama_sparepart ?>]</h5>
-                                        </li>
-
-                                      </ul>
-                                    </div>
-
-                                    <div class="col mb-3">
-                                      <ul class="list-unstyled">
-                                        <li>
-                                          <h5>: Rp65.000,00</h5>
-                                        </li>
-                                        <li>
-                                          <h5>: Rp125.000,00</h5>
-                                        </li>
-                                      </ul>
+                                      </select>
                                     </div>
                                   </div>
-
-
-                                  <div class="row g-2">
-                                    <div class="col mb-3">
-                                      <h5>Total</h5>
-                                    </div>
-                                    <div class="col mb-3">
-                                      <h5>: Rp190.000,00</h5>
-                                    </div>
-                                  </div>
-
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                                     Batal
                                   </button>
-                                  <button type="submit" name="submitEditData" class="btn btn-primary">Simpan</button>
+                                  <button type="submit" name="submitTambahDetail" class="btn btn-primary">Tambah</button>
                                 </div>
                               </div>
                             </form>
@@ -644,24 +681,144 @@ if (isset($_POST['submitHapus'])) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="row">
-              <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama perbaikan" />
+            <div class="row g-2">
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Nama Pelanggan</label>
+                <select class="form-select" name="id_pelanggan" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_pelanggan = mysqli_query(
+                    $conn,
+                    "SELECT id_pelanggan, nama AS nama_pelanggan, telp
+                    FROM tb_pelanggan ORDER BY nama"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_pelanggan)) {
+                    $id_pelanggan = $data['id_pelanggan'];
+                    $nama_pelanggan = $data['nama_pelanggan'];
+                    $telp = $data['telp'];
+                  ?>
+                    <option value="<?= $id_pelanggan ?>"><?= $nama_pelanggan ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
+              </div>
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Nama Motor</label>
+                <select class="form-select" name="id_motor" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_motor = mysqli_query(
+                    $conn,
+                    "SELECT id_motor, nama as nama_motor FROM tb_motor ORDER BY nama"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_motor)) {
+                    $id_motor = $data['id_motor'];
+                    $nama_motor = $data['nama_motor'];
+                  ?>
+                    <option value="<?= $id_motor ?>"><?= $nama_motor ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
               </div>
             </div>
-            <div class="row">
+            <div class="row g-2">
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Nama Karyawan</label>
+                <select class="form-select" name="id_karyawan" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_karyawan = mysqli_query(
+                    $conn,
+                    "SELECT nama, id_karyawan FROM tb_karyawan WHERE posisi='Mekanik' ORDER BY nama"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_karyawan)) {
+                    $id_karyawan = $data['id_karyawan'];
+                    $nama_karyawan = $data['nama'];
+                  ?>
+                    <option value="<?= $id_karyawan ?>"><?= $nama_karyawan ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
+              </div>
+              <div class="col mb-2">
+                <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal</label>
+                <input class="form-control" type="date" value="2022-11-21" id="tgl_perbaikan" name="tgl_perbaikan" />
+              </div>
+            </div>
+            <!-- <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Telepon</label>
                 <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" />
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Alamat</label>
                 <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat"></textarea>
               </div>
+            </div> -->
+            <div class="row g-2">
+              <!-- <label for="nameLarge" class="form-label">Detail</label> -->
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Jenis Perbaikan</label>
+                <select class="form-select" name="id_jenis_perbaikan" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_jenis_perbaikan = mysqli_query(
+                    $conn,
+                    "SELECT id_jenis_perbaikan, nama_perbaikan FROM tb_jenis_perbaikan ORDER BY nama_perbaikan"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_jenis_perbaikan)) {
+                    $id_jenis_perbaikan = $data['id_jenis_perbaikan'];
+                    $nama_perbaikan = $data['nama_perbaikan'];
+                  ?>
+                    <option value="<?= $id_jenis_perbaikan ?>"><?= $nama_perbaikan ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
+              </div>
+              <div class="col mb-2">
+                <label for="emailLarge" class="form-label">Sparepart</label>
+                <select class="form-select" name="id_sparepart" aria-label="Default select example">
+
+                  <?php
+                  $ambil_data_sparepart = mysqli_query(
+                    $conn,
+                    "SELECT id_sparepart, nama_sparepart FROM tb_sparepart ORDER BY nama_sparepart"
+                  );
+
+                  while ($data = mysqli_fetch_array($ambil_data_sparepart)) {
+                    $id_sparepart = $data['id_sparepart'];
+                    $nama_sparepart = $data['nama_sparepart'];
+                  ?>
+                    <option value="<?= $id_sparepart ?>"><?= $nama_sparepart ?></option>
+                  <?php
+                  }
+                  ?>
+
+                </select>
+              </div>
             </div>
+            <!-- <div class="row g-2">
+              <div class="col mb-3">
+                <a href="#" id="add_more_fields"> <u>Add More</u></a>
+                <a href="#" id="add_more_fields" class="mx-4"> <u> Remove</u></a>
+              </div>
+              <div class="col mb-3">
+              </div>
+            </div> -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
