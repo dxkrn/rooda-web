@@ -36,7 +36,7 @@ if (isset($_POST['submitTambahMotor'])) {
 
   //query-query yang akan digunakan
   $insertMotorQuery = "INSERT INTO tb_motor (id_motor, id_jenis_motor, id_merk, nama, harga, persentase_laba, persentase_sparepart, stock, description, img_src) 
-                  VALUES ('$id_motor', '$id_jenis_motor' , '$id_merk', '$nama','$harga', '$persentase_laba', '$persentase_sparepart', '$stock', '$description', '$filename')";
+                  VALUES ('$id_motor', '$id_jenis_motor' , '$id_merk', '$nama','$harga', '$persentase_laba', '$persentase_sparepart', '$stock', '$description', 'assets/gambar/motor/$filename')";
 
   $insertSpesifikasiQuery = "INSERT INTO tb_spesifikasi (id_motor, tipe_mesin, volume_silinder, tipe_transmisi, kapasitas_bbm) 
                   VALUES ('$id_motor', '$tipe_mesin', '$volume_silinder', '$tipe_transmisi', '$kapasitas_bbm')";
@@ -89,20 +89,32 @@ if (isset($_POST['submitEditMotor'])) {
   $tipe_transmisi = $_POST['tipe_transmisi'];
   $kapasitas_bbm = $_POST['kapasitas_bbm'];
 
-  $editMotorQuery = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description', img_src='' WHERE id_motor='$id_motor'";
+  //Menangani file foto
+  $ekstensi =  array('png');
+  $filename = $_FILES['img_src']['name'];
+  $ukuran = $_FILES['img_src']['size'];
+  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+
+  $editMotorQuery = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description', img_src='assets/gambar/motor/$filename' WHERE id_motor='$id_motor'";
 
   $editSpesifikasiQuery = "UPDATE tb_spesifikasi SET tipe_mesin='$tipe_mesin', volume_silinder='$volume_silinder', tipe_transmisi='$tipe_transmisi', kapasitas_bbm='$kapasitas_bbm' WHERE id_motor='$id_motor'";
 
-  $editMotor = mysqli_query($conn, $editMotorQuery);
-  if ($editMotor) {
-    $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
-    if ($editSpesifikasi) {
-      header('refresh:0; url=stockMotor');
-      echo "<script>alert('Yeay, Edit Motor berhasil!')</script>";
-    }
+  if (!in_array($ext, $ekstensi)) {
+    echo "<script>alert('Ekstensi File tidak sesuai')</script>";
   } else {
-    echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
-    // header('location:stockMotor');
+    $editMotor = mysqli_query($conn, $editMotorQuery);
+    if ($editMotor) {
+      move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/motor/' . $filename);
+      $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
+      if ($editSpesifikasi) {
+        header('refresh:0; url=stockMotor');
+        echo "<script>alert('Yeay, Edit Motor berhasil!')</script>";
+      }
+    } else {
+      echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
+      // header('location:stockMotor');
+    }
   }
 }
 
@@ -502,7 +514,7 @@ if (isset($_POST['submitHapus'])) {
                         <!-- Modal Edit -->
                         <div class="modal fade" id="editModal<?= $id_motor; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
-                            <form method="POST">
+                            <form method="POST" enctype="multipart/form-data">
                               <input type="hidden" name="id_motor" value="<?= $id_motor; ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -552,16 +564,20 @@ if (isset($_POST['submitHapus'])) {
                                       <input type="number" name="persentase_sparepart" class="form-control" placeholder="<?= $persentase_sparepart ?>" value="<?= $persentase_sparepart ?>" />
                                     </div>
                                   </div>
-                                  <div class="row">
+                                  <div class="row g-2">
                                     <div class="col mb-3">
                                       <label for="nameLarge" class="form-label">Stock</label>
                                       <input type="number" name="stock" class="form-control" placeholder="<?= $stock ?>" value="<?= $stock ?>" />
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
+                                      <input type="file" name="img_src" class="form-control" />
                                     </div>
                                   </div>
                                   <div class="row">
                                     <div class="col mb-3">
                                       <label for="nameLarge" class="form-label">Deskripsi</label>
-                                      <textarea class="form-control" name="description" rows="3" placeholder="<?= $description ?>" value="<?= $description ?>"></textarea>
+                                      <textarea class="form-control" name="description" rows="3" placeholder="<?= $description ?>"><?= $description ?></textarea>
                                     </div>
                                   </div>
                                   <div class="row g-2">
