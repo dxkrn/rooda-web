@@ -19,9 +19,9 @@ if (isset($_POST['submitLogin'])) {
     // $_SESSION['email']=$row['email'];
     $_SESSION['role'] = $row['role'];
     if ($_SESSION['role'] == "admin") {
-      header("Location: pages/dashboard/index.php");
+      header("Location: dashboard");
     } else {
-      header("Location: pages/katalog/katalog.php");
+      header("Location: katalog");
     }
   } else {
     echo "<script>alert('Email  atau password Anda salah. Silahkan coba lagi!')</script>";

@@ -1,14 +1,15 @@
 <?php
 
-include '../../config.php';
-include '../../functions.php';
+include 'config.php';
+include 'functions.php';
 
 error_reporting(0);
 
 session_start();
 
-if ($_SESSION['role'] = "") {
-  header("Location:../index.php?pesan=gagal");
+if (!isset(($_SESSION['username']))) {
+  header("Location:index");
+  exit();
 }
 
 $activeUser = $_SESSION['username'];
@@ -34,7 +35,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-free">
 
 <head>
   <meta charset="utf-8" />
@@ -45,7 +46,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/icon_favicon.png" />
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon/icon_favicon.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,26 +54,26 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
   <!-- Icons. Uncomment required icon fonts -->
-  <link rel="stylesheet" href="../../assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
 
   <!-- Core CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../../assets/css/demo.css" />
+  <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="assets/css/demo.css" />
 
   <!-- Vendors CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-  <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
 
   <!-- Page CSS -->
 
   <!-- Helpers -->
-  <script src="../../assets/vendor/js/helpers.js"></script>
+  <script src="assets/vendor/js/helpers.js"></script>
 
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-  <script src="../../assets/js/config.js"></script>
+  <script src="assets/js/config.js"></script>
 </head>
 
 <body>
@@ -84,9 +85,9 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-          <a href="../dashboard/index.php" class="app-brand-link">
+          <a href="dashboard" class="app-brand-link">
             <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
-            <img src="../../assets/img/logo/logo_rooda.png" width="100">
+            <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
 
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -99,7 +100,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
         <ul class="menu-inner py-1">
           <!-- NOTE : Dashboard -->
           <li class="menu-item active">
-            <a href="../dashboard/index.php" class="menu-link">
+            <a href="dashboard" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-alt"></i>
               <div data-i18n="Analytics">Dashboard</div>
             </a>
@@ -114,12 +115,12 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="../motor/stock.php" class="menu-link">
+                <a href="stockMotor" class="menu-link">
                   <div data-i18n="Without navbar">Stock Motor</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="../motor/motor-masuk.php" class="menu-link">
+                <a href="motorMasuk" class="menu-link">
                   <div data-i18n="Without navbar">Motor Masuk</div>
                 </a>
               </li>
@@ -129,7 +130,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
           <!-- NOTE : Persediaan Sparepart -->
           <li class="menu-item">
-            <a href="../part/stock.php" class="menu-link">
+            <a href="stockSparepart" class="menu-link">
               <i class="menu-icon tf-icons bx bx-box"></i>
               <div data-i18n="Layouts">Persediaan Part</div>
             </a>
@@ -144,12 +145,12 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="../transaksi/offline.php" class="menu-link">
+                <a href="transaksiOffline" class="menu-link">
                   <div data-i18n="Without navbar">Offline</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="../transaksi/online.php" class="menu-link">
+                <a href="transaksiOnline" class="menu-link">
                   <div data-i18n="Without navbar">Online</div>
                 </a>
               </li>
@@ -158,7 +159,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
           <!-- NOTE : Perbaikan -->
           <li class="menu-item">
-            <a href="../perbaikan/daftar-perbaikan.php" class="menu-link">
+            <a href="perbaikan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-analyse"></i>
               <div data-i18n="Analytics">Perbaikan</div>
             </a>
@@ -166,7 +167,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
           <!-- NOTE : Karyawan -->
           <li class="menu-item">
-            <a href="../karyawan/daftar-karyawan.php" class="menu-link">
+            <a href="karyawan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Karyawan</div>
             </a>
@@ -174,7 +175,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
           <!-- NOTE : Pelanggan -->
           <li class="menu-item">
-            <a href="../pelanggan/daftar-pelanggan.php" class="menu-link">
+            <a href="pelanggan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Pelanggan</div>
             </a>
@@ -182,7 +183,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
           <!-- NOTE : Supplier -->
           <li class="menu-item">
-            <a href="../supplier/daftar-supplier.php" class="menu-link">
+            <a href="supplier" class="menu-link">
               <i class="menu-icon tf-icons bx bx-archive-in"></i>
               <div data-i18n="Analytics">Supplier</div>
             </a>
@@ -190,7 +191,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
           <!-- NOTE : Call Center -->
           <li class="menu-item">
-            <a href="../callcenter/daftar-callcenter.php" class="menu-link">
+            <a href="callCenter" class="menu-link">
               <i class="menu-icon tf-icons bx bx-phone"></i>
               <div data-i18n="Analytics">Call Center</div>
             </a>
@@ -253,7 +254,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="../../assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <img src="assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -262,7 +263,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <img src="assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
                           </div>
                         </div>
                         <div class="flex-grow-1">
@@ -300,7 +301,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                       <div class="dropdown-divider"></div>
                     </li> -->
                   <li>
-                    <a class="dropdown-item" href="../../logout.php">
+                    <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
                       <span class="align-middle">Log Out</span>
                     </a>
@@ -334,7 +335,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                       <div class="card-body pb-0 px-0 px-md-4">
-                        <img src="../../assets/img/illustrations/man-with-laptop-light.png" width="70%" data-app-dark-img="illustrations/man-with-laptop-light.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
+                        <img src="assets/img/illustrations/man-with-laptop-light.png" width="70%" data-app-dark-img="illustrations/man-with-laptop-light.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
                       </div>
                     </div>
                   </div>
@@ -348,7 +349,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                       <div class="col-md-8">
                         <h5 class="card-header m-0 me-2 pb-3">Best Seller👑</h5>
                         <div class="text-center">
-                          <img src="../../assets/gambar/motor/<?= $imgMotorTerlaris ?>" width="70%">
+                          <img src="assets/gambar/motor/<?= $imgMotorTerlaris ?>" width="70%">
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -376,7 +377,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                       <div class="col-md-8">
                         <h5 class="card-header m-0 me-2 pb-3">Stock Terbanyak📦</h5>
                         <div class="text-center">
-                          <img src="../../assets/gambar/motor/<?= $imgMotorTerbanyak ?>" width="70%">
+                          <img src="assets/gambar/motor/<?= $imgMotorTerbanyak ?>" width="70%">
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -407,7 +408,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     <div class="card-body">
                       <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="avatar flex-shrink-0">
-                          <img src="../../assets/img/icons/icon_penjualan.png" alt="Penjualan" class="rounded" />
+                          <img src="assets/img/icons/icon_penjualan.png" alt="Penjualan" class="rounded" />
                         </div>
                         <div class="dropdown">
                           <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -431,7 +432,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     <div class="card-body">
                       <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="avatar flex-shrink-0">
-                          <img src="../../assets/img/icons/icon_pendapatan.png" alt=" Pendapatan" class="rounded" />
+                          <img src="assets/img/icons/icon_pendapatan.png" alt=" Pendapatan" class="rounded" />
                         </div>
                         <div class="dropdown">
                           <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -455,7 +456,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     <div class="card-body">
                       <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="avatar flex-shrink-0">
-                          <img src="../../assets/img/icons/icon_pelanggan.png" alt="Pelanggan" class="rounded" />
+                          <img src="assets/img/icons/icon_pelanggan.png" alt="Pelanggan" class="rounded" />
                         </div>
                         <div class="dropdown">
                           <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -478,7 +479,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     <div class="card-body">
                       <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="avatar flex-shrink-0">
-                          <img src="../../assets/img/icons/icon_supplier.png" alt="Supplier" class="rounded" />
+                          <img src="assets/img/icons/icon_supplier.png" alt="Supplier" class="rounded" />
                         </div>
                         <div class="dropdown">
                           <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -500,7 +501,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     <div class="card-body">
                       <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="avatar flex-shrink-0">
-                          <img src="../../assets/img/icons/icon_motor.png" alt="Motor" class="rounded" />
+                          <img src="assets/img/icons/icon_motor.png" alt="Motor" class="rounded" />
                         </div>
                         <div class="dropdown">
                           <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -522,7 +523,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                     <div class="card-body">
                       <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="avatar flex-shrink-0">
-                          <img src="../../assets/img/icons/icon_karyawan.png" alt="Karyawan" class="rounded" />
+                          <img src="assets/img/icons/icon_karyawan.png" alt="Karyawan" class="rounded" />
                         </div>
                         <div class="dropdown">
                           <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -559,22 +560,22 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
-  <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
-  <script src="../../assets/vendor/libs/popper/popper.js"></script>
-  <script src="../../assets/vendor/js/bootstrap.js"></script>
-  <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="assets/vendor/libs/popper/popper.js"></script>
+  <script src="assets/vendor/js/bootstrap.js"></script>
+  <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-  <script src="../../assets/vendor/js/menu.js"></script>
+  <script src="assets/vendor/js/menu.js"></script>
   <!-- endbuild -->
 
   <!-- Vendors JS -->
-  <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+  <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
   <!-- Main JS -->
-  <script src="../../assets/js/main.js"></script>
+  <script src="assets/js/main.js"></script>
 
   <!-- Page JS -->
-  <script src="../../assets/js/dashboards-analytics.js"></script>
+  <script src="assets/js/dashboards-analytics.js"></script>
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>

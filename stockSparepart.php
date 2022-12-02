@@ -1,84 +1,96 @@
 <?php
-include '../../config.php';
-include '../../functions.php';
+include 'config.php';
+include 'functions.php';
 
 error_reporting(0);
 
 session_start();
-
+if (!isset(($_SESSION['username']))) {
+  header("Location:index");
+  exit();
+}
 $activeUser = $_SESSION['username'];
 
-//Menambah supplier Baru
+//Menambah sparepart Baru
 if (isset($_POST['submitTambahData'])) {
-  $id_supplier = getLastID($conn, 'tb_supplier', 'id_supplier', 'SR');
+  $id_sparepart = getLastID($conn, 'tb_sparepart', 'id_sparepart', 'SP');
 
   $nama = $_POST['nama'];
-  $telp = $_POST['telp'];
-  $alamat = $_POST['alamat'];
+  $harga = $_POST['harga'];
 
-  $insertQuery = "INSERT INTO tb_supplier (id_supplier, nama, telp, alamat) 
-                  VALUES ('$id_supplier', '$nama' , '$telp', '$alamat')";
+  //Menangani file foto
+  $ekstensi =  array('png');
+  $filename = $_FILES['img_src']['name'];
+  $ukuran = $_FILES['img_src']['size'];
+  $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-  $addtotable = mysqli_query($conn, $insertQuery);
-  if ($addtotable) {
-    header('refresh:0; url=daftar-supplier.php');
-    echo "<script>alert('Yeay, Tambah Supplier berhasil!')</script>";
+  $insertQuery = "INSERT INTO tb_sparepart (id_sparepart, nama_sparepart, harga, img_src) 
+                  VALUES ('$id_sparepart', '$nama' , '$harga', '$filename')";
+
+  //menangani data dan input ke db
+  if (!in_array($ext, $ekstensi)) {
+    echo "<script>alert('Ekstensi File tidak sesuai')</script>";
   } else {
-    echo "<script>alert('Yahh :( Tambah Supplier gagal!')</script>";
-    // header('location:stock.php');
+    $addtotable = mysqli_query($conn, $insertQuery);
+    if ($addtotable) {
+      move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/sparepart/' . $filename);
+      header('refresh:0; url=stockSparepart');
+      echo "<script>alert('Yeay, Tambah sparepart berhasil!')</script>";
+    } else {
+      echo "<script>alert('Yahh :( Tambah sparepart gagal!')</script>";
+    }
   }
 }
 
-// Edit supplier
+// Edit sparepart
 if (isset($_POST['submitEditData'])) {
-  $id_supplier = $_POST['id_supplier'];
+  $id_sparepart = $_POST['id_sparepart'];
   $nama = $_POST['nama'];
-  $telp = $_POST['telp'];
-  $alamat = $_POST['alamat'];
+  $harga = $_POST['harga'];
 
-  $editQuery = "UPDATE tb_supplier SET nama='$nama', telp='$telp', alamat='$alamat' WHERE id_supplier='$id_supplier'";
-  // $editQuery = "UPDATE tb_supplier SET nama='asfasdf', telp='8342569', alamat='sdgkjhf', WHERE id_supplier='SR0007'";
+  $editQuery = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga' WHERE id_sparepart='$id_sparepart'";
+
 
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
-    header('refresh:0; url=daftar-supplier.php');
-    echo "<script>alert('Yeay, Edit supplier berhasil!')</script>";
+    header('refresh:0; url=stockSparepart');
+    echo "<script>alert('Yeay, Edit sparepart berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Edit supplier gagal!')</script>";
-    // header('location:stock.php');
+    header('refresh:0; url=stockSparepart');
+    echo "<script>alert('Yahh :( Edit sparepart gagal!')</script>";
   }
 }
 
 
-//Hapus supplier
+//Hapus sparepart
 
 if (isset($_POST['submitHapus'])) {
-  $id_supplier = $_POST['id_supplier'];
+  $id_sparepart = $_POST['id_sparepart'];
 
-  $delData =  mysqli_query($conn, "DELETE FROM tb_supplier WHERE id_supplier='$id_supplier'");
+  $delData =  mysqli_query($conn, "DELETE FROM tb_sparepart WHERE id_sparepart='$id_sparepart'");
 
   if ($delData) {
-    echo "<script>alert('Yeay, Hapus supplier berhasil!')</script>";
+    echo "<script>alert('Yeay, Hapus sparepart berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Hapus supplier gagal!')</script>";
+    echo "<script>alert('Yahh :( Hapus sparepart gagal!')</script>";
   }
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-free">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>supplier - Rooda</title>
+  <title>sparepart - Rooda</title>
 
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/icon_favicon.png" />
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon/icon_favicon.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -86,32 +98,32 @@ if (isset($_POST['submitHapus'])) {
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
   <!-- Icons. Uncomment required icon fonts -->
-  <link rel="stylesheet" href="../../assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
 
   <!-- Core CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../../assets/css/demo.css" />
+  <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="assets/css/demo.css" />
 
   <!-- Vendors CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-  <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
 
-  <!-- <link rel="stylesheet" href="../../assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
+  <!-- <link rel="stylesheet" href="assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
 
   <!-- Page CSS -->
 
   <!-- Helpers -->
-  <script src="../../assets/vendor/js/helpers.js"></script>
+  <script src="assets/vendor/js/helpers.js"></script>
 
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-  <script src="../../assets/js/config.js"></script>
+  <script src="assets/js/config.js"></script>
 
 
   <!-- Datatable -->
-  <!-- <link rel="stylesheet" href="../../assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
+  <!-- <link rel="stylesheet" href="assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
   <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"> -->
   <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
@@ -127,9 +139,9 @@ if (isset($_POST['submitHapus'])) {
 
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-          <a href="../dashboard/index.php" class="app-brand-link">
+          <a href="dashboard" class="app-brand-link">
             <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
-            <img src="../../assets/img/logo/logo_rooda.png" width="100">
+            <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
 
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -141,8 +153,8 @@ if (isset($_POST['submitHapus'])) {
 
         <ul class="menu-inner py-1">
           <!-- NOTE : Dashboard -->
-          <li class="menu-item">
-            <a href="../dashboard/index.php" class="menu-link">
+          <li class="menu-item ">
+            <a href="dashboard" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-alt"></i>
               <div data-i18n="Analytics">Dashboard</div>
             </a>
@@ -156,13 +168,13 @@ if (isset($_POST['submitHapus'])) {
             </a>
 
             <ul class="menu-sub">
-              <li class="menu-item ">
-                <a href="../motor/stock.php" class="menu-link">
+              <li class="menu-item">
+                <a href="stockMotor" class="menu-link">
                   <div data-i18n="Without navbar">Stock Motor</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="../motor/motor-masuk.php" class="menu-link">
+                <a href="motorMasuk" class="menu-link">
                   <div data-i18n="Without navbar">Motor Masuk</div>
                 </a>
               </li>
@@ -171,8 +183,8 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Persediaan Sparepart -->
-          <li class="menu-item">
-            <a href="../part/stock.php" class="menu-link">
+          <li class="menu-item active">
+            <a href="stockSparepart" class="menu-link">
               <i class="menu-icon tf-icons bx bx-box"></i>
               <div data-i18n="Layouts">Persediaan Part</div>
             </a>
@@ -187,12 +199,12 @@ if (isset($_POST['submitHapus'])) {
 
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="../transaksi/offline.php" class="menu-link">
+                <a href="transaksiOffline" class="menu-link">
                   <div data-i18n="Without navbar">Offline</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="../transaksi/online.php" class="menu-link">
+                <a href="transaksiOnline" class="menu-link">
                   <div data-i18n="Without navbar">Online</div>
                 </a>
               </li>
@@ -201,14 +213,15 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Perbaikan -->
           <li class="menu-item">
-            <a href="../perbaikan/daftar-perbaikan.php" class="menu-link">
+            <a href="perbaikan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-analyse"></i>
               <div data-i18n="Analytics">Perbaikan</div>
             </a>
           </li>
-          <!-- NOTE : karyawan -->
+
+          <!-- NOTE : Karyawan -->
           <li class="menu-item">
-            <a href="../karyawan/daftar-karyawan.php" class="menu-link">
+            <a href="karyawan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Karyawan</div>
             </a>
@@ -216,15 +229,15 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Pelanggan -->
           <li class="menu-item">
-            <a href="../pelanggan/daftar-pelanggan.php" class="menu-link">
+            <a href="pelanggan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Pelanggan</div>
             </a>
           </li>
 
           <!-- NOTE : Supplier -->
-          <li class="menu-item active">
-            <a href="../supplier/daftar-supplier.php" class="menu-link">
+          <li class="menu-item">
+            <a href="supplier" class="menu-link">
               <i class="menu-icon tf-icons bx bx-archive-in"></i>
               <div data-i18n="Analytics">Supplier</div>
             </a>
@@ -232,7 +245,7 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Call Center -->
           <li class="menu-item">
-            <a href="../callcenter/daftar-callcenter.php" class="menu-link">
+            <a href="callCenter" class="menu-link">
               <i class="menu-icon tf-icons bx bx-phone"></i>
               <div data-i18n="Analytics">Call Center</div>
             </a>
@@ -277,7 +290,7 @@ if (isset($_POST['submitHapus'])) {
                 </tr>
                 <tr>
                   <td>
-                    <h3>Daftar Supplier</h3>
+                    <h3>Daftar Sparepart</h3>
                   </td>
                 </tr>
 
@@ -293,7 +306,7 @@ if (isset($_POST['submitHapus'])) {
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="../../assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <img src="assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -302,7 +315,7 @@ if (isset($_POST['submitHapus'])) {
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <img src="assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
                           </div>
                         </div>
                         <div class="flex-grow-1">
@@ -340,7 +353,7 @@ if (isset($_POST['submitHapus'])) {
                       <div class="dropdown-divider"></div>
                     </li> -->
                   <li>
-                    <a class="dropdown-item" href="../../logout.php">
+                    <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
                       <span class="align-middle">Log Out</span>
                     </a>
@@ -373,8 +386,7 @@ if (isset($_POST['submitHapus'])) {
                         <th></th>
                         <th>ID</th>
                         <th>Nama</th>
-                        <th>Telp</th>
-                        <th>Alamat</th>
+                        <th>Harga</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -385,15 +397,16 @@ if (isset($_POST['submitHapus'])) {
                       $ambil_data = mysqli_query(
                         $conn,
                         "SELECT *
-                          FROM tb_supplier
-                          ORDER BY id_supplier"
+                          FROM tb_sparepart
+                          ORDER BY id_sparepart"
                       );
 
                       while ($data = mysqli_fetch_array($ambil_data)) {
-                        $id_supplier = $data['id_supplier'];
-                        $nama = $data['nama'];
-                        $alamat = $data['alamat'];
-                        $telp = $data['telp'];
+                        $id_sparepart = $data['id_sparepart'];
+                        $nama = $data['nama_sparepart'];
+                        $harga = $data['harga'];
+                        $img_src = $data['img_src'];
+
                       ?>
 
                         <tr>
@@ -404,27 +417,27 @@ if (isset($_POST['submitHapus'])) {
                               </button>
                               <div class="dropdown-menu">
 
-                                <a class="dropdown-item" href="#editModal<?= $id_supplier; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_supplier; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                <input type="hidden" name="id_hapus" value="<?= $id_supplier; ?>">
-                                <a class="dropdown-item" href="#hapusModal<?= $id_supplier; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_supplier; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+                                <a class="dropdown-item" href="#gambarModal<?= $id_sparepart; ?>" data-bs-toggle="modal" data-bs-target="#gambarModal<?= $id_sparepart; ?>"><i class="bx bx-image me-1"></i> Lihat</a>
+                                <a class="dropdown-item" href="#editModal<?= $id_sparepart; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_sparepart; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <input type="hidden" name="id_hapus" value="<?= $id_sparepart; ?>">
+                                <a class="dropdown-item" href="#hapusModal<?= $id_sparepart; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_sparepart; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
 
                               </div>
                             </div>
                           </td>
-                          <td><b><?= $id_supplier ?></b></td>
+                          <td><b><?= $id_sparepart ?></b></td>
                           <td><?= $nama ?></td>
-                          <td><?= $telp ?></td>
-                          <td><?= $alamat ?></td>
+                          <td><?= rupiah($harga) ?></td>
                         </tr>
 
                         <!-- Modal Edit -->
-                        <div class="modal fade" id="editModal<?= $id_supplier; ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="editModal<?= $id_sparepart; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <form method="POST">
-                              <input type="hidden" name="id_supplier" value="<?= $id_supplier; ?>">
+                              <input type="hidden" name="id_sparepart" value="<?= $id_sparepart; ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel3">Edit supplier</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel3">Edit sparepart</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -436,14 +449,8 @@ if (isset($_POST['submitHapus'])) {
                                   </div>
                                   <div class="row">
                                     <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Telepon</label>
-                                      <input type="number" name="telp" class="form-control" value="<?= $telp; ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Alamat</label>
-                                      <textarea class="form-control" name="alamat" rows="3" placeholder="<?= $alamat; ?>" value="<?= $alamat; ?>"></textarea>
+                                      <label for="nameLarge" class="form-label">Harga</label>
+                                      <input type="number" name="harga" class="form-control" value="<?= $harga; ?>" />
                                     </div>
                                   </div>
                                 </div>
@@ -459,23 +466,38 @@ if (isset($_POST['submitHapus'])) {
                         </div>
 
                         <!-- Modal Hapus -->
-                        <div class="modal fade" id="hapusModal<?= $id_supplier; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                        <div class="modal fade" id="hapusModal<?= $id_sparepart; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h3 class="modal-title" id="modalToggleLabel">Hapus supplier</h3>
+                                <h3 class="modal-title" id="modalToggleLabel">Hapus sparepart</h3>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
 
                               <form method="POST">
                                 <div class="modal-body">
-                                  <input type="hidden" name="id_supplier" value="<?= $id_supplier ?>">
-                                  <p>Yakin hapus <b><?= $nama; ?></b> dengan ID <b><?= $id_supplier ?>?</b></p>
+                                  <input type="hidden" name="id_sparepart" value="<?= $id_sparepart ?>">
+                                  <p>Yakin hapus <b><?= $nama; ?></b> dengan ID <b><?= $id_sparepart ?>?</b></p>
                                 </div>
                                 <div class="modal-footer">
                                   <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapus">Hapus</button>
                                 </div>
                               </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Modal Gambar -->
+                        <div class="modal fade" id="gambarModal<?= $id_sparepart; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h3 class="modal-title" id="modalToggleLabel">Gambar Sparepart <?= $nama ?></h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <img src="assets/gambar/sparepart/<?= $img_src ?>" width="500" alt="<?= $img_src ?>">
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -519,29 +541,29 @@ if (isset($_POST['submitHapus'])) {
 
   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel3">Tambah Supplier</h5>
+            <h5 class="modal-title" id="exampleModalLabel3">Tambah Sparepart</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama supplier" />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Sparepart" />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Telepon</label>
-                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" />
+                <label for="nameLarge" class="form-label">Harga</label>
+                <input type="number" name="harga" class="form-control" placeholder="Masukkan Harga" />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
-                <label for="nameLarge" class="form-label">Alamat</label>
-                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat"></textarea>
+                <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
+                <input type="file" name="img_src" class="form-control" />
               </div>
             </div>
           </div>
@@ -559,31 +581,29 @@ if (isset($_POST['submitHapus'])) {
 
   <script>
     $(document).ready(function() {
-      $('#example').DataTable({
-        scrollX: true,
-      });
+      $('#example').DataTable();
     });
   </script>
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
-  <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
-  <script src="../../assets/vendor/libs/popper/popper.js"></script>
-  <script src="../../assets/vendor/js/bootstrap.js"></script>
-  <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="assets/vendor/libs/popper/popper.js"></script>
+  <script src="assets/vendor/js/bootstrap.js"></script>
+  <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
 
-  <script src="../../assets/vendor/js/menu.js"></script>
+  <script src="assets/vendor/js/menu.js"></script>
   <!-- endbuild -->
 
   <!-- Vendors JS -->
-  <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+  <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
   <!-- Main JS -->
-  <script src="../../assets/js/main.js"></script>
+  <script src="assets/js/main.js"></script>
 
   <!-- Page JS -->
-  <script src="../../assets/js/dashboards-analytics.js"></script>
+  <script src="assets/js/dashboards-analytics.js"></script>
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>

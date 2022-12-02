@@ -1,11 +1,14 @@
 <?php
-include '../../config.php';
-include '../../functions.php';
+include 'config.php';
+include 'functions.php';
 
 error_reporting(0);
 
 session_start();
-
+if (!isset(($_SESSION['username']))) {
+  header("Location:index");
+  exit();
+}
 $activeUser = $_SESSION['username'];
 
 //Menambah Motor Baru
@@ -44,10 +47,10 @@ if (isset($_POST['submitTambahMotor'])) {
   } else {
     $addtotableMotor = mysqli_query($conn, $insertMotorQuery);
     if ($addtotableMotor) {
-      move_uploaded_file($_FILES['img_src']['tmp_name'], '../../assets/gambar/motor/' . $filename);
+      move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/motor/' . $filename);
       $addtotableSpesifikasi = mysqli_query($conn, $insertSpesifikasiQuery);
       if ($addtotableSpesifikasi) {
-        header('refresh:0; url=stock.php');
+        header('refresh:0; url=stockMotor');
         echo "<script>alert('Yeay, Tambah Motor berhasil!')</script>";
       }
     } else {
@@ -60,12 +63,12 @@ if (isset($_POST['submitTambahMotor'])) {
   // if ($addtotableMotor) {
   //   $addtotableSpesifikasi = mysqli_query($conn, $insertSpesifikasiQuery);
   //   if ($addtotableSpesifikasi) {
-  //     header('refresh:0; url=stock.php');
+  //     header('refresh:0; url=stockMotor');
   //     echo "<script>alert('Yeay, Tambah Motor berhasil!')</script>";
   //   }
   // } else {
   //   echo "<script>alert('Yahh :( Tambah Motor gagal!')</script>";
-  //   // header('location:stock.php');
+  //   // header('location:stockMotor');
   // }
 }
 
@@ -94,12 +97,12 @@ if (isset($_POST['submitEditMotor'])) {
   if ($editMotor) {
     $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
     if ($editSpesifikasi) {
-      header('refresh:0; url=stock.php');
+      header('refresh:0; url=stockMotor');
       echo "<script>alert('Yeay, Edit Motor berhasil!')</script>";
     }
   } else {
     echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
-    // header('location:stock.php');
+    // header('location:stockMotor');
   }
 }
 
@@ -123,7 +126,7 @@ if (isset($_POST['submitHapus'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-free">
 
 <head>
   <meta charset="utf-8" />
@@ -134,7 +137,7 @@ if (isset($_POST['submitHapus'])) {
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/icon_favicon.png" />
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon/icon_favicon.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -142,26 +145,26 @@ if (isset($_POST['submitHapus'])) {
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
 
   <!-- Icons. Uncomment required icon fonts -->
-  <link rel="stylesheet" href="../../assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
 
   <!-- Core CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../../assets/css/demo.css" />
+  <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="assets/css/demo.css" />
 
   <!-- Vendors CSS -->
-  <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-  <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
+  <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
 
   <!-- Page CSS -->
 
   <!-- Helpers -->
-  <script src="../../assets/vendor/js/helpers.js"></script>
+  <script src="assets/vendor/js/helpers.js"></script>
 
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-  <script src="../../assets/js/config.js"></script>
+  <script src="assets/js/config.js"></script>
 </head>
 
 <body>
@@ -172,9 +175,9 @@ if (isset($_POST['submitHapus'])) {
 
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
-          <a href="../dashboard/index.php" class="app-brand-link">
+          <a href="dashboard" class="app-brand-link">
             <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
-            <img src="../../assets/img/logo/logo_rooda.png" width="100">
+            <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
 
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -186,8 +189,8 @@ if (isset($_POST['submitHapus'])) {
 
         <ul class="menu-inner py-1">
           <!-- NOTE : Dashboard -->
-          <li class="menu-item">
-            <a href="../dashboard/index.php" class="menu-link">
+          <li class="menu-item ">
+            <a href="dashboard" class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-alt"></i>
               <div data-i18n="Analytics">Dashboard</div>
             </a>
@@ -202,12 +205,12 @@ if (isset($_POST['submitHapus'])) {
 
             <ul class="menu-sub">
               <li class="menu-item active">
-                <a href="../motor/stock.php" class="menu-link">
+                <a href="stockMotor" class="menu-link">
                   <div data-i18n="Without navbar">Stock Motor</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="../motor/motor-masuk.php" class="menu-link">
+                <a href="motorMasuk" class="menu-link">
                   <div data-i18n="Without navbar">Motor Masuk</div>
                 </a>
               </li>
@@ -217,7 +220,7 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Persediaan Sparepart -->
           <li class="menu-item">
-            <a href="../part/stock.php" class="menu-link">
+            <a href="stockSparepart" class="menu-link">
               <i class="menu-icon tf-icons bx bx-box"></i>
               <div data-i18n="Layouts">Persediaan Part</div>
             </a>
@@ -232,12 +235,12 @@ if (isset($_POST['submitHapus'])) {
 
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="../transaksi/offline.php" class="menu-link">
+                <a href="transaksiOffline" class="menu-link">
                   <div data-i18n="Without navbar">Offline</div>
                 </a>
               </li>
               <li class="menu-item">
-                <a href="../transaksi/online.php" class="menu-link">
+                <a href="transaksiOnline" class="menu-link">
                   <div data-i18n="Without navbar">Online</div>
                 </a>
               </li>
@@ -246,14 +249,15 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Perbaikan -->
           <li class="menu-item">
-            <a href="../perbaikan/daftar-perbaikan.php" class="menu-link">
+            <a href="perbaikan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-analyse"></i>
               <div data-i18n="Analytics">Perbaikan</div>
             </a>
           </li>
+
           <!-- NOTE : Karyawan -->
           <li class="menu-item">
-            <a href="../karyawan/daftar-karyawan.php" class="menu-link">
+            <a href="karyawan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Karyawan</div>
             </a>
@@ -261,7 +265,7 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Pelanggan -->
           <li class="menu-item">
-            <a href="../pelanggan/daftar-pelanggan.php" class="menu-link">
+            <a href="pelanggan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Pelanggan</div>
             </a>
@@ -269,7 +273,7 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Supplier -->
           <li class="menu-item">
-            <a href="../supplier/daftar-supplier.php" class="menu-link">
+            <a href="supplier" class="menu-link">
               <i class="menu-icon tf-icons bx bx-archive-in"></i>
               <div data-i18n="Analytics">Supplier</div>
             </a>
@@ -277,7 +281,7 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Call Center -->
           <li class="menu-item">
-            <a href="../callcenter/daftar-callcenter.php" class="menu-link">
+            <a href="callCenter" class="menu-link">
               <i class="menu-icon tf-icons bx bx-phone"></i>
               <div data-i18n="Analytics">Call Center</div>
             </a>
@@ -339,7 +343,7 @@ if (isset($_POST['submitHapus'])) {
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="../../assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
+                    <img src="assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -348,7 +352,7 @@ if (isset($_POST['submitHapus'])) {
                       <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar avatar-online">
-                            <img src="../../assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
+                            <img src="assets/img/avatars/avatar.png" alt class="w-px-40 h-auto rounded-circle" />
                           </div>
                         </div>
                         <div class="flex-grow-1">
@@ -386,7 +390,7 @@ if (isset($_POST['submitHapus'])) {
                       <div class="dropdown-divider"></div>
                     </li> -->
                   <li>
-                    <a class="dropdown-item" href="../../logout.php">
+                    <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
                       <span class="align-middle">Log Out</span>
                     </a>
@@ -623,7 +627,7 @@ if (isset($_POST['submitHapus'])) {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
-                                <div class="text-center"><img src="../../assets/gambar/motor/<?= $img_src ?>" width="500" alt="<?= $img_src ?>"></div>
+                                <div class="text-center"><img src="assets/gambar/motor/<?= $img_src ?>" width="500" alt="<?= $img_src ?>"></div>
                               </div>
                             </div>
                           </div>
@@ -772,22 +776,22 @@ if (isset($_POST['submitHapus'])) {
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
-  <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
-  <script src="../../assets/vendor/libs/popper/popper.js"></script>
-  <script src="../../assets/vendor/js/bootstrap.js"></script>
-  <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="assets/vendor/libs/popper/popper.js"></script>
+  <script src="assets/vendor/js/bootstrap.js"></script>
+  <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-  <script src="../../assets/vendor/js/menu.js"></script>
+  <script src="assets/vendor/js/menu.js"></script>
   <!-- endbuild -->
 
   <!-- Vendors JS -->
-  <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+  <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
   <!-- Main JS -->
-  <script src="../../assets/js/main.js"></script>
+  <script src="assets/js/main.js"></script>
 
   <!-- Page JS -->
-  <script src="../../assets/js/dashboards-analytics.js"></script>
+  <script src="assets/js/dashboards-analytics.js"></script>
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
