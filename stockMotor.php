@@ -19,6 +19,13 @@ if ($_POST['sort_by'] == '') {
   $_POST['sort_type'] = $sortType;
 }
 
+//Inisialisasi nilai Limit
+if ($_POST['limit_value'] == '') {
+  $limitValue = 100;
+  $_POST['limit_value'] = $limitValue;
+  $selectedLimit = 'All';
+}
+
 //Inisialisasi nilai POST untuk searching
 if ($_POST['search_value'] == '') {
   $searchValue = '';
@@ -448,7 +455,7 @@ if (isset($_POST['submitHapus'])) {
                 <h3 class="card-header">
                   <div class="row g-2 d-flex justify-content-between">
                     <!-- sort input -->
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                       <form method="POST">
                         <div class="input-group">
                           <select class="form-select" id="" aria-label="Example select with button addon" name="sort_by">
@@ -464,10 +471,17 @@ if (isset($_POST['submitHapus'])) {
                             <option value="tipe_transmisi">Transmisi</option>
                             <option value="kapasitas_bbm">Kapasitas BBM</option>
                           </select>
-                          <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon" name="sort_type">
+                          <select class="form-select" id="inputGroupSelect04" name="sort_type">
                             <option selected value="<?= $_POST['sort_type'] ?>"><?= $_POST['sort_type'] ?>ENDING</option>
                             <option value="ASC">Ascending</option>
                             <option value="DESC">Descending</option>
+                          </select>
+                          <select class="form-select" id="inputGroupSelect04" name="limit_value">
+                            <option selected value="<?= $_POST['limit_value'] ?>"><?= $_POST['limit_value'] ?> items</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                           </select>
                           <button class="btn btn-primary" type="submit" name="submitSort">Sort</button>
                         </div>
@@ -510,6 +524,8 @@ if (isset($_POST['submitHapus'])) {
                       if (isset($_POST['submitSort'])) {
                         $sortBy = $_POST['sort_by'];
                         $sortType = $_POST['sort_type'];
+                        $limitValue = $_POST['limit_value'];
+                        $selectedLimit = $_POST['limit_value'];
                         header('refresh:0; url=stockMotor');
                       }
 
@@ -534,7 +550,9 @@ if (isset($_POST['submitHapus'])) {
                             OR harga LIKE '%$searchValue%' OR stock LIKE '%$searchValue%'
                             OR tipe_mesin LIKE '%$searchValue%' OR volume_silinder LIKE '%$searchValue%'
                             OR tipe_transmisi LIKE '%$searchValue%' OR kapasitas_bbm LIKE '%$searchValue%'
-                          ORDER BY $sortBy $sortType"
+                          ORDER BY $sortBy $sortType
+                          LIMIT $limitValue
+                          "
                       );
 
                       while ($data = mysqli_fetch_array($ambil_data_stock)) {
