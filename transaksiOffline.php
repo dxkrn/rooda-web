@@ -33,6 +33,7 @@ if (isset($_POST['submitTambahData'])) {
                   VALUES ('$id_transaksi', '$id_motor' , '$jumlah', '$status')";
 
   if ($stock_baru < 0) {
+    header('refresh:0; url=transaksiOffline');
     echo "<script>alert('Yahh :( Stock motor tidak mencukupi')</script>";
   } else {
     $addtotableTransaksi = mysqli_query($conn, $insertTransaksiQuery);

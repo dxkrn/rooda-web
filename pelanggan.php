@@ -17,7 +17,7 @@ if (isset($_POST['submitTambahData'])) {
   $id_user = getLastUser($conn);
   $nama = $_POST['nama'];
   $username = createUsername($_POST['email']);
-  $password = $username;
+  $password = md5($username);
   $nik = $_POST['nik'];
   $jenis_kelamin = $_POST['jenis_kelamin'];
   $email = $_POST['email'];
@@ -448,7 +448,7 @@ if (isset($_POST['submitHapus'])) {
                           <td><?= $nik ?></td>
                           <td><?= $jenis_kelamin ?></td>
                           <td><?= $email ?></td>
-                          <td><?= $telp ?></td>
+                          <td>0<?= $telp ?></td>
                           <td><?= tanggal($tgl_lahir) ?></td>
                           <td><?= $alamat ?></td>
                         </tr>

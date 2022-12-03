@@ -433,7 +433,7 @@ if (isset($_POST['submitHapus'])) {
                           <td><b><?= $id_karyawan ?></b></td>
                           <td><?= $nama ?></td>
                           <td><?= $jenis_kelamin ?></td>
-                          <td><?= $telp ?></td>
+                          <td>0<?= $telp ?></td>
                           <td><?= tanggal($tgl_lahir) ?></td>
                           <td><?= $alamat ?></td>
                           <td><?= $posisi ?></td>

@@ -349,7 +349,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                       <div class="col-md-8">
                         <h5 class="card-header m-0 me-2 pb-3">Best Seller👑</h5>
                         <div class="text-center">
-                          <img src="assets/gambar/motor/<?= $imgMotorTerlaris ?>" width="70%">
+                          <img src="<?= $imgMotorTerlaris ?>" width="70%">
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -377,7 +377,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                       <div class="col-md-8">
                         <h5 class="card-header m-0 me-2 pb-3">Stock Terbanyak📦</h5>
                         <div class="text-center">
-                          <img src="assets/gambar/motor/<?= $imgMotorTerbanyak ?>" width="70%">
+                          <img src="<?= $imgMotorTerbanyak ?>" width="70%">
                         </div>
                       </div>
                       <div class="col-md-4">

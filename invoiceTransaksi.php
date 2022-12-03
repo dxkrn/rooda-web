@@ -150,6 +150,16 @@ $total_transaksi = 0;
                     <td><?= $jumlah ?></td>
                     <td><?= rupiah($total) ?></td>
                     <td><?= $status ?></td>
+                    <!-- <td>
+                      <div class="col mb-2">
+                        <select class="form-select" name="status" aria-label="Default select example">
+                          <option selected value="<?= $status ?>"><?= $status ?></option>
+                          <option value="Unpaid">Belum Bayar</option>
+                          <option value="DownPayment">Down Payment</option>
+                          <option value="Paid">Lunas</option>
+                        </select>
+                      </div>
+                    </td> -->
                   </tr>
 
                 <?php

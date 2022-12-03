@@ -25,7 +25,7 @@ if (isset($_POST['submitTambahData'])) {
   $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
   $insertQuery = "INSERT INTO tb_sparepart (id_sparepart, nama_sparepart, harga, img_src) 
-                  VALUES ('$id_sparepart', '$nama' , '$harga', '$filename')";
+                  VALUES ('$id_sparepart', '$nama' , '$harga', 'assets/gambar/sparepart/$filename')";
 
   //menangani data dan input ke db
   if (!in_array($ext, $ekstensi)) {
@@ -48,11 +48,18 @@ if (isset($_POST['submitEditData'])) {
   $nama = $_POST['nama'];
   $harga = $_POST['harga'];
 
-  $editQuery = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga' WHERE id_sparepart='$id_sparepart'";
+  //Menangani file foto
+  $ekstensi =  array('png');
+  $filename = $_FILES['img_src']['name'];
+  $ukuran = $_FILES['img_src']['size'];
+  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+  $editQuery = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga', img_src='assets/gambar/sparepart/$filename'  WHERE id_sparepart='$id_sparepart'";
 
 
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
+    move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/sparepart/' . $filename);
     header('refresh:0; url=stockSparepart');
     echo "<script>alert('Yeay, Edit sparepart berhasil!')</script>";
   } else {
@@ -433,7 +440,7 @@ if (isset($_POST['submitHapus'])) {
                         <!-- Modal Edit -->
                         <div class="modal fade" id="editModal<?= $id_sparepart; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
-                            <form method="POST">
+                            <form method="POST" enctype="multipart/form-data">
                               <input type="hidden" name="id_sparepart" value="<?= $id_sparepart; ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -451,6 +458,12 @@ if (isset($_POST['submitHapus'])) {
                                     <div class="col mb-3">
                                       <label for="nameLarge" class="form-label">Harga</label>
                                       <input type="number" name="harga" class="form-control" value="<?= $harga; ?>" />
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col mb-3">
+                                      <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
+                                      <input type="file" name="img_src" class="form-control" />
                                     </div>
                                   </div>
                                 </div>
@@ -496,7 +509,7 @@ if (isset($_POST['submitHapus'])) {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
-                                <img src="assets/gambar/sparepart/<?= $img_src ?>" width="500" alt="<?= $img_src ?>">
+                                <img src="<?= $img_src ?>" width="500" alt="<?= $img_src ?>">
                               </div>
                             </div>
                           </div>

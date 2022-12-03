@@ -643,7 +643,7 @@ if (isset($_POST['submitHapus'])) {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <div class="modal-body">
-                                <div class="text-center"><img src="assets/gambar/motor/<?= $img_src ?>" width="500" alt="<?= $img_src ?>"></div>
+                                <div class="text-center"><img src="<?= $img_src ?>" width="500" alt="<?= $img_src ?>"></div>
                               </div>
                             </div>
                           </div>
