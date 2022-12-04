@@ -11,6 +11,29 @@ if (!isset(($_SESSION['username']))) {
 }
 $activeUser = $_SESSION['username'];
 
+//Inisialisasi nilai POST untuk sorting
+if ($_POST['sort_by'] == '') {
+  $sortBy = 'id_karyawan';
+  $sortType = 'ASC';
+  $_POST['sort_by'] = $sortBy;
+  $_POST['sort_type'] = $sortType;
+}
+
+//Inisialisasi nilai Limit
+if ($_POST['limit_value'] == '') {
+  $limitValue = 100;
+  $_POST['limit_value'] = $limitValue;
+  $selectedLimit = 'All';
+}
+
+//Inisialisasi nilai POST untuk searching
+if ($_POST['search_value'] == '') {
+  $searchValue = '';
+  $placeHolder = 'Search anything..';
+} else {
+  $searchValue = $_POST['search_value'];
+  $placeHolder = '';
+}
 
 //Menambah Karyawan Baru
 if (isset($_POST['submitTambahData'])) {
@@ -376,9 +399,53 @@ if (isset($_POST['submitHapus'])) {
               <!-- responsive table -->
 
               <div class="card">
-                <h3 class="card-header"></h3>
+                <h3 class="card-header">
+                  <div class="row g-2 d-flex justify-content-between">
+                    <!-- sort input -->
+                    <div class="col-md-7">
+                      <form method="POST">
+                        <div class="input-group">
+                          <select class="form-select" id="" aria-label="Example select with button addon" name="sort_by">
+                            <option selected value="<?= $_POST['sort_by'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['sort_by'])) ?></option>
+                            <option value="id_karyawan">ID Karyawan</option>
+                            <option value="nama">Nama</option>
+                            <option value="jenis_kelamin">Jenis Kelamin</option>
+                            <option value="telp">Telp</option>
+                            <option value="tgl_lahir">Tgl Lahir</option>
+                            <option value="alamat">Alamat</option>
+                            <option value="posisi">Posisi</option>
+                            <option value="gaji">Gaji</option>
+                          </select>
+                          <select class="form-select" id="inputGroupSelect04" name="sort_type">
+                            <option selected value="<?= $_POST['sort_type'] ?>"><?= $_POST['sort_type'] ?>ENDING</option>
+                            <option value="ASC">Ascending</option>
+                            <option value="DESC">Descending</option>
+                          </select>
+                          <select class="form-select" id="inputGroupSelect04" name="limit_value">
+                            <option selected value="<?= $_POST['limit_value'] ?>"><?= $_POST['limit_value'] ?> items</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                          <button class="btn btn-primary" type="submit" name="submitSort">Sort</button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <!-- search input -->
+                    <div class="col-md-4">
+                      <form method="POST">
+                        <div class="input-group">
+                          <input type="text" name="search_value" class="form-control" placeholder="<?= $placeHolder ?>" value="<?= $searchValue ?>" aria-describedby="button-addon2" />
+                          <button class="btn btn-primary" type="submit" id="button-addon2" name="submitSearch">Search</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </h3>
                 <div class="table-responsive text-nowrap">
-                  <table id="example" class="table table-hover">
+                  <table id="" class="table table-hover">
                     <thead>
                       <tr class="text-nowrap">
                         <th></th>
@@ -393,15 +460,33 @@ if (isset($_POST['submitHapus'])) {
                       </tr>
                     </thead>
                     <tbody>
+
                       <?php
+                      if (isset($_POST['submitSort'])) {
+                        $sortBy = $_POST['sort_by'];
+                        $sortType = $_POST['sort_type'];
+                        $limitValue = $_POST['limit_value'];
+                        $selectedLimit = $_POST['limit_value'];
+                        header('refresh:0; url=motorMasuk');
+                      }
 
-
+                      if (isset($_POST['submitSearch'])) {
+                        $searchValue = $_POST['search_value'];
+                        header('refresh:0; url=motorMasuk');
+                      }
 
                       $ambil_data = mysqli_query(
                         $conn,
                         "SELECT *
                           FROM tb_karyawan
-                          ORDER BY id_karyawan"
+                          WHERE id_karyawan LIKE '%$searchValue%' OR nama LIKE '%$searchValue%'
+                            OR jenis_kelamin LIKE '%$searchValue%' OR telp LIKE '%$searchValue%'
+                            OR tgl_lahir LIKE '%$searchValue%' OR alamat LIKE '%$searchValue%'
+                            OR posisi LIKE '%$searchValue%' OR gaji LIKE '%$searchValue%'
+                            OR MONTHNAME(tgl_lahir) LIKE '%$searchValue%'
+                          ORDER BY $sortBy $sortType
+                          LIMIT $limitValue
+                          "
                       );
 
                       while ($data = mysqli_fetch_array($ambil_data)) {
