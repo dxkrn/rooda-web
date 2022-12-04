@@ -415,7 +415,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                            <a class="dropdown-item" href="../transaksi/offline.php">View More</a>
+                            <a class="dropdown-item" href="transaksiOffline">View More</a>
                             <!-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> -->
                           </div>
                         </div>
@@ -439,7 +439,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                            <a class="dropdown-item" href="../transaksi/offline.php">View More</a>
+                            <a class="dropdown-item" href="transaksiOffline">View More</a>
                             <!-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> -->
                           </div>
                         </div>
@@ -463,7 +463,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="../pelanggan/daftar-pelanggan.php">View More</a>
+                            <a class="dropdown-item" href="pelanggan">View More</a>
                           </div>
                         </div>
                       </div>
@@ -486,7 +486,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="../supplier/daftar-supplier.php">View More</a>
+                            <a class="dropdown-item" href="supplier">View More</a>
                           </div>
                         </div>
                       </div>
@@ -508,7 +508,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="../motor/stock.php">View More</a>
+                            <a class="dropdown-item" href="stockMotor">View More</a>
                           </div>
                         </div>
                       </div>
@@ -530,7 +530,7 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="../karyawan/daftar-karyawan.php">View More</a>
+                            <a class="dropdown-item" href="karyawan">View More</a>
                           </div>
                         </div>
                       </div>
