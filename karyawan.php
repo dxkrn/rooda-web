@@ -545,6 +545,7 @@ if (isset($_POST['submitHapus'])) {
                                     <div class="col mb-0">
                                       <label for="emailLarge" class="form-label">Jenis Kelamin</label>
                                       <select class="form-select" name="jenis_kelamin" aria-label="Default select example">
+                                        <option selected value="<?= $jenis_kelamin ?>"><?= $jenis_kelamin ?></option>
                                         <option value="L">Laki-laki</option>
                                         <option value="P">Perempuan</option>
                                       </select>
@@ -552,6 +553,7 @@ if (isset($_POST['submitHapus'])) {
                                     <div class="col mb-0">
                                       <label for="dobLarge" class="form-label">Posisi</label>
                                       <select class="form-select" name="posisi" aria-label="Default select example">
+                                        <option selected value="<?= $posisi ?>"><?= $posisi ?></option>
                                         <option value="Sales">Sales</option>
                                         <option value="Mekanik">Mekanik</option>
                                       </select>
@@ -572,7 +574,7 @@ if (isset($_POST['submitHapus'])) {
                                   <div class="row">
                                     <div class="col mb-3">
                                       <label for="nameLarge" class="form-label">Alamat</label>
-                                      <textarea class="form-control" name="alamat" rows="3" placeholder="<?= $alamat; ?>" value="<?= $alamat; ?>"></textarea>
+                                      <textarea class="form-control" name="alamat" rows="3" value="<?= $alamat; ?>"><?= $alamat; ?></textarea>
                                     </div>
                                   </div>
                                   <div class="row">
@@ -664,7 +666,7 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Karyawan" />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Karyawan" required />
               </div>
             </div>
             <div class="row g-2">
@@ -692,19 +694,19 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Telepon</label>
-                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" />
+                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" required />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Alamat</label>
-                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat"></textarea>
+                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat" required></textarea>
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Gaji</label>
-                <input type="number" name="gaji" class="form-control" placeholder="Masukkan Gaji" />
+                <input type="number" name="gaji" class="form-control" placeholder="Masukkan Gaji" required />
               </div>
             </div>
           </div>

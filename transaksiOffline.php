@@ -637,7 +637,7 @@ if (isset($_POST['submitHapus'])) {
                                     </div>
                                     <div class="col mb-2">
                                       <label for="nameLarge" class="form-label">Jumlah</label>
-                                      <input type="number" name="jumlah" class="form-control" placeholder="Masukkan Jumlah" />
+                                      <input type="number" name="jumlah" class="form-control" placeholder="Masukkan Jumlah" required />
                                     </div>
                                   </div>
                                   <div class="row g-2">
@@ -845,7 +845,7 @@ if (isset($_POST['submitHapus'])) {
               </div>
               <div class="col mb-2">
                 <label for="nameLarge" class="form-label">Jumlah</label>
-                <input type="number" name="jumlah" class="form-control" placeholder="Masukkan Jumlah" />
+                <input type="number" name="jumlah" class="form-control" placeholder="Masukkan Jumlah" required />
               </div>
             </div>
 

@@ -566,7 +566,8 @@ if (isset($_POST['submitHapus'])) {
                                     <div class="col mb-0">
                                       <label for="emailLarge" class="form-label">Jenis Kelamin</label>
                                       <select class="form-select" name="jenis_kelamin" aria-label="Default select example">
-                                        <option selected value="L">Laki-laki</option>
+                                        <option selected value="<?= $jenis_kelamin ?>"><?= $jenis_kelamin ?></option>
+                                        <option value="L">Laki-laki</option>
                                         <option value="P">Perempuan</option>
                                       </select>
                                     </div>
@@ -592,7 +593,7 @@ if (isset($_POST['submitHapus'])) {
                                   <div class="row">
                                     <div class="col mb-3">
                                       <label for="nameLarge" class="form-label">Alamat</label>
-                                      <textarea class="form-control" name="alamat" rows="3" placeholder="<?= $alamat ?>"></textarea>
+                                      <textarea class="form-control" name="alamat" rows="3"><?= $alamat ?></textarea>
                                     </div>
                                   </div>
                                 </div>
@@ -678,13 +679,13 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Pelanggan" />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Pelanggan" required />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">NIK</label>
-                <input type="number" name="nik" class="form-control" placeholder="Masukkan NIK" />
+                <input type="number" name="nik" class="form-control" placeholder="Masukkan NIK" required />
               </div>
             </div>
             <div class="row">
@@ -699,13 +700,13 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Masukkan Email" />
+                <input type="email" name="email" class="form-control" placeholder="Masukkan Email" required />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Telepon</label>
-                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" />
+                <input type="number" name="telp" class="form-control" placeholder="Masukkan Telepon" required />
               </div>
             </div>
             <div class="row">
@@ -717,7 +718,7 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Alamat</label>
-                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat"></textarea>
+                <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat" required></textarea>
               </div>
             </div>
           </div>

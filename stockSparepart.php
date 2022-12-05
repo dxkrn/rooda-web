@@ -78,17 +78,29 @@ if (isset($_POST['submitEditData'])) {
   $ukuran = $_FILES['img_src']['size'];
   $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-  $editQuery = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga', img_src='assets/gambar/sparepart/$filename'  WHERE id_sparepart='$id_sparepart'";
+  $editQueryWithImage = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga', img_src='assets/gambar/sparepart/$filename'  WHERE id_sparepart='$id_sparepart'";
+  $editQueryWithoutImage = "UPDATE tb_sparepart SET nama_sparepart='$nama', harga='$harga' WHERE id_sparepart='$id_sparepart'";
 
 
-  $editData = mysqli_query($conn, $editQuery);
-  if ($editData) {
-    move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/sparepart/' . $filename);
-    header('refresh:0; url=stockSparepart');
-    echo "<script>alert('Yeay, Edit sparepart berhasil!')</script>";
+  if ($filename == "") {
+    $editData = mysqli_query($conn, $editQueryWithoutImage);
+    if ($editData) {
+      header('refresh:0; url=stockSparepart');
+      echo "<script>alert('Yeay, Edit sparepart berhasil!')</script>";
+    } else {
+      header('refresh:0; url=stockSparepart');
+      echo "<script>alert('Yahh :( Edit sparepart gagal!')</script>";
+    }
   } else {
-    header('refresh:0; url=stockSparepart');
-    echo "<script>alert('Yahh :( Edit sparepart gagal!')</script>";
+    $editData = mysqli_query($conn, $editQueryWithImage);
+    if ($editData) {
+      move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/sparepart/' . $filename);
+      header('refresh:0; url=stockSparepart');
+      echo "<script>alert('Yeay, Edit sparepart berhasil!')</script>";
+    } else {
+      header('refresh:0; url=stockSparepart');
+      echo "<script>alert('Yahh :( Edit sparepart gagal!')</script>";
+    }
   }
 }
 
@@ -642,19 +654,19 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Sparepart" />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Sparepart" required />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Harga</label>
-                <input type="number" name="harga" class="form-control" placeholder="Masukkan Harga" />
+                <input type="number" name="harga" class="form-control" placeholder="Masukkan Harga" required />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
-                <input type="file" name="img_src" class="form-control" />
+                <input type="file" name="img_src" class="form-control" required />
               </div>
             </div>
           </div>

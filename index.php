@@ -95,7 +95,7 @@ if (isset($_POST['submitLogin'])) {
             <form class="mb-3" method="POST">
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Email Anda" autofocus />
+                <input required type="email" class="form-control" name="email" placeholder="Email Anda" autofocus />
 
               </div>
               <div class="mb-3 form-password-toggle">
@@ -104,7 +104,7 @@ if (isset($_POST['submitLogin'])) {
 
                 </div>
                 <div class="input-group input-group-merge">
-                  <input type="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <input required type="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
               </div>
