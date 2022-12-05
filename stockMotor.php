@@ -120,16 +120,14 @@ if (isset($_POST['submitEditMotor'])) {
   $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
 
-  $editMotorQuery = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description', img_src='assets/gambar/motor/$filename' WHERE id_motor='$id_motor'";
+  $editMotorQueryWithImage = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description', img_src='assets/gambar/motor/$filename' WHERE id_motor='$id_motor'";
+  $editMotorQueryWithoutImage = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description' WHERE id_motor='$id_motor'";
 
   $editSpesifikasiQuery = "UPDATE tb_spesifikasi SET tipe_mesin='$tipe_mesin', volume_silinder='$volume_silinder', tipe_transmisi='$tipe_transmisi', kapasitas_bbm='$kapasitas_bbm' WHERE id_motor='$id_motor'";
 
-  if (!in_array($ext, $ekstensi)) {
-    echo "<script>alert('Ekstensi File tidak sesuai')</script>";
-  } else {
-    $editMotor = mysqli_query($conn, $editMotorQuery);
+  if ($filename == "") {
+    $editMotor = mysqli_query($conn, $editMotorQueryWithoutImage);
     if ($editMotor) {
-      move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/motor/' . $filename);
       $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
       if ($editSpesifikasi) {
         header('refresh:0; url=stockMotor');
@@ -138,6 +136,23 @@ if (isset($_POST['submitEditMotor'])) {
     } else {
       echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
       // header('location:stockMotor');
+    }
+  } else {
+    if (!in_array($ext, $ekstensi)) {
+      echo "<script>alert('Ekstensi File tidak sesuai')</script>";
+    } else {
+      $editMotor = mysqli_query($conn, $editMotorQueryWithImage);
+      if ($editMotor) {
+        move_uploaded_file($_FILES['img_src']['tmp_name'], 'assets/gambar/motor/' . $filename);
+        $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
+        if ($editSpesifikasi) {
+          header('refresh:0; url=stockMotor');
+          echo "<script>alert('Yeay, Edit Motor berhasil!')</script>";
+        }
+      } else {
+        echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
+        // header('location:stockMotor');
+      }
     }
   }
 }
@@ -787,7 +802,7 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama Motor</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Motor" />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Motor" required />
               </div>
             </div>
             <div class="row g-2">
@@ -815,53 +830,53 @@ if (isset($_POST['submitHapus'])) {
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Harga</label>
-                <input type="number" name="harga" class="form-control" placeholder="Masukkan Harga" />
+                <input type="number" name="harga" class="form-control" placeholder="Masukkan Harga" required />
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Persentase Laba [0 - 100]</label>
-                <input type="number" name="persentase_laba" class="form-control" placeholder="Masukkan Persentase Laba" />
+                <input type="number" name="persentase_laba" class="form-control" placeholder="Masukkan Persentase Laba" required />
               </div>
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Persentase Sparepart [100 - 500]</label>
-                <input type="number" name="persentase_sparepart" class="form-control" placeholder="Masukkan Persentase Sparepart" />
+                <input type="number" name="persentase_sparepart" class="form-control" placeholder="Masukkan Persentase Sparepart" required />
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Stock</label>
-                <input type="number" name="stock" class="form-control" placeholder="Masukkan Stock" />
+                <input type="number" name="stock" class="form-control" placeholder="Masukkan Stock" required />
               </div>
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Foto <b>[ .png ]</b></label>
-                <input type="file" name="img_src" class="form-control" />
+                <input type="file" name="img_src" class="form-control" required />
               </div>
             </div>
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Deskripsi</label>
-                <textarea class="form-control" name="description" rows="3"></textarea>
+                <textarea class="form-control" name="description" rows="3" required></textarea>
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Tipe Mesin</label>
-                <input type="text" name="tipe_mesin" class="form-control" placeholder="Masukkan Tipe Mesin" />
+                <input type="text" name="tipe_mesin" class="form-control" placeholder="Masukkan Tipe Mesin" required />
               </div>
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Tipe Transmisi</label>
-                <input type="text" name="tipe_transmisi" class="form-control" placeholder="Masukkan Tipe Transmisi" />
+                <input type="text" name="tipe_transmisi" class="form-control" placeholder="Masukkan Tipe Transmisi" required />
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Volume Silinder</label>
-                <input type="text" name="volume_silinder" class="form-control" placeholder="Masukkan Volume Silinder" />
+                <input type="text" name="volume_silinder" class="form-control" placeholder="Masukkan Volume Silinder" required />
               </div>
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Kapasitas BBM</label>
-                <input type="number" name="kapasitas_bbm" class="form-control" placeholder="Masukkan Kapasitas BBM" />
+                <input type="number" name="kapasitas_bbm" class="form-control" placeholder="Masukkan Kapasitas BBM" required />
               </div>
             </div>
           </div>
