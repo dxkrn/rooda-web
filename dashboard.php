@@ -320,229 +320,229 @@ $imgMotorTerbanyak = $dataStockMotorTerbanyak['img_src'];
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row">
-              <div class="col-lg-12 mb-4 order-0">
-                <div class="card">
-                  <div class="d-flex align-items-end row">
-                    <div class="col-sm-7">
-                      <div class="card-body">
-                        <h5 class="card-title text-primary">Heii, welcome <?= $activeUser ?> 🎉</h5>
-                        <p class="mb-4">
-                          “Don’t give up when you still have something to give. Nothing is really over until the moment you stop trying” <br><b>Brian Dyson</b>
-                        </p>
+            <!-- <div class="row"> -->
+            <div class="col-lg-12 mb-4 order-0">
+              <div class="card">
+                <div class="d-flex align-items-end row">
+                  <div class="col-sm-7">
+                    <div class="card-body">
+                      <h5 class="card-title text-primary">Heii, welcome <?= $activeUser ?> 🎉</h5>
+                      <p class="mb-4">
+                        “Don’t give up when you still have something to give. Nothing is really over until the moment you stop trying” <br><b>Brian Dyson</b>
+                      </p>
 
-                      </div>
                     </div>
-                    <div class="col-sm-5 text-center text-sm-left">
-                      <div class="card-body pb-0 px-0 px-md-4">
-                        <img src="assets/img/illustrations/man-with-laptop-light.png" width="70%" data-app-dark-img="illustrations/man-with-laptop-light.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
-                      </div>
+                  </div>
+                  <div class="col-sm-5 text-center text-sm-left">
+                    <div class="card-body pb-0 px-0 px-md-4">
+                      <img src="assets/img/illustrations/man-with-laptop-light.png" width="70%" data-app-dark-img="illustrations/man-with-laptop-light.png" data-app-light-img="illustrations/man-with-laptop-light.png" />
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="row">
-                <div class="col-6 col-lg-6 order-2 order-md-3 order-lg-2 mb-4">
-                  <div class="card">
-                    <div class="row row-bordered g-0">
-                      <div class="col-md-8">
-                        <h5 class="card-header m-0 me-2 pb-3">Best Seller👑</h5>
-                        <div class="text-center">
-                          <img src="<?= $imgMotorTerlaris ?>" width="70%">
-                        </div>
+            <div class="row">
+              <div class="col-6 col-lg-6 order-2 order-md-3 order-lg-2 mb-4">
+                <div class="card">
+                  <div class="row row-bordered g-0">
+                    <div class="col-md-8">
+                      <h5 class="card-header m-0 me-2 pb-3">Best Seller👑</h5>
+                      <div class="text-center">
+                        <img src="<?= $imgMotorTerlaris ?>" width="70%">
                       </div>
-                      <div class="col-md-4">
-                        <div class="card-body">
-                          <div class="text-center">
-                            <h1></h1>
-                            <h4><?= $namaMotorTerlaris ?></h4>
-                            <h1><?= $totalTerlaris ?></h1>
-                            <h5>Terjual</h5>
-                            <h1></h1>
-                            <!-- <h1></h1>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card-body">
+                        <div class="text-center">
+                          <h1></h1>
+                          <h4><?= $namaMotorTerlaris ?></h4>
+                          <h1><?= $totalTerlaris ?></h1>
+                          <h5>Terjual</h5>
+                          <h1></h1>
+                          <!-- <h1></h1>
                             <h4>Vespa Primavera</h4>
                             <h1>50</h1>
                             <h5>Terjual</h5>
                             <h1></h1> -->
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-6 col-lg-6 order-2 order-md-3 order-lg-2 mb-4">
-                  <div class="card">
-                    <div class="row row-bordered g-0">
-                      <div class="col-md-8">
-                        <h5 class="card-header m-0 me-2 pb-3">Stock Terbanyak📦</h5>
-                        <div class="text-center">
-                          <img src="<?= $imgMotorTerbanyak ?>" width="70%">
-                        </div>
+              </div>
+              <div class="col-6 col-lg-6 order-2 order-md-3 order-lg-2 mb-4">
+                <div class="card">
+                  <div class="row row-bordered g-0">
+                    <div class="col-md-8">
+                      <h5 class="card-header m-0 me-2 pb-3">Stock Terbanyak📦</h5>
+                      <div class="text-center">
+                        <img src="<?= $imgMotorTerbanyak ?>" width="70%">
                       </div>
-                      <div class="col-md-4">
-                        <div class="card-body ">
-                          <div class="text-center">
-                            <h1></h1>
-                            <h4><?= $namaMotorTerbanyak ?></h4>
-                            <h1><?= $stockMotorTerbanyak ?></h1>
-                            <h5>Stock</h5>
-                            <h1></h1>
-                            <!-- <h1></h1>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="card-body ">
+                        <div class="text-center">
+                          <h1></h1>
+                          <h4><?= $namaMotorTerbanyak ?></h4>
+                          <h1><?= $stockMotorTerbanyak ?></h1>
+                          <h5>Stock</h5>
+                          <h1></h1>
+                          <!-- <h1></h1>
                             <h4>Vespa Primavera</h4>
                             <h1>100</h1>
                             <h5>Stock</h5>
                             <h1></h1> -->
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="row">
-                <!-- Total Terjual -->
-                <div class="col-4 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img src="assets/img/icons/icon_penjualan.png" alt="Penjualan" class="rounded" />
-                        </div>
-                        <div class="dropdown">
-                          <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                            <a class="dropdown-item" href="transaksiOffline">View More</a>
-                            <!-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> -->
-                          </div>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">Total Penjualan</span>
-                      <h4 class="card-title mb-2"><?= getTotalPenjualan($conn) ?> Motor</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Total Pendapatan -->
-                <div class="col-4 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img src="assets/img/icons/icon_pendapatan.png" alt=" Pendapatan" class="rounded" />
-                        </div>
-                        <div class="dropdown">
-                          <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                            <a class="dropdown-item" href="transaksiOffline">View More</a>
-                            <!-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> -->
-                          </div>
-                        </div>
-                      </div>
-                      <span class="fw-semibold d-block mb-1">Total Pendapatan</span>
-                      <h4 class="card-title mb-2"><?= rupiah(getTotalPendapatan($conn)) ?></h4>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Total Pelanggan -->
-                <div class="col-4 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img src="assets/img/icons/icon_pelanggan.png" alt="Pelanggan" class="rounded" />
-                        </div>
-                        <div class="dropdown">
-                          <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="pelanggan">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="d-block mb-1">Total Pelanggan</span>
-                      <h4 class="card-title text-nowrap mb-2"><?= getTotalPelanggan($conn) ?> Pelanggan</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Total Supplier -->
-                <div class="col-4 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img src="assets/img/icons/icon_supplier.png" alt="Supplier" class="rounded" />
-                        </div>
-                        <div class="dropdown">
-                          <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="supplier">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="d-block mb-1">Total Supllier</span>
-                      <h4 class="card-title text-nowrap mb-2"><?= getTotalSupplier($conn) ?> Supplier</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-4 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img src="assets/img/icons/icon_motor.png" alt="Motor" class="rounded" />
-                        </div>
-                        <div class="dropdown">
-                          <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="stockMotor">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="d-block mb-1">Total Motor</span>
-                      <h4 class="card-title text-nowrap mb-2"><?= getTotalMotor($conn) ?> Motor</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-4 mb-4">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="card-title d-flex align-items-start justify-content-between">
-                        <div class="avatar flex-shrink-0">
-                          <img src="assets/img/icons/icon_karyawan.png" alt="Karyawan" class="rounded" />
-                        </div>
-                        <div class="dropdown">
-                          <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                            <a class="dropdown-item" href="karyawan">View More</a>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="d-block mb-1">Total Karyawan</span>
-                      <h4 class="card-title text-nowrap mb-2"><?= getTotalKaryawan($conn) ?> Karyawan</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
             </div>
+
+            <div class="row">
+              <!-- Total Terjual -->
+              <div class="col-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="assets/img/icons/icon_penjualan.png" alt="Penjualan" class="rounded" />
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="cardOpt1">
+                          <a class="dropdown-item" href="transaksiOffline">View More</a>
+                          <!-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> -->
+                        </div>
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Total Penjualan</span>
+                    <h4 class="card-title mb-2"><?= getTotalPenjualan($conn) ?> Motor</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total Pendapatan -->
+              <div class="col-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="assets/img/icons/icon_pendapatan.png" alt=" Pendapatan" class="rounded" />
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="cardOpt1">
+                          <a class="dropdown-item" href="transaksiOffline">View More</a>
+                          <!-- <a class="dropdown-item" href="javascript:void(0);">Delete</a> -->
+                        </div>
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Total Pendapatan</span>
+                    <h4 class="card-title mb-2"><?= rupiah(getTotalPendapatan($conn)) ?></h4>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total Pelanggan -->
+              <div class="col-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="assets/img/icons/icon_pelanggan.png" alt="Pelanggan" class="rounded" />
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                          <a class="dropdown-item" href="pelanggan">View More</a>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="d-block mb-1">Total Pelanggan</span>
+                    <h4 class="card-title text-nowrap mb-2"><?= getTotalPelanggan($conn) ?> Pelanggan</h4>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Total Supplier -->
+              <div class="col-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="assets/img/icons/icon_supplier.png" alt="Supplier" class="rounded" />
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                          <a class="dropdown-item" href="supplier">View More</a>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="d-block mb-1">Total Supllier</span>
+                    <h4 class="card-title text-nowrap mb-2"><?= getTotalSupplier($conn) ?> Supplier</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="assets/img/icons/icon_motor.png" alt="Motor" class="rounded" />
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                          <a class="dropdown-item" href="stockMotor">View More</a>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="d-block mb-1">Total Motor</span>
+                    <h4 class="card-title text-nowrap mb-2"><?= getTotalMotor($conn) ?> Motor</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img src="assets/img/icons/icon_karyawan.png" alt="Karyawan" class="rounded" />
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                          <a class="dropdown-item" href="karyawan">View More</a>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="d-block mb-1">Total Karyawan</span>
+                    <h4 class="card-title text-nowrap mb-2"><?= getTotalKaryawan($conn) ?> Karyawan</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- </div> -->
           </div>
           <!-- / Content -->
 

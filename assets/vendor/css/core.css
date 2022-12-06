@@ -1,8 +1,8 @@
 @charset "UTF-8";
 :root {
-  --bs-blue: #007bff;
-  --bs-indigo: #6610f2;
-  --bs-purple: #696cff;
+  --bs-blue: #20c997;
+  --bs-indigo: #20c997;
+  --bs-purple: #20c997;
   --bs-pink: #e83e8c;
   --bs-red: #ff3e1d;
   --bs-orange: #fd7e14;
@@ -62,6 +62,18 @@
   :root {
     scroll-behavior: smooth;
   }
+}
+
+.carousel .item {
+  height: 200;
+}
+
+.item img {
+    position: absolute;
+    object-fit:cover;
+    top: 0;
+    left: 0;
+    min-height: 500px;
 }
 
 body {
@@ -224,7 +236,7 @@ sup {
 }
 
 a {
-  color: #696cff;
+  color: #20c997;
   text-decoration: none;
 }
 a:hover {
@@ -2792,7 +2804,7 @@ textarea.form-control-lg {
 
 .btn-link {
   font-weight: 400;
-  color: #696cff;
+  color: #20c997;
   text-decoration: none;
 }
 .btn-link:hover {

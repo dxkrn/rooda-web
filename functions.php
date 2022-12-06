@@ -179,3 +179,15 @@ function getDataStockMotorTerbanyak($conn)
         return $row; // ['nama', 'stock', 'img_src']
     }
 }
+
+//GET MOTOR TERMURAH
+function getDataMotorTermurah($conn)
+{
+    $sql = 'SELECT nama, harga, img_src FROM tb_motor ORDER BY(harga) ASC LIMIT 1';
+
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row; // ['nama', 'harga', 'img_src']
+    }
+}
