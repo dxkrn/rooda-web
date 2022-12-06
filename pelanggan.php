@@ -76,17 +76,16 @@ if (isset($_POST['submitEditData'])) {
   $telp = $_POST['telp'];
   $tgl_lahir = $_POST['tgl_lahir'];
   $alamat = $_POST['alamat'];
-  $posisi = $_POST['posisi'];
-  $gaji = $_POST['gaji'];
+  $nik = $_POST['nik'];
 
-  $editQuery = "UPDATE tb_pelanggan SET nama='$nama', jenis_kelamin='$jenis_kelamin', telp='$telp', tgl_lahir='$tgl_lahir', alamat='$alamat', posisi='$posisi', gaji='$gaji' WHERE id_pelanggan='$id_pelanggan'";
+  $editQuery = "UPDATE tb_pelanggan SET nama='$nama', nik='$nik', jenis_kelamin='$jenis_kelamin', telp='$telp', tgl_lahir='$tgl_lahir', alamat='$alamat' WHERE id_pelanggan='$id_pelanggan'";
 
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
     header('refresh:0; url=pelanggan');
-    echo "<script>alert('Yeay, Edit pelanggan berhasil!')</script>";
+    echo "<script>alert('Yeay, Edit Pelanggan berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Edit pelanggan gagal!')</script>";
+    echo "<script>alert('Yahh :( Edit Pelanggan gagal!')</script>";
     // header('location:stock.php');
   }
 }
@@ -100,9 +99,9 @@ if (isset($_POST['submitHapus'])) {
   $delData =  mysqli_query($conn, "DELETE FROM tb_pelanggan WHERE id_pelanggan='$id_pelanggan'");
 
   if ($delData) {
-    echo "<script>alert('Yeay, Hapus pelanggan berhasil!')</script>";
+    echo "<script>alert('Yeay, Hapus Pelanggan berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Hapus pelanggan gagal!')</script>";
+    echo "<script>alert('Yahh :( Hapus Pelanggan gagal!')</script>";
   }
 }
 

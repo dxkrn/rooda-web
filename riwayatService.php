@@ -14,7 +14,7 @@ session_start();
 
 $activeUser = $_SESSION['username'];
 if ($activeUser == "") {
-    $activeUser = "Not Login";
+    $activeUser = "Not Loged in";
     $buttonName = "Login Now";
     $buttonHref = "login";
     $roleName = "";
@@ -122,7 +122,7 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="dashboard" class="app-brand-link">
+                    <a href="dashboardPelanggan" class="app-brand-link">
                         <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>
@@ -140,6 +140,12 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
                         <a href="dashboardPelanggan" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home"></i>
                             <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="dataDiri" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <div data-i18n="Analytics">Data Diri</div>
                         </a>
                     </li>
                     <li class="menu-item ">

@@ -14,7 +14,7 @@ session_start();
 
 $activeUser = $_SESSION['username'];
 if ($activeUser == "") {
-    $activeUser = "Not Login";
+    $activeUser = "Not Loged in";
     $buttonName = "Login Now";
     $buttonHref = "login";
     $roleName = "";
@@ -137,7 +137,7 @@ if ($_POST['search_value'] == '') {
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="dashboard" class="app-brand-link">
+                    <a href="dashboardPelanggan" class="app-brand-link">
                         <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>
@@ -157,6 +157,12 @@ if ($_POST['search_value'] == '') {
                         echo '<a href="dashboardPelanggan" class="menu-link">';
                         echo '<i class="menu-icon tf-icons bx bx-home"></i>';
                         echo '<div data-i18n="Analytics">Dashboard</div>';
+                        echo '</a>';
+                        echo '</li>';
+                        echo '<li class="menu-item">';
+                        echo '<a href="dataDiri" class="menu-link">';
+                        echo '<i class="menu-icon tf-icons bx bx-user"></i>';
+                        echo '<div data-i18n="Analytics">Data Diri</div>';
                         echo '</a>';
                         echo '</li>';
                         echo '<li class="menu-item">';

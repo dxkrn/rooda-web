@@ -15,7 +15,7 @@ session_start();
 $activeUser = $_SESSION['username'];
 $id_pelanggan = getIDPelanggan($conn, $activeUser);
 if ($activeUser == "") {
-    $activeUser = "Not Login";
+    $activeUser = "Not Loged in";
     $buttonName = "Login Now";
     $buttonHref = "login";
     $roleName = "";
@@ -120,7 +120,7 @@ if ($_POST['search_value'] == '') {
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="dashboard" class="app-brand-link">
+                    <a href="dashboardPelanggan" class="app-brand-link">
                         <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>
@@ -138,6 +138,12 @@ if ($_POST['search_value'] == '') {
                         <a href="dashboardPelanggan" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home"></i>
                             <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="dataDiri" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user"></i>
+                            <div data-i18n="Analytics">Data Diri</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -227,12 +233,19 @@ if ($_POST['search_value'] == '') {
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
+                                    <!-- <li>
+                                        <a class="dropdown-item" href="dataDiri">
+                                            <i class="bx bx-user me-2"></i>
+                                            <span class="align-middle">Data Diri</span>
+                                        </a>
+                                    </li> -->
                                     <li>
                                         <a class="dropdown-item" href="<?= $buttonHref ?>.php">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle"><?= $buttonName ?></span>
                                         </a>
                                     </li>
+
                                 </ul>
                             </li>
                             <!--/ User -->

@@ -1,30 +1,57 @@
 <?php
 
 include 'config.php';
+include 'functions.php';
 
 error_reporting(0);
 
 session_start();
 
-if (isset($_POST['submitLogin'])) {
+if (isset($_POST['submitDaftar'])) {
+  $username = $_POST['username'];
   $email = $_POST['email'];
   $password = md5($_POST['password']);
+  $repassword = md5($_POST['re_password']);
 
-  $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+  $sql = "SELECT * FROM users WHERE email='$email' OR name='$username'";
   $result = mysqli_query($conn, $sql);
   if ($result->num_rows > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $_SESSION['id'] = $row['id'];
-    $_SESSION['username'] = $row['name'];
-    $_SESSION['email'] = $row['email'];
-    $_SESSION['role'] = $row['role'];
-    if ($_SESSION['role'] == "admin") {
-      header("Location: dashboard");
-    } else {
-      header("Location: dashboardPelanggan");
-    }
+    echo "<script>alert('Username atau Email telah terdaftar. Silahkan coba lagi!')</script>";
   } else {
-    echo "<script>alert('Email  atau password Anda salah. Silahkan coba lagi!')</script>";
+    if ($password != $repassword) {
+      echo "<script>alert('Password Anda tidak cocok. Silahkan coba lagi!')</script>";
+    } else {
+      $id_pelanggan = getLastID($conn, 'tb_pelanggan', 'id_pelanggan', 'PG');
+      $id_user = getLastUser($conn);
+      // $nama = $_POST['nama'];
+      // $username = createUsername($_POST['email']);
+      // $password = md5($username);
+      // $nik = $_POST['nik'];
+      // $jenis_kelamin = $_POST['jenis_kelamin'];
+      // $email = $_POST['email'];
+      // $telp = $_POST['telp'];
+      // $tgl_lahir = $_POST['tgl_lahir'];
+      // $alamat = $_POST['alamat'];
+      $insertUserQuery = "INSERT INTO users (id, name, email, password)
+                      VALUES ('$id_user','$username','$email','$password')";
+
+      $insertPelangganQuery = "INSERT INTO tb_pelanggan (id_pelanggan, id_user, nama, nik, jenis_kelamin, telp, tgl_lahir, alamat) 
+                  VALUES ('$id_pelanggan', '$id_user' , ' ', ' ', ' ', ' ',' ', ' ')";
+      // $insertPelangganQuery = "INSERT INTO tb_pelanggan (id_pelanggan, id_user, nama, nik, jenis_kelamin, telp, tgl_lahir, alamat) 
+      //             VALUES ('$id_pelanggan', '$id_user' , '$nama', '$nik', '$jenis_kelamin', '$telp','$tgl_lahir', '$alamat')";
+
+      $addUser = mysqli_query($conn, $insertUserQuery);
+      if ($addUser) {
+        $addPelanggan = mysqli_query($conn, $insertPelangganQuery);
+        if ($addPelanggan) {
+          header('refresh:0; url=pelanggan');
+          echo "<script>alert('Yeay, Akun berhasil terdaftar.')</script>";
+        }
+      } else {
+        echo "<script>alert('Yahh :( Akun gagal terdaftar.')</script>";
+        // header('location:stock.php');
+      }
+    }
   }
 }
 
@@ -37,7 +64,7 @@ if (isset($_POST['submitLogin'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Login - Rooda</title>
+  <title>Daftar - Rooda</title>
 
   <meta name="description" content="" />
 
@@ -90,30 +117,41 @@ if (isset($_POST['submitLogin'])) {
             </div>
             <!-- /Logo -->
             <h4 class="mb-2">Welcome to Rooda! </h4>
-            <p class="mb-4">Silahkan masuk dengan Email dan Password</p>
+            <p class="mb-4">Silahkan daftar dengan menggunakan Email</p>
 
             <form class="mb-3" method="POST">
               <div class="mb-3">
+                <label for="email" class="form-label">Username</label>
+                <input required type="text" class="form-control" name="username" placeholder=" Username" autofocus />
+              </div>
+              <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input required type="email" class="form-control" name="email" placeholder="Email Anda" autofocus />
-
               </div>
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
                   <label class="form-label" for="password">Password</label>
-
                 </div>
                 <div class="input-group input-group-merge">
                   <input required type="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
               </div>
-              <button class="btn btn-primary d-grid w-100" type="submit" name="submitLogin">Login</button>
+              <div class="mb-3 form-password-toggle">
+                <div class="d-flex justify-content-between">
+                  <label class="form-label" for="password">Re-Password</label>
+                </div>
+                <div class="input-group input-group-merge">
+                  <input required type="password" class="form-control" name="re_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+              <button class="btn btn-primary d-grid w-100" type="submit" name="submitDaftar">Daftar</button>
             </form>
             <p class="text-center">
-              <span>Belum punya akun?</span>
-              <a href="signup">
-                <span>Daftar</span>
+              <span>Sudah punya akun?</span>
+              <a href="login">
+                <span>Masuk</span>
               </a>
             </p>
           </div>

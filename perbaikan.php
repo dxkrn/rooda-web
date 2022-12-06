@@ -777,7 +777,7 @@ if (isset($_POST['submitHapus'])) {
                   $ambil_data_pelanggan = mysqli_query(
                     $conn,
                     "SELECT id_pelanggan, nama AS nama_pelanggan, telp
-                    FROM tb_pelanggan ORDER BY nama"
+                    FROM tb_pelanggan  WHERE nama <> '' ORDER BY nama"
                   );
 
                   while ($data = mysqli_fetch_array($ambil_data_pelanggan)) {
