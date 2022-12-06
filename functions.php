@@ -55,6 +55,14 @@ function getLastUser($conn)
     return $id;
 }
 
+function getIDPelanggan($conn, $username)
+{
+    $sql = mysqli_query($conn, "SELECT pg.id_pelanggan FROM tb_pelanggan pg JOIN users us WHERE pg.id_user=us.id AND us.name='$username'");
+    $data = mysqli_fetch_array($sql);
+    $id = $data['id_pelanggan'];
+    return $id;
+}
+
 function createUsername($email)
 {
     return preg_replace("/@gmail.com/", "", $email);

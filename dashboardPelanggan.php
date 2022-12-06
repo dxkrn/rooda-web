@@ -13,6 +13,7 @@ session_start();
 // }
 
 $activeUser = $_SESSION['username'];
+$id_pelanggan = getIDPelanggan($conn, $activeUser);
 if ($activeUser == "") {
     $activeUser = "Not Login";
     $buttonName = "Login Now";
@@ -25,18 +26,42 @@ if ($activeUser == "") {
     $roleName = $_SESSION['role'];
 }
 
-//Inisialisasi nilai POST untuk sorting
-if ($_POST['sort_by'] == '') {
-    $sortBy = 'nama_sparepart';
-    $sortType = 'ASC';
-    $_POST['sort_by'] = $sortBy;
-    $_POST['sort_type'] = $sortType;
+//Inisialisasi nilai POST untuk filter
+if ($_POST['filter_merk'] == '') {
+    $filterMerk = '';
+    $_POST['filter_merk'] = $filterMerk;
+    $_POST['filter_merk_placeholder'] = "Semua";
+} else {
+    $_POST['filter_merk_placeholder'] = $_POST['filter_merk'];
 }
+
+if ($_POST['filter_jenis'] == '') {
+    $filterJenis = '';
+    $_POST['filter_jenis'] = $filterJenis;
+    $_POST['filter_jenis_placeholder'] = "Semua";
+} else {
+    $_POST['filter_jenis_placeholder'] = $_POST['filter_jenis'];
+}
+
+if ($_POST['sort_harga'] == '') {
+    $sortHarga = 'ASC';
+    $_POST['sort_harga'] = $sortHarga;
+    $_POST['sort_harga_placeholder'] = "Termurah";
+} else if ($_POST['sort_harga'] == 'ASC') {
+    $sortHarga = 'ASC';
+    $_POST['sort_harga'] = $sortHarga;
+    $_POST['sort_harga_placeholder'] = "Termurah";
+} else if ($_POST['sort_harga'] == 'DESC') {
+    $sortHarga = 'DESC';
+    $_POST['sort_harga'] = $sortHarga;
+    $_POST['sort_harga_placeholder'] = "Termahal";
+}
+
 
 //Inisialisasi nilai POST untuk searching
 if ($_POST['search_value'] == '') {
     $searchValue = '';
-    $placeHolder = "Coba 'oli'";
+    $placeHolder = "Coba 'Vario'";
 } else {
     $searchValue = $_POST['search_value'];
     $placeHolder = '';
@@ -51,7 +76,7 @@ if ($_POST['search_value'] == '') {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Katalog Sparepart - Rooda</title>
+    <title>Dashboard Pelanggan - Rooda</title>
 
     <meta name="description" content="" />
 
@@ -109,36 +134,32 @@ if ($_POST['search_value'] == '') {
 
                 <ul class="menu-inner py-1">
                     <!-- NOTE : Dashboard -->
-
-                    <li class="menu-item ">
+                    <li class="menu-item active">
+                        <a href="dashboardPelanggan" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="riwayatPembelian" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-detail"></i>
+                            <div data-i18n="Analytics">Riwayat Pembelian</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="RiwayatService" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-detail"></i>
+                            <div data-i18n="Analytics">Riwayat Service</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
                         <a href="katalogMotor" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-box"></i>
                             <div data-i18n="Analytics">Katalog Motor</div>
                         </a>
                     </li>
-                    <?php
-                    if (strlen($activeUser) != 0) {
-                        echo '<li class="menu-item">';
-                        echo '<a href="dashboardPelanggan" class="menu-link">';
-                        echo '<i class="menu-icon tf-icons bx bx-home"></i>';
-                        echo '<div data-i18n="Analytics">Dashboard</div>';
-                        echo '</a>';
-                        echo '</li>';
-                        echo '<li class="menu-item">';
-                        echo '<a href="riwayatPembelian" class="menu-link">';
-                        echo '<i class="menu-icon tf-icons bx bx-detail"></i>';
-                        echo '<div data-i18n="Analytics">Riwayat Pembelian</div>';
-                        echo '</a>';
-                        echo '</li>';
-                        echo '<li class="menu-item">';
-                        echo '<a href="RiwayatService" class="menu-link">';
-                        echo '<i class="menu-icon tf-icons bx bx-detail"></i>';
-                        echo '<div data-i18n="Analytics">Riwayat Service</div>';
-                        echo '</a>';
-                        echo '</li>';
-                    }
-                    ?>
-                    <li class="menu-item active">
+
+                    <li class="menu-item">
                         <a href="katalogSparepart" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-package"></i>
                             <div data-i18n="Analytics">Katalog Sparepart</div>
@@ -172,7 +193,7 @@ if ($_POST['search_value'] == '') {
                             <table>
                                 <tr>
                                     <td>
-                                        <h3>Katalog Sparepart</h3>
+                                        <h3>Motor Anda</h3>
                                     </td>
                                 </tr>
                             </table>
@@ -230,6 +251,7 @@ if ($_POST['search_value'] == '') {
 
                         </div>
 
+
                         <div class="card mb-4">
                             <div class="d-flex align-items-end row">
                                 <div class="card-body">
@@ -237,17 +259,29 @@ if ($_POST['search_value'] == '') {
                                         <div class="col-md-7">
                                             <form method="POST">
                                                 <div class="input-group">
-                                                    <select class="form-select" id="" aria-label="Example select with button addon" name="sort_by">
-                                                        <option selected value="<?= $_POST['sort_by'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['sort_by'])) ?></option>
-                                                        <option value="nama_sparepart">Nama Sparepart</option>
-                                                        <option value="harga">Harga</option>
+                                                    <select class="form-select" id="" aria-label="Example select with button addon" name="filter_merk">
+                                                        <option selected value="<?= $_POST['filter_merk'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['filter_merk_placeholder'])) ?></option>
+                                                        <option value="">Semua</option>
+                                                        <option value="honda">Honda</option>
+                                                        <option value="vespa">Vespa</option>
+                                                        <option value="yamaha">Yamaha</option>
                                                     </select>
-                                                    <select class="form-select" id="inputGroupSelect04" name="sort_type">
-                                                        <option selected value="<?= $_POST['sort_type'] ?>"><?= $_POST['sort_type'] ?>ENDING</option>
-                                                        <option value="ASC">Ascending</option>
-                                                        <option value="DESC">Descending</option>
+                                                    <select class="form-select" id="inputGroupSelect04" name="filter_jenis">
+                                                        <option selected value="<?= $_POST['filter_jenis'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['filter_jenis_placeholder'])) ?></option>
+                                                        <option value="">Semua</option>
+                                                        <option value="matic">Matic</option>
+                                                        <option value="cub">Cub</option>
+                                                        <option value="sport">Sport</option>
+                                                        <option value="naked">Naked</option>
+                                                        <option value="offroad">Offroad</option>
+
                                                     </select>
-                                                    <button class="btn btn-primary" type="submit" name="submitSort">Sort</button>
+                                                    <select class="form-select" id="inputGroupSelect04" name="sort_harga">
+                                                        <option selected value="<?= $_POST['sort_harga'] ?>"><?= strtoupper($_POST['sort_harga_placeholder']) ?></option>
+                                                        <option value="ASC">Termurah</option>
+                                                        <option value="DESC">Termahal</option>
+                                                    </select>
+                                                    <button class="btn btn-primary" type="submit" name="submitFilter">Filter</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -269,42 +303,76 @@ if ($_POST['search_value'] == '') {
                         <!-- <div class="row"> -->
                         <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
                             <?php
-                            if (isset($_POST['submitSort'])) {
-                                $sortBy = $_POST['sort_by'];
-                                $sortType = $_POST['sort_type'];
-                                header('refresh:0; url=stockSparepart');
+
+                            if (isset($_POST['submitFilter'])) {
+                                $filterMerk = $_POST['filter_merk'];
+                                $filterJenis = $_POST['filter_jenis'];
+                                $sortHarga = $_POST['sort_harga'];
+                                header('refresh:0; url=stockMotor');
                             }
 
                             if (isset($_POST['submitSearch'])) {
                                 $searchValue = $_POST['search_value'];
-                                header('refresh:0; url=stockSparepart');
+                                header('refresh:0; url=stockMotor');
                             }
 
-                            $ambil_data = mysqli_query(
+                            $ambil_data_stock = mysqli_query(
                                 $conn,
-                                "SELECT *
-                                    FROM tb_sparepart
-                                    WHERE nama_sparepart LIKE '%$searchValue%'
-                                        AND nama_sparepart <> 'tanpa sparepart'
-                                    ORDER BY $sortBy $sortType
-                                "
+                                "SELECT tr.id_pelanggan, mt.id_motor, mt.img_src, mt.nama, mr.nama_merk, jm.nama_jenis_motor, mt.harga, mt.stock, mt.persentase_laba, mt.persentase_sparepart, mt.description,
+                                        sp.tipe_mesin, sp.volume_silinder, sp.tipe_transmisi, sp.kapasitas_bbm, mt.img_src
+                                        FROM tb_motor mt
+                                        JOIN tb_merk mr
+                                        USING(id_merk)
+                                        JOIN tb_jenis_motor jm
+                                        USING(id_jenis_motor)
+                                        JOIN tb_spesifikasi sp
+                                        USING(id_motor)
+                                        JOIN tb_detail_transaksi dt
+                                        USING(id_motor)
+                                        JOIN tb_transaksi tr
+                                        USING(id_transaksi)
+                                        WHERE id_pelanggan = '$id_pelanggan'
+                                            AND nama_merk LIKE '%$filterMerk%'
+                                                AND nama_jenis_motor LIKE '%$filterJenis%'
+                                            HAVING nama LIKE '%$searchValue%'
+                                                OR nama_merk LIKE '%$searchValue%'
+                                                OR nama_jenis_motor LIKE '%$searchValue%'
+                                        --     OR harga LIKE '%$searchValue%' OR stock LIKE '%$searchValue%'
+                                        --     OR tipe_mesin LIKE '%$searchValue%' OR volume_silinder LIKE '%$searchValue%'
+                                        --     OR tipe_transmisi LIKE '%$searchValue%' OR kapasitas_bbm LIKE '%$searchValue%'
+                                          ORDER BY harga $sortHarga
+                                        --   LIMIT $limitValue
+                                            "
                             );
 
-                            while ($data = mysqli_fetch_array($ambil_data)) {
-                                $nama = $data['nama_sparepart'];
-                                $harga = $data['harga'];
+                            while ($data = mysqli_fetch_array($ambil_data_stock)) {
+                                $id_motor = $data['id_motor'];
                                 $img_src = $data['img_src'];
-
+                                $nama = $data['nama'];
+                                $nama_merk = $data['nama_merk'];
+                                $nama_jenis_motor = $data['nama_jenis_motor'];
+                                $harga = $data['harga'];
+                                $tipe_mesin = $data['tipe_mesin'];
+                                $volume_silinder = $data['volume_silinder'];
+                                $tipe_transmisi = $data['tipe_transmisi'];
+                                $kapasitas_bbm = $data['kapasitas_bbm'];
+                                $persentase_laba = $data['persentase_laba'];
+                                $description = $data['description'];
+                                $img_src = $data['img_src'];
                             ?>
                                 <div class="col">
                                     <div class="card h-100 text-center">
                                         <div class="card-body">
-                                            <img class="card-img-tops mb-2" src="<?= $img_src ?>" alt="Sparepart <?= $nama ?>" width="90%" />
-                                            <br><br><br><br><br><br><br><br>
+                                            <img class="card-img-tops mb-2" src="<?= $img_src ?>" alt="Motor <?= $nama ?>" width="90%" />
+                                            <h4 class="card-title "><?= $nama ?></h4>
+                                            <h5 class="card-title " style="color: #5F61E6;"><?= rupiah($harga) ?></h5>
+                                            <p class="card-text text-truncate">
+                                                <?= $description ?>
+                                            </p>
+                                            <br>
+                                            <br>
                                             <div class="position-absolute bottom-0 start-50 translate-middle">
-                                                <h4 class="card-title "><?= $nama ?></h4>
-                                                <p>Start From</p>
-                                                <h5 class="card-title " style="color: #5F61E6;"><?= rupiah($harga) ?></h5>
+                                                <button type="button" name="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal<?= $id_motor; ?>">Spesifikasi</button>
                                             </div>
                                         </div>
                                     </div>

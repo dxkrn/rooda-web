@@ -21,7 +21,7 @@ if (isset($_POST['submitLogin'])) {
     if ($_SESSION['role'] == "admin") {
       header("Location: dashboard");
     } else {
-      header("Location: katalog");
+      header("Location: dashboardPelanggan");
     }
   } else {
     echo "<script>alert('Email  atau password Anda salah. Silahkan coba lagi!')</script>";

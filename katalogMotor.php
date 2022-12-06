@@ -12,7 +12,18 @@ session_start();
 //     exit();
 // }
 
-// $activeUser = $_SESSION['username'];
+$activeUser = $_SESSION['username'];
+if ($activeUser == "") {
+    $activeUser = "Not Login";
+    $buttonName = "Login Now";
+    $buttonHref = "login";
+    $roleName = "";
+} else {
+    $activeUser = $_SESSION['username'];;
+    $buttonName = "Log Out";
+    $buttonHref = "logout";
+    $roleName = $_SESSION['role'];
+}
 
 //get ID Motor Terlaris
 $motorTerlaris = getIDMotorTerlaris($conn);
@@ -140,6 +151,28 @@ if ($_POST['search_value'] == '') {
 
                 <ul class="menu-inner py-1">
                     <!-- NOTE : Dashboard -->
+                    <?php
+                    if ($activeUser != "") {
+                        echo '<li class="menu-item">';
+                        echo '<a href="dashboardPelanggan" class="menu-link">';
+                        echo '<i class="menu-icon tf-icons bx bx-home"></i>';
+                        echo '<div data-i18n="Analytics">Dashboard</div>';
+                        echo '</a>';
+                        echo '</li>';
+                        echo '<li class="menu-item">';
+                        echo '<a href="riwayatPembelian" class="menu-link">';
+                        echo '<i class="menu-icon tf-icons bx bx-detail"></i>';
+                        echo '<div data-i18n="Analytics">Riwayat Pembelian</div>';
+                        echo '</a>';
+                        echo '</li>';
+                        echo '<li class="menu-item">';
+                        echo '<a href="RiwayatService" class="menu-link">';
+                        echo '<i class="menu-icon tf-icons bx bx-detail"></i>';
+                        echo '<div data-i18n="Analytics">Riwayat Service</div>';
+                        echo '</a>';
+                        echo '</li>';
+                    }
+                    ?>
                     <li class="menu-item active">
                         <a href="katalogMotor" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-box"></i>
@@ -207,7 +240,7 @@ if ($_POST['search_value'] == '') {
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span class="fw-semibold d-block"><?= $activeUser ?></span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <small class="text-muted"><?= $roleName ?></small>
                                                 </div>
                                             </div>
                                         </a>
@@ -215,34 +248,10 @@ if ($_POST['search_value'] == '') {
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
-                                    <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li> -->
-                                    <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li> -->
-                                    <!-- <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li> -->
-                                    <!-- <li>
-                      <div class="dropdown-divider"></div>
-                    </li> -->
                                     <li>
-                                        <a class="dropdown-item" href="logout.php">
+                                        <a class="dropdown-item" href="<?= $buttonHref ?>.php">
                                             <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Log Out</span>
+                                            <span class="align-middle"><?= $buttonName ?></span>
                                         </a>
                                     </li>
                                 </ul>
