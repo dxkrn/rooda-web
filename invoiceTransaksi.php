@@ -21,6 +21,33 @@ $telp_karyawan = $_POST['telp_karyawan'];
 
 $total_transaksi = 0;
 
+if (isset($_POST['submitUbahStatus'])) {
+  $id_transaksi = $_POST['id_transaksi'];
+  $id_motor = $_POST['id_motor'];
+  $status = $_POST['status'];
+
+  $ubahStatus = mysqli_query($conn, "UPDATE tb_detail_transaksi SET status='$status' WHERE id_transaksi='$id_transaksi' AND id_motor='$id_motor'");
+
+  if ($ubahStatus) {
+    header('refresh:0; url=invoiceTransaksi');
+    echo "<script>alert('Yeay, Ubah Status berhasil!')</script>";
+  } else {
+    echo "<script>alert('Yeay, Ubah Status berhasil!')</script>";
+  }
+}
+
+if (isset($_POST['submitHapusDetail'])) {
+
+  $id_transaksi = $_POST['id_transaksi'];
+  $id_motor = $_POST['id_motor'];
+
+  $hapusDetail = mysqli_query($conn, "DELETE FROM tb_detail_transaksi WHERE id_transaksi='$id_transaksi' AND id_motor='$id_motor'");
+  if ($hapusDetail) {
+    echo "<script>alert('Yeay, hapus detail berhasil!')</script>";
+  } else {
+    echo "<script>alert('Yeay, hapus detail gagal!')</script>";
+  }
+}
 
 ?>
 
@@ -120,6 +147,7 @@ $total_transaksi = 0;
                   <th scope="col">Jumlah</th>
                   <th scope="col">Total</th>
                   <th scope="col">Status</th>
+                  <th class="noPrint" scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -127,7 +155,7 @@ $total_transaksi = 0;
                 <?php
                 $ambil_data_detail = mysqli_query(
                   $conn,
-                  "SELECT dt.jumlah, dt.status, mt.nama AS nama_motor, mt.harga
+                  "SELECT dt.jumlah, dt.status, dt.id_motor, mt.nama AS nama_motor, mt.harga
                   FROM tb_detail_transaksi dt
                   JOIN tb_motor mt
                   USING(id_motor)
@@ -136,6 +164,7 @@ $total_transaksi = 0;
                 );
 
                 while ($data = mysqli_fetch_array($ambil_data_detail)) {
+                  $id_motor = $data['id_motor'];
                   $nama_motor = $data['nama_motor'];
                   $harga = $data['harga'];
                   $jumlah = $data['jumlah'];
@@ -150,17 +179,86 @@ $total_transaksi = 0;
                     <td><?= $jumlah ?></td>
                     <td><?= rupiah($total) ?></td>
                     <td><?= $status ?></td>
-                    <!-- <td>
-                      <div class="col mb-2">
-                        <select class="form-select" name="status" aria-label="Default select example">
-                          <option selected value="<?= $status ?>"><?= $status ?></option>
-                          <option value="Unpaid">Belum Bayar</option>
-                          <option value="DownPayment">Down Payment</option>
-                          <option value="Paid">Lunas</option>
-                        </select>
+                    <td class="noPrint">
+                      <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+
+                          <a class="dropdown-item" href="#editModal<?= $id_transaksi;
+                                                                    $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_transaksi;
+                                                                                                                                    $id_motor ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+
+                          <input type="hidden" name="id_hapus" value="<?= $id_transaksi; ?>">
+                          <a class="dropdown-item" href="#hapusModal<?= $id_transaksi;
+                                                                    $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_transaksi;
+                                                                                                                                      $id_motor; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+
+                        </div>
                       </div>
-                    </td> -->
+                    </td>
                   </tr>
+
+                  <!-- Modal Edit -->
+                  <div class="modal fade" id="editModal<?= $id_transaksi;
+                                                        $id_motor; ?>" tabindex="-1" aria-hidden="true">
+
+                    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                      <form method="POST">
+                        <input type="hidden" name="id_transaksi" value="<?= $id_transaksi; ?>">
+                        <input type="hidden" name="id_motor" value="<?= $id_motor; ?>">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel3">Ubah Status</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="col mb-2">
+                              <label for="emailLarge" class="form-label">Status Pembayaran</label>
+                              <select class="form-select" name="status" aria-label="Default select example">
+                                <option value="<?= $status ?>"><?= strtoupper($status) ?></option>
+                                <option value="Unpaid">Unpaid</option>
+                                <option value="DownPayment">DownPayment</option>
+                                <option value="Paid">Paid</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                              Batal
+                            </button>
+                            <button type="submit" name="submitUbahStatus" class="btn btn-primary">Simpan</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  <!-- Modal Hapus -->
+                  <div class="modal fade" id="hapusModal<?= $id_transaksi;
+                                                        $id_motor; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h3 class="modal-title" id="modalToggleLabel">Hapus Detail Transaksi</h3>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form method="POST">
+                          <div class="modal-body">
+                            <input type="hidden" name="id_transaksi" value="<?= $id_transaksi; ?>">
+                            <input type="hidden" name="id_motor" value="<?= $id_motor; ?>">
+                            <p>Yakin hapus detail dengan ID Transaksi <?= $id_transaksi ?> dan motor <?= $nama_motor ?>?</b></p>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapusDetail">Hapus</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
 
                 <?php
                 }

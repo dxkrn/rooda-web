@@ -195,6 +195,15 @@ if (isset($_POST['submitHapus'])) {
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
 
+  <!-- Search on dropdown -->
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script> -->
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 
 <body>
@@ -589,7 +598,7 @@ if (isset($_POST['submitHapus'])) {
                         </tr>
 
                         <!-- Modal Tambah Detail -->
-                        <div class="modal fade" id="tambahDetailModal<?= $id_transaksi; ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="tambahDetailModal<?= $id_transaksi; ?>" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <form method="POST">
                               <input type="hidden" name="id_transaksi" value="<?= $id_transaksi ?>">
@@ -766,19 +775,19 @@ if (isset($_POST['submitHapus'])) {
 
   <!-- Modal Tambah -->
 
-  <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
+  <div class="modal fade" id="tambahModal" aria-hidden="true" style="overflow:hidden">
     <div class="modal-dialog modal-lg" role="document">
       <form method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel3">Tambah Transaksi</h5>
+            <h5 class="modal-title" id="">Tambah Transaksi</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row g-2">
               <div class="col mb-2">
                 <label for="emailLarge" class="form-label">Nama Pelanggan</label>
-                <select class="form-select" name="id_pelanggan" aria-label="Default select example">
+                <select id="selectPelanggan" class="form-select" name="id_pelanggan" aria-label="Default select example">
 
                   <?php
                   $ambil_data_pelanggan = mysqli_query(
@@ -883,6 +892,39 @@ if (isset($_POST['submitHapus'])) {
       });
     });
   </script>
+
+  <!-- <script type="text/javascript">
+    $(document).ready(function() {
+      $('#selectPelanggan').select2();
+    });
+  </script> -->
+
+  <!-- <script type="text/javascript">
+    $(document).ready(function() {
+      $('#selectPelanggan').select2({
+        placeholder: 'Pilih Pelanggan',
+        allowClear: true
+      });
+    });
+  </script> -->
+
+  <!-- <script>
+    $(document).ready(function() {
+      $('.selectPelanggan').select2();
+    });
+  </script> -->
+
+  <!-- <script>
+    $(document).ready(function() {
+      $("#selectPelanggan").select2({
+        dropdownParent: $("#tambahModal .modal-dialog .modal-content .modal-body")
+      });
+    });
+  </script> -->
+
+  <!-- $("#product_id").select2({
+    dropdownParent: $('#myModal .modal-content')
+}); -->
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->
