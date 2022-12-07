@@ -543,6 +543,7 @@ if (isset($_POST['submitHapus'])) {
                         <div class="modal fade" id="editModal<?= $id_pelanggan; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <form method="POST">
+                              <input type="hidden" name="id_pelanggan" value="<?= $id_pelanggan ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <h5 class="modal-title" id="exampleModalLabel3">Edit pelanggan</h5>
@@ -586,7 +587,7 @@ if (isset($_POST['submitHapus'])) {
                                   <div class="row">
                                     <div class="col mb-3">
                                       <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal Lahir</label>
-                                      <input class="form-control" type="date" value="<?= $tgl_lahir ?>" id="tgl_lahir" name="tgl_lahir" />
+                                      <input class="form-control" type="date" value="<?= $tgl_lahir ?>" name="tgl_lahir" />
                                     </div>
                                   </div>
                                   <div class="row">

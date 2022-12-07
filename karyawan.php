@@ -529,6 +529,7 @@ if (isset($_POST['submitHapus'])) {
                         <div class="modal fade" id="editModal<?= $id_karyawan; ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-lg" role="document">
                             <form method="POST">
+                              <input type="hidden" name="id_karyawan" value="<?= $id_karyawan ?>">
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <h5 class="modal-title" id="exampleModalLabel3">Edit Karyawan</h5>
