@@ -25,6 +25,20 @@ $persentase_sparepart = $_POST['persentase_sparepart'];
 $subtotal_perbaikan = 0;
 
 
+if (isset($_POST['submitHapusDetail'])) {
+  $id_perbaikan = $_POST['id_perbaikan'];
+  $id_jenis_perbaikan = $_POST['id_jenis_perbaikan'];
+  $id_sparepart = $_POST['id_sparepart'];
+
+  $hapusDetail = mysqli_query($conn, "DELETE FROM tb_detail_perbaikan WHERE id_perbaikan='$id_perbaikan' AND
+  id_jenis_perbaikan='$id_jenis_perbaikan' AND id_sparepart='$id_sparepart'");
+
+  if ($hapusDetail) {
+    echo "<script>alert('Yeay, hapus detail berhasil!')</script>";
+  } else {
+    echo "<script>alert('Yeay, hapus detail gagal!')</script>";
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -123,6 +137,7 @@ $subtotal_perbaikan = 0;
                   <th scope="col">Harga</th>
                   <th scope="col">Tarif</th>
                   <th scope="col">Total</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -130,7 +145,7 @@ $subtotal_perbaikan = 0;
                 <?php
                 $ambil_data_detail = mysqli_query(
                   $conn,
-                  "SELECT jp.nama_perbaikan, sp.nama_sparepart, 
+                  "SELECT jp.nama_perbaikan, sp.nama_sparepart,  dp.id_jenis_perbaikan, dp.id_sparepart,
                   (jp.tarif + sp.harga) AS total_biaya, sp.harga AS harga_sparepart,
                   jp.tarif AS tarif_perbaikan
                 FROM tb_detail_perbaikan dp
@@ -143,6 +158,8 @@ $subtotal_perbaikan = 0;
                 );
 
                 while ($data = mysqli_fetch_array($ambil_data_detail)) {
+                  $id_jenis_perbaikan = $data['id_jenis_perbaikan'];
+                  $id_sparepart = $data['id_sparepart'];
                   $nama_perbaikan = $data['nama_perbaikan'];
                   $nama_sparepart = $data['nama_sparepart'];
                   $harga_sparepart = $data['harga_sparepart'] * $persentase_sparepart / 100;
@@ -158,7 +175,55 @@ $subtotal_perbaikan = 0;
                     <td><?= rupiah($harga_sparepart) ?></td>
                     <td><?= rupiah($tarif_perbaikan) ?></td>
                     <td><?= rupiah($total_biaya) ?></td>
+                    <td class="noPrint">
+                      <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+
+                          <!-- <a class="dropdown-item" href="#editModal<?= $id_transaksi;
+                                                                        $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_transaksi;
+                                                                                                                                        $id_motor ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a> -->
+
+                          <input type="hidden" name="id_hapus" value="<?= $id_perbaikan; ?>">
+
+                          <a class="dropdown-item" href="#hapusModal<?= $id_perbaikan;
+                                                                    $id_jenis_perbaikan;
+                                                                    $id_sparepart ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_perbaikan;
+                                                                                                                                        $id_jenis_perbaikan;
+                                                                                                                                        $id_sparepart ?>"><i class="bx bx-trash me-1"></i> Delete</a>
+
+                        </div>
+                      </div>
+                    </td>
                   </tr>
+
+                  <!-- Modal Hapus -->
+                  <div class="modal fade" id="hapusModal<?= $id_perbaikan;
+                                                        $id_jenis_perbaikan;
+                                                        $id_sparepart; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h3 class="modal-title" id="modalToggleLabel">Hapus Detail Perbaikan</h3>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form method="POST">
+                          <div class="modal-body">
+                            <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
+                            <input type="hidden" name="id_jenis_perbaikan" value="<?= $id_jenis_perbaikan; ?>">
+                            <input type="hidden" name="id_sparepart" value="<?= $id_sparepart; ?>">
+                            <p>Yakin hapus detail dengan ID Perbaikan <?= $id_perbaikan ?> untuk <?= $nama_perbaikan ?> <?= $nama_sparepart ?></b></p>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapusDetail">Hapus</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
 
                 <?php
                 }
