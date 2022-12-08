@@ -29,7 +29,7 @@ class Motor
     public  function get_motors()
     {
         global $conn;
-        $query = "SELECT * FROM tb_motor join tb_spesifikasi USING(id_motor)";
+        $query = "SELECT * FROM tb_motor mt join tb_spesifikasi sp WHERE mt.id_motor=sp.id_motor";
         $data = array();
         $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_object($result)) {
@@ -47,9 +47,9 @@ class Motor
     public function get_motor($id = '')
     {
         global $conn;
-        $query = "SELECT * FROM tb_motor join tb_spesifikasi USING(id_motor)";
+        $query = "SELECT * FROM tb_motor mt join tb_spesifikasi sp WHERE mt.id_motor=sp.id_motor";
         if ($id != '') {
-            $query = "$query WHERE id_motor='$id' LIMIT 1";
+            $query = "$query AND mt.id_motor='$id' LIMIT 1";
             // $query .= " WHERE id_motor=" . $id . " LIMIT 1";
         }
         $data = array();
