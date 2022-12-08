@@ -414,8 +414,6 @@ if (isset($_POST['submitEditData'])) {
 
   <!-- NOTE : BUTTON ADD -->
   <div class="add">
-    <a href="#tambahModal" data-bs-toggle="modal" data-bs-target="#tambahModal">Delete</a>
-
     <a href="#tambahModal" data-bs-toggle="modal" data-bs-target="#tambahModal" type="button" class="btn btn-primary btn-add"> <span class="tf-icons bx bx-plus"></span> Tambah
     </a>
   </div>
