@@ -1,15 +1,15 @@
 <?php
 require_once "method.php";
-$motor = new Motor();
+$user = new User();
 $request_method = $_SERVER["REQUEST_METHOD"];
 switch ($request_method) {
     case 'GET':
         // $motor->get_motors();
         if (!empty($_GET["id"])) {
             $id = $_GET["id"];
-            $motor->get_motor($id);
+            $user->get_user($id);
         } else {
-            $motor->get_motors();
+            $user->get_users();
         }
         break;
         // case 'POST':

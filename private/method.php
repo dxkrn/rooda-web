@@ -2,13 +2,12 @@
 // require_once "../config.php";
 include '../config.php';
 
-
-class Supplier
+class User
 {
-    public  function get_suppliers()
+    public  function get_users()
     {
         global $conn;
-        $query = "SELECT * FROM tb_supplier";
+        $query = "SELECT * FROM users us join tb_pelanggan pg WHERE us.id=pg.id_user";
         $data = array();
         $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_object($result)) {
@@ -16,41 +15,19 @@ class Supplier
         }
         $response = array(
             'status' => 1,
-            'message' => 'Get List Suppliers Successfully.',
-            'data' => $data
-        );
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
-}
-
-class Motor
-{
-    public  function get_motors()
-    {
-        global $conn;
-        $query = "SELECT * FROM tb_motor join tb_spesifikasi USING(id_motor)";
-        $data = array();
-        $result = mysqli_query($conn, $query);
-        while ($row = mysqli_fetch_object($result)) {
-            $data[] = $row;
-        }
-        $response = array(
-            'status' => 1,
-            'message' => 'Get List Motors Successfully.',
+            'message' => 'Get List Users Successfully.',
             'data' => $data
         );
         header('Content-Type: application/json');
         echo json_encode($response);
     }
 
-    public function get_motor($id = '')
+    public function get_user($id = '')
     {
         global $conn;
-        $query = "SELECT * FROM tb_motor join tb_spesifikasi USING(id_motor)";
+        $query = "SELECT * FROM users us join tb_pelanggan pg WHERE us.id=pg.id_user";
         if ($id != '') {
-            $query = "$query WHERE id_motor='$id' LIMIT 1";
-            // $query .= " WHERE id_motor=" . $id . " LIMIT 1";
+            $query = "$query AND id_pelanggan='$id' LIMIT 1";
         }
         $data = array();
         $result = mysqli_query($conn, $query);
@@ -60,28 +37,7 @@ class Motor
         $response = array(
             'status' => 1,
             'id_motor_get' => $id,
-            'message' => 'Get Motor Successfully.',
-            'data' => $data
-        );
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
-}
-
-class Sparepart
-{
-    public  function get_spareparts()
-    {
-        global $conn;
-        $query = "SELECT * FROM tb_sparepart WHERE id_sparepart<>'SP0000'";
-        $data = array();
-        $result = mysqli_query($conn, $query);
-        while ($row = mysqli_fetch_object($result)) {
-            $data[] = $row;
-        }
-        $response = array(
-            'status' => 1,
-            'message' => 'Get List Spareparts Successfully.',
+            'message' => 'Get User Successfully.',
             'data' => $data
         );
         header('Content-Type: application/json');

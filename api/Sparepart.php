@@ -1,16 +1,10 @@
 <?php
 require_once "method.php";
-$motor = new Motor();
+$sparepart = new Sparepart();
 $request_method = $_SERVER["REQUEST_METHOD"];
 switch ($request_method) {
     case 'GET':
-        // $motor->get_motors();
-        if (!empty($_GET["id"])) {
-            $id = $_GET["id"];
-            $motor->get_motor($id);
-        } else {
-            $motor->get_motors();
-        }
+        $sparepart->get_spareparts();
         break;
         // case 'POST':
         //     if (!empty($_GET["id"])) {
