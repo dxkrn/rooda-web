@@ -11,20 +11,21 @@ if (!isset(($_SESSION['username']))) {
 }
 $activeUser = $_SESSION['username'];
 
-//Inisialisasi nilai POST untuk sorting
-if ($_POST['sort_by'] == '') {
-  $sortBy = 'id_supplier';
-  $sortType = 'ASC';
-  $_POST['sort_by'] = $sortBy;
-  $_POST['sort_type'] = $sortType;
+//inisialisasi bulan dan tahun
+$thisMonth = date("F", mktime(0, 0, 0, date('m'), 10));
+$thisYear = date('Y');
+
+//Inisialisasi nilai POST untuk bulan
+if ($_POST['bulan'] == '') {
+  $bulan = $thisMonth;
+  $_POST['bulan'] = $bulan;
 }
 
-//Inisialisasi nilai Limit
-if ($_POST['limit_value'] == '') {
-  $limitValue = 100;
-  $_POST['limit_value'] = $limitValue;
-  $selectedLimit = 'All';
+if ($_POST['tahun'] == '') {
+  $tahun = $thisYear;
+  $_POST['tahun'] = $tahun;
 }
+
 
 //Inisialisasi nilai POST untuk searching
 if ($_POST['search_value'] == '') {
@@ -35,59 +36,65 @@ if ($_POST['search_value'] == '') {
   $placeHolder = '';
 }
 
-//Menambah supplier Baru
+//Menambah Karyawan Baru
 if (isset($_POST['submitTambahData'])) {
-  $id_supplier = getLastID($conn, 'tb_supplier', 'id_supplier', 'SR');
-
+  $id_karyawan = getLastID($conn, 'tb_karyawan', 'id_karyawan', 'KR');
   $nama = $_POST['nama'];
+  $jenis_kelamin = $_POST['jenis_kelamin'];
   $telp = $_POST['telp'];
+  $tgl_lahir = $_POST['tgl_lahir'];
   $alamat = $_POST['alamat'];
+  $posisi = $_POST['posisi'];
+  $gaji = $_POST['gaji'];
 
-  $insertQuery = "INSERT INTO tb_supplier (id_supplier, nama, telp, alamat) 
-                  VALUES ('$id_supplier', '$nama' , '$telp', '$alamat')";
+  $insertQuery = "INSERT INTO tb_karyawan (id_karyawan, nama, jenis_kelamin, telp, tgl_lahir, alamat, posisi, gaji) 
+                  VALUES ('$id_karyawan', '$nama' , '$jenis_kelamin', '$telp','$tgl_lahir', '$alamat', '$posisi', '$gaji')";
 
   $addtotable = mysqli_query($conn, $insertQuery);
   if ($addtotable) {
-    header('refresh:0; url=supplier');
-    echo "<script>alert('Yeay, Tambah Supplier berhasil!')</script>";
+    header('refresh:0; url=karyawan');
+    echo "<script>alert('Yeay, Tambah Karyawan berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Tambah Supplier gagal!')</script>";
+    echo "<script>alert('Yahh :( Tambah Karyawan gagal!')</script>";
     // header('location:stock.php');
   }
 }
 
-// Edit supplier
+// Edit Karyawan
 if (isset($_POST['submitEditData'])) {
-  $id_supplier = $_POST['id_supplier'];
+  $id_karyawan = $_POST['id_karyawan'];
   $nama = $_POST['nama'];
+  $jenis_kelamin = $_POST['jenis_kelamin'];
   $telp = $_POST['telp'];
+  $tgl_lahir = $_POST['tgl_lahir'];
   $alamat = $_POST['alamat'];
+  $posisi = $_POST['posisi'];
+  $gaji = $_POST['gaji'];
 
-  $editQuery = "UPDATE tb_supplier SET nama='$nama', telp='$telp', alamat='$alamat' WHERE id_supplier='$id_supplier'";
-  // $editQuery = "UPDATE tb_supplier SET nama='asfasdf', telp='8342569', alamat='sdgkjhf', WHERE id_supplier='SR0007'";
+  $editQuery = "UPDATE tb_karyawan SET nama='$nama', jenis_kelamin='$jenis_kelamin', telp='$telp', tgl_lahir='$tgl_lahir', alamat='$alamat', posisi='$posisi', gaji='$gaji' WHERE id_karyawan='$id_karyawan'";
 
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
-    header('refresh:0; url=supplier');
-    echo "<script>alert('Yeay, Edit supplier berhasil!')</script>";
+    header('refresh:0; url=karyawan');
+    echo "<script>alert('Yeay, Edit Karyawan berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Edit supplier gagal!')</script>";
+    echo "<script>alert('Yahh :( Edit Karyawan gagal!')</script>";
     // header('location:stock.php');
   }
 }
 
 
-//Hapus supplier
+//Hapus Karyawan
 
 if (isset($_POST['submitHapus'])) {
-  $id_supplier = $_POST['id_supplier'];
+  $id_karyawan = $_POST['id_karyawan'];
 
-  $delData =  mysqli_query($conn, "DELETE FROM tb_supplier WHERE id_supplier='$id_supplier'");
+  $delData =  mysqli_query($conn, "DELETE FROM tb_karyawan WHERE id_karyawan='$id_karyawan'");
 
   if ($delData) {
-    echo "<script>alert('Yeay, Hapus supplier berhasil!')</script>";
+    echo "<script>alert('Yeay, Hapus Karyawan berhasil!')</script>";
   } else {
-    echo "<script>alert('Yahh :( Hapus supplier gagal!')</script>";
+    echo "<script>alert('Yahh :( Hapus Karyawan gagal!')</script>";
   }
 }
 
@@ -100,7 +107,7 @@ if (isset($_POST['submitHapus'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>supplier - Rooda</title>
+  <title>Karyawan - Rooda</title>
 
   <meta name="description" content="" />
 
@@ -119,6 +126,7 @@ if (isset($_POST['submitHapus'])) {
   <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
   <link rel="stylesheet" href="assets/css/demo.css" />
+  <link rel="stylesheet" href="assets/css/print.css" />
 
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -235,25 +243,26 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Karyawan -->
-          <li class="menu-item">
+          <li class="menu-item active open">
             <a href="" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Karyawan</div>
             </a>
             <ul class="menu-sub">
-              <li class="menu-item active">
+              <li class="menu-item ">
                 <a href="karyawan" class="menu-link">
                   <div data-i18n="Analytics">Daftar Karyawan</div>
                 </a>
               </li>
-              <li class="menu-item">
+              <li class="menu-item active">
                 <a href="gajiKaryawan" class="menu-link">
                   <div data-i18n="Without navbar">Gaji Karyawan</div>
                 </a>
               </li>
             </ul>
+          </li>
 
-            <!-- NOTE : Pelanggan -->
+          <!-- NOTE : Pelanggan -->
           <li class="menu-item">
             <a href="pelanggan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
@@ -262,7 +271,7 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Supplier -->
-          <li class="menu-item active">
+          <li class="menu-item">
             <a href="supplier" class="menu-link">
               <i class="menu-icon tf-icons bx bx-archive-in"></i>
               <div data-i18n="Analytics">Supplier</div>
@@ -290,7 +299,7 @@ if (isset($_POST['submitHapus'])) {
 
       <!-- Layout container -->
       <div class="layout-page">
-        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+        <nav class="noPrint layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
           <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
             <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
               <i class="bx bx-menu bx-sm"></i>
@@ -316,7 +325,7 @@ if (isset($_POST['submitHapus'])) {
                 </tr>
                 <tr>
                   <td>
-                    <h3>Daftar Supplier</h3>
+                    <h3>Daftar Karyawan</h3>
                   </td>
                 </tr>
 
@@ -410,32 +419,43 @@ if (isset($_POST['submitHapus'])) {
                     <div class="col-md-7">
                       <form method="POST">
                         <div class="input-group">
-                          <select class="form-select" id="" aria-label="Example select with button addon" name="sort_by">
-                            <option selected value="<?= $_POST['sort_by'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['sort_by'])) ?></option>
-                            <option value="id_supplier">ID Supplier</option>
-                            <option value="nama">Nama</option>
-                            <option value="alamat">Alamat</option>
-                            <option value="telp">Telp</option>
+                          <select class="form-select" id="" aria-label="Example select with button addon" name="bulan">
+                            <option selected value="<?= $_POST['bulan'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['bulan'])) ?></option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
                           </select>
-                          <select class="form-select" id="inputGroupSelect04" name="sort_type">
-                            <option selected value="<?= $_POST['sort_type'] ?>"><?= $_POST['sort_type'] ?>ENDING</option>
-                            <option value="ASC">Ascending</option>
-                            <option value="DESC">Descending</option>
+
+                          <select class="form-select" id="inputGroupSelect04" name="tahun">
+                            <option selected value="<?= $_POST['tahun'] ?>"><?= $_POST['tahun'] ?></option>
+                            <?php
+                            $fetch_tahun = mysqli_query($conn, "SELECT DISTINCT YEAR(tgl_transaksi) AS tahun FROM tb_transaksi
+                                                                  UNION SELECT DISTINCT YEAR(tgl_perbaikan) FROM tb_perbaikan ORDER BY tahun DESC");
+
+                            while ($data = mysqli_fetch_array($fetch_tahun)) {
+                              $tahun = $data['tahun'];
+                            ?>
+                              <option value="<?= $tahun ?>"><?= $tahun ?></option>
+                            <?php
+                            }
+                            ?>
                           </select>
-                          <select class="form-select" id="inputGroupSelect04" name="limit_value">
-                            <option selected value="<?= $_POST['limit_value'] ?>"><?= $_POST['limit_value'] ?> items</option>
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                          </select>
-                          <button class="btn btn-primary" type="submit" name="submitSort">Sort</button>
+                          <button class="noPrint btn btn-primary" type="submit" name="submitFilter">Filter</button>
                         </div>
                       </form>
                     </div>
 
                     <!-- search input -->
-                    <div class="col-md-4">
+                    <div class="noPrint col-md-4">
                       <form method="POST">
                         <div class="input-group">
                           <input type="text" name="search_value" class="form-control" placeholder="<?= $placeHolder ?>" value="<?= $searchValue ?>" aria-describedby="button-addon2" />
@@ -449,20 +469,20 @@ if (isset($_POST['submitHapus'])) {
                   <table id="" class="table table-hover">
                     <thead>
                       <tr class="text-nowrap">
-                        <th></th>
                         <th>ID</th>
                         <th>Nama</th>
-                        <th>Telp</th>
-                        <th>Alamat</th>
+                        <th>Posisi</th>
+                        <th>Gaji</th>
+                        <th>Bonus</th>
+                        <th>Total</th>
                       </tr>
                     </thead>
                     <tbody>
+
                       <?php
-                      if (isset($_POST['submitSort'])) {
-                        $sortBy = $_POST['sort_by'];
-                        $sortType = $_POST['sort_type'];
-                        $limitValue = $_POST['limit_value'];
-                        $selectedLimit = $_POST['limit_value'];
+                      if (isset($_POST['submitFilter'])) {
+                        $bulan = $_POST['bulan'];
+                        $tahun = $_POST['tahun'];
                         header('refresh:0; url=motorMasuk');
                       }
 
@@ -473,105 +493,103 @@ if (isset($_POST['submitHapus'])) {
 
                       $ambil_data = mysqli_query(
                         $conn,
-                        "SELECT *
-                          FROM tb_supplier
-                          WHERE id_supplier LIKE '%$searchValue%' OR nama LIKE '%$searchValue%'
-                          OR telp LIKE '%$searchValue%' OR alamat LIKE '%$searchValue%'
-                          ORDER BY $sortBy $sortType
-                          LIMIT $limitValue
-                          "
+                        // "SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
+                        // (COUNT(id_transaksi) * dt.jumlah* 200000) as bonus
+                        // FROM tb_karyawan kr
+                        // LEFT JOIN tb_transaksi tr
+                        // USING(id_karyawan)
+                        // LEFT JOIN tb_detail_transaksi dt
+                        // USING(id_transaksi)
+                        // WHERE id_karyawan LIKE '%$searchValue%' OR nama LIKE '%$searchValue%'
+                        //   OR posisi LIKE '%$searchValue%'
+                        //   OR MONTHNAME(tgl_lahir) LIKE '%$searchValue%'
+                        // GROUP BY id_karyawan
+                        // "
+
+                        // "SELECT *
+                        // FROM (
+                        // SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
+                        // IFNULL((COUNT(id_transaksi) * dt.jumlah* 200000),0) as bonus
+                        // FROM tb_karyawan kr
+                        // LEFT JOIN tb_transaksi tr
+                        // USING(id_karyawan)
+                        // LEFT JOIN tb_detail_transaksi dt
+                        // USING(id_transaksi)
+                        //     WHERE kr.posisi='sales' 
+                        //     -- AND MONTHNAME(tr.tgl_transaksi)='$bulan' 
+                        //     -- AND YEAR(tr.tgl_transaksi)='2022'
+                        // GROUP BY id_karyawan
+                        // UNION
+                        // SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
+                        // (COUNT(id_perbaikan) * 5000) as bonus
+                        // FROM tb_karyawan kr
+                        // LEFT JOIN tb_perbaikan pb
+                        // USING(id_karyawan)
+                        // LEFT JOIN tb_detail_perbaikan dp
+                        // USING(id_perbaikan)
+                        // LEFT JOIN tb_jenis_perbaikan jp
+                        // USING(id_jenis_perbaikan)
+                        //         WHERE kr.posisi='mekanik'
+                        //         -- AND MONTHNAME(pb.tgl_perbaikan)='$bulan' 
+                        //         -- AND YEAR(pb.tgl_perbaikan)='2022'
+                        // GROUP BY id_karyawan
+                        // ) a ORDER by id_karyawan
+                        // "
+                        "
+                        SELECT id_karyawan, nama, posisi, gaji, SUM(bonus) as bonus
+                        FROM
+                        (
+                          SELECT *
+                          FROM (
+                          SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
+                          IFNULL((COUNT(id_transaksi) * dt.jumlah* 200000),0) as bonus
+                          FROM tb_karyawan kr
+                          JOIN tb_transaksi tr
+                          USING(id_karyawan)
+                          JOIN tb_detail_transaksi dt
+                          USING(id_transaksi)
+                              WHERE kr.posisi='sales' 
+                              AND MONTHNAME(tr.tgl_transaksi)='$bulan' 
+                              AND YEAR(tr.tgl_transaksi)='$tahun'
+                          GROUP BY id_karyawan
+                          UNION
+                          SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
+                          (COUNT(id_perbaikan) * 5000) as bonus
+                          FROM tb_karyawan kr
+                          JOIN tb_perbaikan pb
+                          USING(id_karyawan)
+                          JOIN tb_detail_perbaikan dp
+                          USING(id_perbaikan)
+                          JOIN tb_jenis_perbaikan jp
+                          USING(id_jenis_perbaikan)
+                                  WHERE kr.posisi='mekanik'
+                                  AND MONTHNAME(pb.tgl_perbaikan)='$bulan' 
+                                  AND YEAR(pb.tgl_perbaikan)='$tahun'
+                          GROUP BY id_karyawan
+                        ) a 
+                          UNION
+                          SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji, IFNULL(NULL, 0)
+                          FROM tb_karyawan kr
+                        ) as foo GROUP BY id_karyawan
+                        "
                       );
 
                       while ($data = mysqli_fetch_array($ambil_data)) {
-                        $id_supplier = $data['id_supplier'];
+                        $id_karyawan = $data['id_karyawan'];
                         $nama = $data['nama'];
-                        $alamat = $data['alamat'];
-                        $telp = $data['telp'];
+                        $posisi = $data['posisi'];
+                        $gaji = $data['gaji'];
+                        $bonus = $data['bonus'];
                       ?>
 
                         <tr>
-                          <td>
-                            <div class="dropdown">
-                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu">
-
-                                <a class="dropdown-item" href="#editModal<?= $id_supplier; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_supplier; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                <input type="hidden" name="id_hapus" value="<?= $id_supplier; ?>">
-                                <a class="dropdown-item" href="#hapusModal<?= $id_supplier; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_supplier; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
-
-                              </div>
-                            </div>
-                          </td>
-                          <td><b><?= $id_supplier ?></b></td>
+                          <td><b><?= $id_karyawan ?></b></td>
                           <td><?= $nama ?></td>
-                          <td><?= $telp ?></td>
-                          <td><?= $alamat ?></td>
+                          <td><?= $posisi ?></td>
+                          <td><?= rupiah($gaji) ?></td>
+                          <td><?= rupiah($bonus) ?></td>
+                          <td><?= rupiah($gaji + $bonus) ?></td>
                         </tr>
-
-                        <!-- Modal Edit -->
-                        <div class="modal fade" id="editModal<?= $id_supplier; ?>" tabindex="-1" aria-hidden="true">
-                          <div class="modal-dialog modal-lg" role="document">
-                            <form method="POST">
-                              <input type="hidden" name="id_supplier" value="<?= $id_supplier; ?>">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel3">Edit supplier</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Nama</label>
-                                      <input type="text" name="nama" class="form-control" value="<?= $nama; ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Telepon</label>
-                                      <input type="number" name="telp" class="form-control" value="<?= $telp; ?>" />
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-3">
-                                      <label for="nameLarge" class="form-label">Alamat</label>
-                                      <textarea class="form-control" name="alamat" rows="3"><?= $alamat; ?></textarea>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                    Batal
-                                  </button>
-                                  <button type="submit" name="submitEditData" class="btn btn-primary">Simpan</button>
-                                </div>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-
-                        <!-- Modal Hapus -->
-                        <div class="modal fade" id="hapusModal<?= $id_supplier; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h3 class="modal-title" id="modalToggleLabel">Hapus supplier</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-
-                              <form method="POST">
-                                <div class="modal-body">
-                                  <input type="hidden" name="id_supplier" value="<?= $id_supplier ?>">
-                                  <p>Yakin hapus <b><?= $nama; ?></b> dengan ID <b><?= $id_supplier ?>?</b></p>
-                                </div>
-                                <div class="modal-footer">
-                                  <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapus">Hapus</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
 
                       <?php
                       }
@@ -602,8 +620,8 @@ if (isset($_POST['submitHapus'])) {
 
   <!-- NOTE : BUTTON ADD -->
   <div class="add">
-    <a href="#tambahModal" data-bs-toggle="modal" data-bs-target="#tambahModal" type="button" class="btn btn-primary btn-add"> <span class="tf-icons bx bx-plus"></span> Tambah
-    </a>
+    <button onclick="window.print();" href="#" data-bs-toggle="modal" data-bs-target="#" type="button" class="btn btn-primary btn-add noPrint"> <span class="tf-icons bx bx-printer"></span> Cetak
+    </button>
   </div>
 
   <!-- Modal Tambah -->
@@ -613,14 +631,36 @@ if (isset($_POST['submitHapus'])) {
       <form method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel3">Tambah Supplier</h5>
+            <h5 class="modal-title" id="exampleModalLabel3">Tambah Karyawan</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Nama</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama supplier" required />
+                <input type="text" name="nama" class="form-control" placeholder="Masukkan Nama Karyawan" required />
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-0">
+                <label for="emailLarge" class="form-label">Jenis Kelamin</label>
+                <select class="form-select" name="jenis_kelamin" aria-label="Default select example">
+                  <option selected value="L">Laki-laki</option>
+                  <option value="P">Perempuan</option>
+                </select>
+              </div>
+              <div class="col mb-0">
+                <label for="dobLarge" class="form-label">Posisi</label>
+                <select class="form-select" name="posisi" aria-label="Default select example">
+                  <option selected value="Sales">Sales</option>
+                  <option value="Mekanik">Mekanik</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal Lahir</label>
+                <input class="form-control" type="date" value="2002-11-21" id="tgl_lahir" name="tgl_lahir" />
               </div>
             </div>
             <div class="row">
@@ -633,6 +673,12 @@ if (isset($_POST['submitHapus'])) {
               <div class="col mb-3">
                 <label for="nameLarge" class="form-label">Alamat</label>
                 <textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan Alamat" required></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label for="nameLarge" class="form-label">Gaji</label>
+                <input type="number" name="gaji" class="form-control" placeholder="Masukkan Gaji" required />
               </div>
             </div>
           </div>

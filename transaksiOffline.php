@@ -296,13 +296,24 @@ if (isset($_POST['submitHapus'])) {
 
           <!-- NOTE : Karyawan -->
           <li class="menu-item">
-            <a href="karyawan" class="menu-link">
+            <a href="" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-group"></i>
               <div data-i18n="Analytics">Karyawan</div>
             </a>
-          </li>
+            <ul class="menu-sub">
+              <li class="menu-item active">
+                <a href="karyawan" class="menu-link">
+                  <div data-i18n="Analytics">Daftar Karyawan</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="gajiKaryawan" class="menu-link">
+                  <div data-i18n="Without navbar">Gaji Karyawan</div>
+                </a>
+              </li>
+            </ul>
 
-          <!-- NOTE : Pelanggan -->
+            <!-- NOTE : Pelanggan -->
           <li class="menu-item">
             <a href="pelanggan" class="menu-link">
               <i class="menu-icon tf-icons bx bx-group"></i>
