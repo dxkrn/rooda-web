@@ -544,12 +544,14 @@ if (isset($_POST['submitHapus'])) {
                         $conn,
                         "SELECT tr.id_transaksi, tr.tgl_transaksi,
                         pg.nama AS nama_pelanggan, pg.nik, pg.telp AS telp_pelanggan, pg.alamat,
-                        kr.nama AS nama_karyawan, kr.telp AS telp_karyawan
+                        kr.nama AS nama_karyawan, kr.telp AS telp_karyawan, us.name as username, us.email, us.password
                         FROM tb_transaksi tr
-                        JOIN tb_pelanggan pg
-                        USING(id_pelanggan)
                         JOIN tb_karyawan kr
                         USING(id_karyawan)
+                        JOIN tb_pelanggan pg
+                        USING(id_pelanggan)
+                        JOIN users us
+                        ON pg.id_user=us.id
                         WHERE tr.id_transaksi LIKE '%$searchValue%' OR tr.tgl_transaksi LIKE '%$searchValue%'
                           OR MONTHNAME(tr.tgl_transaksi) LIKE '%$searchValue%' OR pg.nama LIKE '%$searchValue%'
                           OR pg.nik LIKE '%$searchValue%' OR pg.telp LIKE '%$searchValue%'
@@ -569,6 +571,9 @@ if (isset($_POST['submitHapus'])) {
                         $alamat = $data['alamat'];
                         $nama_karyawan = $data['nama_karyawan'];
                         $telp_karyawan = $data['telp_karyawan'];
+                        $username = $data['username'];
+                        $email = $data['email'];
+                        $password = $data['password'];
                       ?>
 
                         <tr>
@@ -589,6 +594,9 @@ if (isset($_POST['submitHapus'])) {
                                   <input type="hidden" name="telp_pelanggan" value="<?= $telp; ?>">
                                   <input type="hidden" name="nama_karyawan" value="<?= $nama_karyawan; ?>">
                                   <input type="hidden" name="telp_karyawan" value="<?= $telp_karyawan; ?>">
+                                  <input type="hidden" name="username" value="<?= $username; ?>">
+                                  <input type="hidden" name="email" value="<?= $email; ?>">
+                                  <input type="hidden" name="password" value="<?= $password; ?>">
                                   <button type="submit" name="submitDetailPerbaikan" class="dropdown-item"><i class="bx bx-detail me-1"></i> Lihat Detail</button>
                                 </form>
 

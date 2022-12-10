@@ -18,6 +18,9 @@ $alamat_pelanggan = $_POST['alamat_pelanggan'];
 $telp_pelanggan = $_POST['telp_pelanggan'];
 $nama_karyawan = $_POST['nama_karyawan'];
 $telp_karyawan = $_POST['telp_karyawan'];
+$username = $_POST['username'];
+$email = $_POST['email'];
+$password = $_POST['password'];
 
 $total_transaksi = 0;
 
@@ -278,67 +281,88 @@ if (isset($_POST['submitHapusDetail'])) {
             </div>
           </div>
           <hr>
-          <div class="row">
-            <div class="col-xl-10">
-              <p>Terimakasih atas kepercayaan Anda :)</p>
-            </div>
-            <!-- <div class="col-xl-2">
-              <button type="button" class="btn btn-primary text-capitalize" style="background-color:#60bdf3 ;">Pay Now</button>
-            </div> -->
-          </div>
+          <?php
+          if ($username == preg_replace("/@gmail.com/", "", $email) and md5($username) == $password) {
+            echo '<div class="row">';
+            echo '<div class="col-md-2">';
+            echo '<p>Email</p>';
+            echo '</div>';
+            echo '<div class="col-xl-10">';
+            echo '<p>: ';
+            echo $email;
+            echo '</p>';
+            echo '</div>';
+            echo '</div>';
 
+            echo '<div class="row">';
+            echo '<div class="col-md-2">';
+            echo '<p>Password</p>';
+            echo '</div>';
+            echo '<div class="col-xl-10">';
+            echo '<p>: ';
+            echo $username;
+            echo '</p>';
+            echo '</div>';
+            echo '</div>';
+
+            echo '<div class="row">';
+            echo '<div class="col-xl-10">';
+            echo '<p><b>*Segera login ke <u>www.rooda.tiwai.my.id</u> untuk mengubah Password</b></p>';
+            echo '</div>';
+            echo '</div>';
+          }
+          ?>
         </div>
       </div>
     </div>
-  </div>
-  <!-- / Layout wrapper -->
+    <!-- / Layout wrapper -->
 
-  <!-- NOTE : BUTTON ADD -->
-  <div class="add">
-    <!-- <a href="#tambahModal" data-bs-toggle="modal" data-bs-target="#tambahModal">Delete</a> -->
+    <!-- NOTE : BUTTON ADD -->
+    <div class="add">
+      <!-- <a href="#tambahModal" data-bs-toggle="modal" data-bs-target="#tambahModal">Delete</a> -->
 
-    <button onclick="window.print();" href="#" data-bs-toggle="modal" data-bs-target="#" type="button" class="btn btn-primary btn-add noPrint"> <span class="tf-icons bx bx-printer"></span> Cetak
-    </button>
-  </div>
+      <button onclick="window.print();" href="#" data-bs-toggle="modal" data-bs-target="#" type="button" class="btn btn-primary btn-add noPrint"> <span class="tf-icons bx bx-printer"></span> Cetak
+      </button>
+    </div>
 
-  <!-- <script>
+    <!-- <script>
     window.print();
   </script> -->
 
-  <script>
-    $(document).ready(function() {
-      $('#example').DataTable({
-        // scrollX: true,
+    <script>
+      $(document).ready(function() {
+        $('#example').DataTable({
+          // scrollX: true,
+        });
       });
-    });
-  </script>
+    </script>
 
-  <!-- Core JS -->
-  <!-- build:js assets/vendor/js/core.js -->
-  <script src="assets/vendor/libs/jquery/jquery.js"></script>
-  <script src="assets/vendor/libs/popper/popper.js"></script>
-  <script src="assets/vendor/js/bootstrap.js"></script>
-  <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
 
-  <script src="assets/vendor/js/menu.js"></script>
-  <!-- endbuild -->
+    <script src="assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
 
-  <!-- Vendors JS -->
-  <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-  <!-- Main JS -->
-  <script src="assets/js/main.js"></script>
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
 
-  <!-- Page JS -->
-  <script src="assets/js/dashboards-analytics.js"></script>
+    <!-- Page JS -->
+    <script src="assets/js/dashboards-analytics.js"></script>
 
-  <!-- Place this tag in your head or just before your close body tag. -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 
 </body>
 

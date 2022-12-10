@@ -376,7 +376,7 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
                                                             </button>
                                                             <div class="dropdown-menu">
 
-                                                                <form method="POST" action="invoiceTransaksi">
+                                                                <form method="POST" action="detailTransaksi">
                                                                     <input type="hidden" name="id_transaksi" value="<?= $id_transaksi; ?>">
                                                                     <input type="hidden" name="tgl_transaksi" value="<?= $tgl_transaksi; ?>">
                                                                     <input type="hidden" name="nama_pelanggan" value="<?= $nama_pelanggan; ?>">

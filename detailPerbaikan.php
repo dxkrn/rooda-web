@@ -22,9 +22,6 @@ $telp_karyawan = $_POST['telp_karyawan'];
 $nama_motor = $_POST['nama_motor'];
 $tgl_perbaikan = $_POST['tgl_perbaikan'];
 $persentase_sparepart = $_POST['persentase_sparepart'];
-$username = $_POST['username'];
-$email = $_POST['email'];
-$password = $_POST['password'];
 $subtotal_perbaikan = 0;
 
 
@@ -51,7 +48,7 @@ if (isset($_POST['submitHapusDetail'])) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Invoice - Rooda</title>
+  <title>Detail Perbaikan - Rooda</title>
 
   <meta name="description" content="" />
 
@@ -140,7 +137,6 @@ if (isset($_POST['submitHapusDetail'])) {
                   <th scope="col">Harga</th>
                   <th scope="col">Tarif</th>
                   <th scope="col">Total</th>
-                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -178,56 +174,8 @@ if (isset($_POST['submitHapusDetail'])) {
                     <td><?= rupiah($harga_sparepart) ?></td>
                     <td><?= rupiah($tarif_perbaikan) ?></td>
                     <td><?= rupiah($total_biaya) ?></td>
-                    <td class="noPrint">
-                      <div class="dropdown">
-                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                          <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu">
 
-                          <!-- <a class="dropdown-item" href="#editModal<?= $id_transaksi;
-                                                                        $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_transaksi;
-                                                                                                                                        $id_motor ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a> -->
-
-                          <input type="hidden" name="id_hapus" value="<?= $id_perbaikan; ?>">
-
-                          <a class="dropdown-item" href="#hapusModal<?= $id_perbaikan;
-                                                                    $id_jenis_perbaikan;
-                                                                    $id_sparepart ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_perbaikan;
-                                                                                                                                        $id_jenis_perbaikan;
-                                                                                                                                        $id_sparepart ?>"><i class="bx bx-trash me-1"></i> Delete</a>
-
-                        </div>
-                      </div>
-                    </td>
                   </tr>
-
-                  <!-- Modal Hapus -->
-                  <div class="modal fade" id="hapusModal<?= $id_perbaikan;
-                                                        $id_jenis_perbaikan;
-                                                        $id_sparepart; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h3 class="modal-title" id="modalToggleLabel">Hapus Detail Perbaikan</h3>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <form method="POST">
-                          <div class="modal-body">
-                            <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
-                            <input type="hidden" name="id_jenis_perbaikan" value="<?= $id_jenis_perbaikan; ?>">
-                            <input type="hidden" name="id_sparepart" value="<?= $id_sparepart; ?>">
-                            <p>Yakin hapus detail dengan ID Perbaikan <?= $id_perbaikan ?> untuk <?= $nama_perbaikan ?> <?= $nama_sparepart ?></b></p>
-                          </div>
-                          <div class="modal-footer">
-                            <button class="btn btn-primary d-grid w-100" type="submit" name="submitHapusDetail">Hapus</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-
                 <?php
                 }
                 ?>
@@ -245,37 +193,14 @@ if (isset($_POST['submitHapusDetail'])) {
             </div>
           </div>
           <hr>
-          <?php
-          if ($username == preg_replace("/@gmail.com/", "", $email) and md5($username) == $password) {
-            echo '<div class="row">';
-            echo '<div class="col-md-2">';
-            echo '<p>Email</p>';
-            echo '</div>';
-            echo '<div class="col-xl-10">';
-            echo '<p>: ';
-            echo $email;
-            echo '</p>';
-            echo '</div>';
-            echo '</div>';
-
-            echo '<div class="row">';
-            echo '<div class="col-md-2">';
-            echo '<p>Password</p>';
-            echo '</div>';
-            echo '<div class="col-xl-10">';
-            echo '<p>: ';
-            echo $username;
-            echo '</p>';
-            echo '</div>';
-            echo '</div>';
-
-            echo '<div class="row">';
-            echo '<div class="col-xl-10">';
-            echo '<p><b>*Segera login ke <u>www.rooda.tiwai.my.id</u> untuk mengubah Password</b></p>';
-            echo '</div>';
-            echo '</div>';
-          }
-          ?>
+          <div class="row">
+            <div class="col-xl-10">
+              <p>Terimakasih atas kepercayaan Anda :)</p>
+            </div>
+            <!-- <div class="col-xl-2">
+              <button type="button" class="btn btn-primary text-capitalize" style="background-color:#60bdf3 ;">Pay Now</button>
+            </div> -->
+          </div>
 
         </div>
       </div>
@@ -284,12 +209,6 @@ if (isset($_POST['submitHapusDetail'])) {
   <!-- / Layout wrapper -->
 
   <!-- NOTE : BUTTON ADD -->
-  <div class="add">
-    <!-- <a href="#tambahModal" data-bs-toggle="modal" data-bs-target="#tambahModal">Delete</a> -->
-
-    <button onclick="window.print();" href="#" data-bs-toggle="modal" data-bs-target="#" type="button" class="btn btn-primary btn-add noPrint"> <span class="tf-icons bx bx-printer"></span> Cetak
-    </button>
-  </div>
 
   <!-- <script>
     window.print();

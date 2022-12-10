@@ -380,7 +380,7 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
                                                             </button>
                                                             <div class="dropdown-menu">
 
-                                                                <form method="POST" action="invoicePerbaikan">
+                                                                <form method="POST" action="detailPerbaikan">
                                                                     <input type="hidden" name="id_perbaikan" value="<?= $id_perbaikan; ?>">
                                                                     <input type="hidden" name="id_pelanggan" value="<?= $id_pelanggan; ?>">
                                                                     <input type="hidden" name="id_karyawan" value="<?= $id_karyawan; ?>">

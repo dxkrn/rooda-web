@@ -506,15 +506,17 @@ if (isset($_POST['submitHapus'])) {
                       $ambil_data = mysqli_query(
                         $conn,
                         "SELECT pb.id_perbaikan, pb.id_motor, pb.id_pelanggan, pb.id_karyawan, pb.tgl_perbaikan,
-                                pg.nama nama_pelanggan, pg.alamat alamat_pelanggan, pg.telp telp_pelanggan,
+                                pg.nama nama_pelanggan, pg.alamat alamat_pelanggan, pg.telp telp_pelanggan, us.name as username, us.email, us.password,
                                 kr.nama nama_karyawan, kr.telp telp_karyawan, mt.nama nama_motor, mt.persentase_sparepart
                           FROM tb_perbaikan pb
-                          JOIN tb_pelanggan pg
-                          USING(id_pelanggan)
                           JOIN tb_karyawan kr
                           USING(id_karyawan)
                           JOIN tb_motor mt
                           USING(id_motor)
+                          JOIN tb_pelanggan pg
+                          USING(id_pelanggan)
+                          JOIN users us
+                          ON pg.id_user=us.id
                           WHERE pb.id_perbaikan LIKE '%$searchValue%' OR pg.nama LIKE '%$searchValue%'
                           OR mt.nama LIKE '%$searchValue%' OR kr.nama LIKE '%$searchValue%'
                           OR pb.tgl_perbaikan LIKE '%$searchValue%' OR MONTHNAME(pb.tgl_perbaikan) LIKE '%$searchValue%'
@@ -536,6 +538,9 @@ if (isset($_POST['submitHapus'])) {
                         $nama_motor = $data['nama_motor'];
                         $tgl_perbaikan = $data['tgl_perbaikan'];
                         $persentase_sparepart = $data['persentase_sparepart'];
+                        $username = $data['username'];
+                        $email = $data['email'];
+                        $password = $data['password'];
                       ?>
 
                         <tr>
@@ -560,6 +565,9 @@ if (isset($_POST['submitHapus'])) {
                                   <input type="hidden" name="nama_motor" value="<?= $nama_motor; ?>">
                                   <input type="hidden" name="tgl_perbaikan" value="<?= $tgl_perbaikan; ?>">
                                   <input type="hidden" name="persentase_sparepart" value="<?= $persentase_sparepart; ?>">
+                                  <input type="hidden" name="username" value="<?= $username; ?>">
+                                  <input type="hidden" name="email" value="<?= $email; ?>">
+                                  <input type="hidden" name="password" value="<?= $password; ?>">
                                   <button type="submit" name="submitDetailPerbaikan" class="dropdown-item"><i class="bx bx-detail me-1"></i> Lihat Detail</button>
                                 </form>
 
