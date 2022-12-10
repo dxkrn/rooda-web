@@ -802,7 +802,7 @@ if (isset($_POST['submitHapus'])) {
                   <?php
                   $ambil_data_pelanggan = mysqli_query(
                     $conn,
-                    "SELECT id_pelanggan, nama AS nama_pelanggan, telp
+                    "SELECT id_pelanggan, nama AS nama_pelanggan, telp, nik
                     FROM tb_pelanggan WHERE nama <> '' ORDER BY nama"
                   );
 
@@ -810,8 +810,15 @@ if (isset($_POST['submitHapus'])) {
                     $id_pelanggan = $data['id_pelanggan'];
                     $nama_pelanggan = $data['nama_pelanggan'];
                     $telp = $data['telp'];
+                    $nik = $data['nik'];
                   ?>
-                    <option value="<?= $id_pelanggan ?>"><?= $nama_pelanggan ?></option>
+                    <option value="<?= $id_pelanggan ?>">
+                      <?php
+                      echo $nik;
+                      echo " | ";
+                      echo $nama_pelanggan;
+                      ?>
+                    </option>
                   <?php
                   }
                   ?>
