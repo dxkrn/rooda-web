@@ -19,11 +19,13 @@ if ($activeUser == "") {
     $buttonName = "Login Now";
     $buttonHref = "login";
     $roleName = "";
+    $logoUrl = "index";
 } else {
     $activeUser = $_SESSION['username'];;
     $buttonName = "Log Out";
     $buttonHref = "logout";
     $roleName = $_SESSION['role'];
+    $logoUrl = "dashboardPelanggan";
 }
 
 //Inisialisasi nilai POST untuk filter
@@ -120,7 +122,7 @@ if ($_POST['search_value'] == '') {
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="dashboardPelanggan" class="app-brand-link">
+                    <a href="<?= $logoUrl ?>" class="app-brand-link">
                         <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>

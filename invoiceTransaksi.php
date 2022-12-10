@@ -29,7 +29,7 @@ if (isset($_POST['submitUbahStatus'])) {
   $ubahStatus = mysqli_query($conn, "UPDATE tb_detail_transaksi SET status='$status' WHERE id_transaksi='$id_transaksi' AND id_motor='$id_motor'");
 
   if ($ubahStatus) {
-    header('refresh:0; url=invoiceTransaksi');
+    header('refresh:0; url=transaksiOffline');
     echo "<script>alert('Yeay, Ubah Status berhasil!')</script>";
   } else {
     echo "<script>alert('Yeay, Ubah Status berhasil!')</script>";
@@ -43,6 +43,7 @@ if (isset($_POST['submitHapusDetail'])) {
 
   $hapusDetail = mysqli_query($conn, "DELETE FROM tb_detail_transaksi WHERE id_transaksi='$id_transaksi' AND id_motor='$id_motor'");
   if ($hapusDetail) {
+    header('refresh:0; url=transaksiOffline');
     echo "<script>alert('Yeay, hapus detail berhasil!')</script>";
   } else {
     echo "<script>alert('Yeay, hapus detail gagal!')</script>";

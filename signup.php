@@ -44,7 +44,8 @@ if (isset($_POST['submitDaftar'])) {
       if ($addUser) {
         $addPelanggan = mysqli_query($conn, $insertPelangganQuery);
         if ($addPelanggan) {
-          header('refresh:0; url=pelanggan');
+          header('refresh:0; url=login');
+          // header('refresh:0; url=pelanggan');
           echo "<script>alert('Yeay, Akun berhasil terdaftar.')</script>";
         }
       } else {

@@ -19,11 +19,13 @@ if ($activeUser == "") {
     $buttonName = "Login Now";
     $buttonHref = "login";
     $roleName = "";
+    $passPlaceHolder = "";
 } else {
-    $activeUser = $_SESSION['username'];;
+    $activeUser = $_SESSION['username'];
     $buttonName = "Log Out";
     $buttonHref = "logout";
     $roleName = $_SESSION['role'];
+    $passPlaceHolder = "*****";
 }
 
 //get data Pelanggan
@@ -310,11 +312,17 @@ if (isset($_POST['submitUbahPassword'])) {
                                                         <p class="card-title ">Password</p>
                                                     </div>
                                                     <div class="col-md-8">
-                                                        <p class="card-title ">: <b>*****</b></p>
+                                                        <p class="card-title ">: <b><?= $passPlaceHolder ?></b></p>
                                                     </div>
-                                                    <div class="col-md-8">
-                                                        <a href="#ubahPassword" data-bs-toggle="modal" data-bs-target="#ubahPassword" class="btn btn-primary">Ubah Password</a>
-                                                    </div>
+                                                    <?php
+                                                    if ($_SESSION['username'] == "") {
+                                                        echo '';
+                                                    } else {
+                                                        echo '<div class="col-md-8">';
+                                                        echo '<a href="#ubahPassword" data-bs-toggle="modal" data-bs-target="#ubahPassword" class="btn btn-primary">Ubah Password</a>';
+                                                        echo '</div>';
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -369,9 +377,18 @@ if (isset($_POST['submitUbahPassword'])) {
                                                     <div class="col-md-8">
                                                         <p class="card-title ">: <b><?= $alamat ?></b></p>
                                                     </div>
-                                                    <div class="col-md-8">
-                                                        <a href="#editModal" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary">Ubah Data Diri</a>
-                                                    </div>
+                                                    <?php
+                                                    if ($_SESSION['username'] == "") {
+                                                        echo '';
+                                                    } else {
+                                                        echo '<div class="col-md-8">';
+                                                        echo '<a href="#editModal" data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-primary">Ubah Data Diri</a>';
+                                                        echo '</div>';
+                                                    }
+                                                    ?>
+
+
+
 
                                                 </div>
                                             </div>
