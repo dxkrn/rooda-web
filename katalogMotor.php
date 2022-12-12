@@ -164,7 +164,7 @@ if ($_POST['search_value'] == '') {
                         echo '</a>';
                         echo '</li>';
                         echo '<li class="menu-item">';
-                        echo '<a href="RiwayatService" class="menu-link">';
+                        echo '<a href="riwayatService" class="menu-link">';
                         echo '<i class="menu-icon tf-icons bx bx-detail"></i>';
                         echo '<div data-i18n="Analytics">Riwayat Service</div>';
                         echo '</a>';
@@ -398,7 +398,7 @@ if ($_POST['search_value'] == '') {
                                             HAVING nama LIKE '%$searchValue%'
                                                 OR nama_merk LIKE '%$searchValue%'
                                                 OR nama_jenis_motor LIKE '%$searchValue%'
-                                          ORDER BY harga $sortHarga
+                                            ORDER BY harga $sortHarga
                                             "
                             );
 

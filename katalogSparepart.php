@@ -124,7 +124,7 @@ if ($_POST['search_value'] == '') {
                         echo '</a>';
                         echo '</li>';
                         echo '<li class="menu-item">';
-                        echo '<a href="RiwayatService" class="menu-link">';
+                        echo '<a href="riwayatService" class="menu-link">';
                         echo '<i class="menu-icon tf-icons bx bx-detail"></i>';
                         echo '<div data-i18n="Analytics">Riwayat Service</div>';
                         echo '</a>';

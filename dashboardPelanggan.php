@@ -149,7 +149,7 @@ if ($_POST['search_value'] == '') {
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="RiwayatService" class="menu-link">
+                        <a href="riwayatService" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-detail"></i>
                             <div data-i18n="Analytics">Riwayat Service</div>
                         </a>
