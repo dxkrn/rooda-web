@@ -52,7 +52,6 @@ if (isset($_POST['submitTambahData'])) {
     echo "<script>alert('Yeay, Tambah Supplier berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Tambah Supplier gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -64,7 +63,6 @@ if (isset($_POST['submitEditData'])) {
   $alamat = $_POST['alamat'];
 
   $editQuery = "UPDATE tb_supplier SET nama='$nama', telp='$telp', alamat='$alamat' WHERE id_supplier='$id_supplier'";
-  // $editQuery = "UPDATE tb_supplier SET nama='asfasdf', telp='8342569', alamat='sdgkjhf', WHERE id_supplier='SR0007'";
 
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
@@ -72,7 +70,6 @@ if (isset($_POST['submitEditData'])) {
     echo "<script>alert('Yeay, Edit supplier berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Edit supplier gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -132,8 +129,6 @@ if (isset($_POST['submitHapus'])) {
   <!-- Helpers -->
   <script src="assets/vendor/js/helpers.js"></script>
 
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 
 
@@ -155,7 +150,6 @@ if (isset($_POST['submitHapus'])) {
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
           <a href="dashboard" class="app-brand-link">
-            <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
 
@@ -301,14 +295,6 @@ if (isset($_POST['submitHapus'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
             <div class="navbar-nav flex-row align-items-center">
-              <!-- <i class="bx bx-search fs-4 lh-0"></i> -->
-              <!-- <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  /> -->
-
               <table>
                 <tr>
                   <td>
@@ -355,30 +341,6 @@ if (isset($_POST['submitHapus'])) {
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li> -->
-                  <!-- <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <div class="dropdown-divider"></div>
-                    </li> -->
                   <li>
                     <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
@@ -397,13 +359,6 @@ if (isset($_POST['submitHapus'])) {
 
           <div class="container-xxl container-p-y">
             <div class="row">
-              <!-- <div class="col-lg-12 mb-4 order-0"> -->
-
-              <!-- Hoverable Table rows -->
-
-
-              <!-- responsive table -->
-
               <div class="card">
                 <h3 class="card-header">
                   <div class="row g-2 d-flex justify-content-between">

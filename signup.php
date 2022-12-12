@@ -23,34 +23,21 @@ if (isset($_POST['submitDaftar'])) {
     } else {
       $id_pelanggan = getLastID($conn, 'tb_pelanggan', 'id_pelanggan', 'PG');
       $id_user = getLastUser($conn);
-      // $nama = $_POST['nama'];
-      // $username = createUsername($_POST['email']);
-      // $password = md5($username);
-      // $nik = $_POST['nik'];
-      // $jenis_kelamin = $_POST['jenis_kelamin'];
-      // $email = $_POST['email'];
-      // $telp = $_POST['telp'];
-      // $tgl_lahir = $_POST['tgl_lahir'];
-      // $alamat = $_POST['alamat'];
+
       $insertUserQuery = "INSERT INTO users (id, name, email, password)
                       VALUES ('$id_user','$username','$email','$password')";
 
       $insertPelangganQuery = "INSERT INTO tb_pelanggan (id_pelanggan, id_user, nama, nik, jenis_kelamin, telp, tgl_lahir, alamat) 
                   VALUES ('$id_pelanggan', '$id_user' , ' ', ' ', ' ', ' ',' ', ' ')";
-      // $insertPelangganQuery = "INSERT INTO tb_pelanggan (id_pelanggan, id_user, nama, nik, jenis_kelamin, telp, tgl_lahir, alamat) 
-      //             VALUES ('$id_pelanggan', '$id_user' , '$nama', '$nik', '$jenis_kelamin', '$telp','$tgl_lahir', '$alamat')";
-
       $addUser = mysqli_query($conn, $insertUserQuery);
       if ($addUser) {
         $addPelanggan = mysqli_query($conn, $insertPelangganQuery);
         if ($addPelanggan) {
           header('refresh:0; url=login');
-          // header('refresh:0; url=pelanggan');
           echo "<script>alert('Yeay, Akun berhasil terdaftar.')</script>";
         }
       } else {
         echo "<script>alert('Yahh :( Akun gagal terdaftar.')</script>";
-        // header('location:stock.php');
       }
     }
   }
@@ -94,8 +81,6 @@ if (isset($_POST['submitDaftar'])) {
   <!-- Helpers -->
   <script src="assets/vendor/js/helpers.js"></script>
 
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 </head>
 

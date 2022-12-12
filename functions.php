@@ -26,7 +26,6 @@ function getLastIndex($conn, $table, $field)
     $stmt = $conn->prepare($query);
     $stmt->bind_param('ss', $field, $table);
     $stmt->execute();
-    // $result = mysqli_query($conn, $sql);
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -75,19 +74,6 @@ function createUsername($email)
 //NOTE : Data-data
 function getTotalPenjualan($conn)
 {
-    $sql = "SELECT jumlah FROM 'tb_detail_transaksi'";
-    // $result = mysqli_query($conn, $sql);
-    // $length = $result->num_rows;
-    // if($length > 0){
-    //     $totalPenjualan = 0;
-
-    //     for ($x = 0; $x <= $length; $x++) {
-    //         $row = mysqli_fetch_assoc($result);
-    //         $totalPenjualan =  $totalPenjualan + $row['jumlah'];
-    //     }
-    //     return $totalPenjualan;
-    // }
-
     $sql = 'SELECT SUM(jumlah) AS jumlah FROM tb_detail_transaksi';
     $result = mysqli_query($conn, $sql);
     if ($result->num_rows > 0) {

@@ -120,8 +120,6 @@ if (isset($_POST['submitHapusDetail'])) {
             <div class="col-xl-8">
               <ul class="list-unstyled">
                 <li class="text-muted">Pelanggan:</li>
-                <!-- <li class="text-muted">Street, City</li>
-                <li class="text-muted">State, Country</li> -->
                 <li class="text-muted"><i class="fas fa-phone"></i><?= $nama_pelanggan ?></li>
                 <li class="text-muted"><i class="fas fa-phone"></i><?= $alamat_pelanggan ?></li>
                 <li class="text-muted"><i class="fas fa-phone"></i>0<?= $telp_pelanggan ?></li>
@@ -130,10 +128,7 @@ if (isset($_POST['submitHapusDetail'])) {
             <div class="col-xl-4">
               <ul class="list-unstyled">
                 <li class="text-muted">Sales:</li>
-                <!-- <li class="text-muted">Street, City</li>
-                <li class="text-muted">State, Country</li> -->
                 <li class="text-muted"><i class="fas fa-phone"></i><?= $nama_karyawan ?></li>
-                <!-- <li class="text-muted"><i class="fas fa-phone"></i>Jalan Pemuda No.10 Muntilan</li> -->
                 <li class="text-muted"><i class="fas fa-phone"></i>0<?= $telp_karyawan ?></li>
               </ul>
             </div>
@@ -201,9 +196,6 @@ if (isset($_POST['submitHapusDetail'])) {
             <div class="col-xl-10">
               <p>Terimakasih atas kepercayaan Anda :)</p>
             </div>
-            <!-- <div class="col-xl-2">
-              <button type="button" class="btn btn-primary text-capitalize" style="background-color:#60bdf3 ;">Pay Now</button>
-            </div> -->
           </div>
 
         </div>

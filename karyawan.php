@@ -55,7 +55,6 @@ if (isset($_POST['submitTambahData'])) {
     echo "<script>alert('Yeay, Tambah Karyawan berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Tambah Karyawan gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -78,7 +77,6 @@ if (isset($_POST['submitEditData'])) {
     echo "<script>alert('Yeay, Edit Karyawan berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Edit Karyawan gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -137,9 +135,6 @@ if (isset($_POST['submitHapus'])) {
 
   <!-- Helpers -->
   <script src="assets/vendor/js/helpers.js"></script>
-
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 
 
@@ -307,14 +302,6 @@ if (isset($_POST['submitHapus'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
             <div class="navbar-nav flex-row align-items-center">
-              <!-- <i class="bx bx-search fs-4 lh-0"></i> -->
-              <!-- <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  /> -->
-
               <table>
                 <tr>
                   <td>
@@ -361,30 +348,6 @@ if (isset($_POST['submitHapus'])) {
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li> -->
-                  <!-- <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <div class="dropdown-divider"></div>
-                    </li> -->
                   <li>
                     <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>

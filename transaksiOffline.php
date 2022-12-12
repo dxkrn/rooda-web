@@ -72,7 +72,6 @@ if (isset($_POST['submitTambahData'])) {
       }
     } else {
       echo "<script>alert('Yahh :( Tambah transaksi gagal!')</script>";
-      // header('location:stock.php');
     }
   }
 }
@@ -116,15 +115,12 @@ if (isset($_POST['submitEditData'])) {
   $alamat = $_POST['alamat'];
 
   $editQuery = "UPDATE tb_perbaikan SET nama='$nama', telp='$telp', alamat='$alamat' WHERE id_perbaikan='$id_transaksi'";
-  // $editQuery = "UPDATE tb_perbaikan SET nama='asfasdf', telp='8342569', alamat='sdgkjhf', WHERE id_perbaikan='SR0007'";
-
   $editData = mysqli_query($conn, $editQuery);
   if ($editData) {
     header('refresh:0; url=daftar-perbaikan.php');
     echo "<script>alert('Yeay, Edit perbaikan berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Edit perbaikan gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -183,8 +179,6 @@ if (isset($_POST['submitHapus'])) {
   <!-- Helpers -->
   <script src="assets/vendor/js/helpers.js"></script>
 
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 
 
@@ -215,7 +209,6 @@ if (isset($_POST['submitHapus'])) {
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
           <a href="dashboard" class="app-brand-link">
-            <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
 
@@ -361,13 +354,6 @@ if (isset($_POST['submitHapus'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
             <div class="navbar-nav flex-row align-items-center">
-              <!-- <i class="bx bx-search fs-4 lh-0"></i> -->
-              <!-- <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  /> -->
 
               <table>
                 <tr>
@@ -415,30 +401,6 @@ if (isset($_POST['submitHapus'])) {
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li> -->
-                  <!-- <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <div class="dropdown-divider"></div>
-                    </li> -->
                   <li>
                     <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
@@ -457,13 +419,6 @@ if (isset($_POST['submitHapus'])) {
 
           <div class="container-xxl container-p-y">
             <div class="row">
-              <!-- <div class="col-lg-12 mb-4 order-0"> -->
-
-              <!-- Hoverable Table rows -->
-
-
-              <!-- responsive table -->
-
               <div class="card">
                 <h3 class="card-header">
                   <div class="row g-2 d-flex justify-content-between">
@@ -599,8 +554,6 @@ if (isset($_POST['submitHapus'])) {
                                   <input type="hidden" name="password" value="<?= $password; ?>">
                                   <button type="submit" name="submitDetailPerbaikan" class="dropdown-item"><i class="bx bx-detail me-1"></i> Lihat Detail</button>
                                 </form>
-
-                                <!-- <a class="dropdown-item" href="#editModal<?= $id_transaksi; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_transaksi; ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a> -->
                                 <input type="hidden" name="id_hapus" value="<?= $id_transaksi; ?>">
                                 <a class="dropdown-item" href="#hapusModal<?= $id_transaksi; ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_transaksi; ?>"><i class="bx bx-trash me-1"></i> Delete</a>
 
@@ -679,8 +632,7 @@ if (isset($_POST['submitHapus'])) {
                                       </select>
                                     </div>
                                     <div class="col mb-2">
-                                      <!-- <label for="html5-date-input" class="col-md-2 col-form-label">Tanggal</label>
-                                      <input class="form-control" type="date" value="$tgl_transaksi" id="tgl_transaksi" name="tgl_transaksi" /> -->
+
                                     </div>
                                   </div>
                                 </div>

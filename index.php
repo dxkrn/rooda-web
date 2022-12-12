@@ -20,7 +20,6 @@
             <ul class="navigation">
                 <li><a href="index" class="activePage">Home</a></li>
                 <li><a href="katalogMotor">Katalog</a></li>
-                <!-- <li><a href="#">About</a></li> -->
                 <li><a href="login">Login</a></li>
             </ul>
         </header>

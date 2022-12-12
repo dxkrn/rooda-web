@@ -7,11 +7,6 @@ error_reporting(0);
 
 session_start();
 
-// if (!isset(($_SESSION['username']))) {
-//     header("Location:index");
-//     exit();
-// }
-
 $activeUser = $_SESSION['username'];
 if ($activeUser == "") {
     $activeUser = "Not Loged in";
@@ -123,8 +118,6 @@ if ($_POST['search_value'] == '') {
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="assets/js/config.js"></script>
 </head>
 
@@ -138,7 +131,6 @@ if ($_POST['search_value'] == '') {
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
                     <a href="dashboardPelanggan" class="app-brand-link">
-                        <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>
 
@@ -406,11 +398,7 @@ if ($_POST['search_value'] == '') {
                                             HAVING nama LIKE '%$searchValue%'
                                                 OR nama_merk LIKE '%$searchValue%'
                                                 OR nama_jenis_motor LIKE '%$searchValue%'
-                                        --     OR harga LIKE '%$searchValue%' OR stock LIKE '%$searchValue%'
-                                        --     OR tipe_mesin LIKE '%$searchValue%' OR volume_silinder LIKE '%$searchValue%'
-                                        --     OR tipe_transmisi LIKE '%$searchValue%' OR kapasitas_bbm LIKE '%$searchValue%'
                                           ORDER BY harga $sortHarga
-                                        --   LIMIT $limitValue
                                             "
                             );
 

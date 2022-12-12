@@ -112,8 +112,6 @@ if (isset($_POST['submitHapusDetail'])) {
             <div class="col-xl-8">
               <ul class="list-unstyled">
                 <li class="text-muted">Pelanggan:</li>
-                <!-- <li class="text-muted">Street, City</li>
-                <li class="text-muted">State, Country</li> -->
                 <li class="text-muted"><i class="fas fa-phone"></i><?= $nama_pelanggan ?></li>
                 <li class="text-muted"><i class="fas fa-phone"></i><?= $alamat_pelanggan ?></li>
                 <li class="text-muted"><i class="fas fa-phone"></i>0<?= $telp_pelanggan ?></li>
@@ -122,10 +120,7 @@ if (isset($_POST['submitHapusDetail'])) {
             <div class="col-xl-4">
               <ul class="list-unstyled">
                 <li class="text-muted">Mekanik:</li>
-                <!-- <li class="text-muted">Street, City</li>
-                <li class="text-muted">State, Country</li> -->
                 <li class="text-muted"><i class="fas fa-phone"></i><?= $nama_karyawan ?></li>
-                <!-- <li class="text-muted"><i class="fas fa-phone"></i>Jalan Pemuda No.10 Muntilan</li> -->
                 <li class="text-muted"><i class="fas fa-phone"></i>0<?= $telp_karyawan ?></li>
               </ul>
             </div>
@@ -168,7 +163,6 @@ if (isset($_POST['submitHapusDetail'])) {
                   $harga_sparepart = $data['harga_sparepart'] * $persentase_sparepart / 100;
                   $tarif_perbaikan = $data['tarif_perbaikan'];
                   $total_biaya = $harga_sparepart + $tarif_perbaikan;
-                  // $total_biaya = $data['total_biaya'];
                   $subtotal_perbaikan = $subtotal_perbaikan + $total_biaya;
                 ?>
 
@@ -184,13 +178,7 @@ if (isset($_POST['submitHapusDetail'])) {
                           <i class="bx bx-dots-vertical-rounded"></i>
                         </button>
                         <div class="dropdown-menu">
-
-                          <!-- <a class="dropdown-item" href="#editModal<?= $id_transaksi;
-                                                                        $id_motor; ?>" data-bs-toggle="modal" data-bs-target="#editModal<?= $id_transaksi;
-                                                                                                                                        $id_motor ?>"><i class="bx bx-edit-alt me-1"></i> Edit</a> -->
-
                           <input type="hidden" name="id_hapus" value="<?= $id_perbaikan; ?>">
-
                           <a class="dropdown-item" href="#hapusModal<?= $id_perbaikan;
                                                                     $id_jenis_perbaikan;
                                                                     $id_sparepart ?>" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_perbaikan;

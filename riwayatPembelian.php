@@ -7,10 +7,6 @@ error_reporting(0);
 
 session_start();
 
-// if (!isset(($_SESSION['username']))) {
-//     header("Location:index");
-//     exit();
-// }
 
 $activeUser = $_SESSION['username'];
 if ($activeUser == "") {
@@ -27,47 +23,6 @@ if ($activeUser == "") {
 
 //getID pelanggan
 $id_pelanggan = getIDPelanggan($conn, $activeUser);
-
-//Inisialisasi nilai POST untuk filter
-// if ($_POST['filter_merk'] == '') {
-//     $filterMerk = '';
-//     $_POST['filter_merk'] = $filterMerk;
-//     $_POST['filter_merk_placeholder'] = "Semua";
-// } else {
-//     $_POST['filter_merk_placeholder'] = $_POST['filter_merk'];
-// }
-
-// if ($_POST['filter_jenis'] == '') {
-//     $filterJenis = '';
-//     $_POST['filter_jenis'] = $filterJenis;
-//     $_POST['filter_jenis_placeholder'] = "Semua";
-// } else {
-//     $_POST['filter_jenis_placeholder'] = $_POST['filter_jenis'];
-// }
-
-// if ($_POST['sort_harga'] == '') {
-//     $sortHarga = 'ASC';
-//     $_POST['sort_harga'] = $sortHarga;
-//     $_POST['sort_harga_placeholder'] = "Termurah";
-// } else if ($_POST['sort_harga'] == 'ASC') {
-//     $sortHarga = 'ASC';
-//     $_POST['sort_harga'] = $sortHarga;
-//     $_POST['sort_harga_placeholder'] = "Termurah";
-// } else if ($_POST['sort_harga'] == 'DESC') {
-//     $sortHarga = 'DESC';
-//     $_POST['sort_harga'] = $sortHarga;
-//     $_POST['sort_harga_placeholder'] = "Termahal";
-// }
-
-
-//Inisialisasi nilai POST untuk searching
-// if ($_POST['search_value'] == '') {
-//     $searchValue = '';
-//     $placeHolder = "Coba 'Vario'";
-// } else {
-//     $searchValue = $_POST['search_value'];
-//     $placeHolder = '';
-// }
 
 ?>
 
@@ -108,8 +63,6 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="assets/js/config.js"></script>
 </head>
 
@@ -123,7 +76,6 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
                     <a href="dashboardPelanggan" class="app-brand-link">
-                        <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>
 
@@ -266,46 +218,6 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
                             <div class="card">
                                 <h3 class="card-header">
                                     <div class="row g-2 d-flex justify-content-between">
-                                        <!-- sort input -->
-                                        <!-- <div class="col-md-7">
-                                            <form method="POST">
-                                                <div class="input-group">
-                                                    <select class="form-select" id="" aria-label="Example select with button addon" name="sort_by">
-                                                        <option selected value="<?= $_POST['sort_by'] ?>"><?= strtoupper(preg_replace("/_/", " ",  $_POST['sort_by'])) ?></option>
-                                                        <option value="id_transaksi">ID Transaksi</option>
-                                                        <option value="tgl_transaksi">Tanggal</option>
-                                                        <option value="nama_pelanggan">Nama Pelanggan</option>
-                                                        <option value="nik">NIK</option>
-                                                        <option value="telp_pelanggan">Telp Pelanggan</option>
-                                                        <option value="alamat">Alamat</option>
-                                                        <option value="nama_karyawan">Nama Karyawan</option>
-                                                    </select>
-                                                    <select class="form-select" id="inputGroupSelect04" name="sort_type">
-                                                        <option selected value="<?= $_POST['sort_type'] ?>"><?= $_POST['sort_type'] ?>ENDING</option>
-                                                        <option value="ASC">Ascending</option>
-                                                        <option value="DESC">Descending</option>
-                                                    </select>
-                                                    <select class="form-select" id="inputGroupSelect04" name="limit_value">
-                                                        <option selected value="<?= $_POST['limit_value'] ?>"><?= $_POST['limit_value'] ?> items</option>
-                                                        <option value="10">10</option>
-                                                        <option value="25">25</option>
-                                                        <option value="50">50</option>
-                                                        <option value="100">100</option>
-                                                    </select>
-                                                    <button class="btn btn-primary" type="submit" name="submitSort">Sort</button>
-                                                </div>
-                                            </form>
-                                        </div> -->
-
-                                        <!-- search input -->
-                                        <!-- <div class="col-md-4">
-                                            <form method="POST">
-                                                <div class="input-group">
-                                                    <input type="text" name="search_value" class="form-control" placeholder="<?= $placeHolder ?>" value="<?= $searchValue ?>" aria-describedby="button-addon2" />
-                                                    <button class="btn btn-primary" type="submit" id="button-addon2" name="submitSearch">Search</button>
-                                                </div>
-                                            </form>
-                                        </div> -->
                                     </div>
                                 </h3>
                                 <div class="table-responsive text-nowrap">
@@ -347,13 +259,6 @@ $id_pelanggan = getIDPelanggan($conn, $activeUser);
                                                     JOIN tb_karyawan kr
                                                     USING(id_karyawan)
                                                     WHERE pg.id_pelanggan = '$id_pelanggan'
-                                                    -- HAVING tr.id_transaksi LIKE '%$searchValue%' OR tr.tgl_transaksi LIKE '%$searchValue%'
-                                                    -- OR MONTHNAME(tr.tgl_transaksi) LIKE '%$searchValue%' OR pg.nama LIKE '%$searchValue%'
-                                                    -- OR pg.nik LIKE '%$searchValue%' OR pg.telp LIKE '%$searchValue%'
-                                                    -- OR pg.alamat LIKE '%$searchValue%' OR kr.nama LIKE '%$searchValue%'
-                                                    
-                                                    -- ORDER BY $sortBy $sortType
-                                                    -- LIMIT $limitValue
                                                     "
                                             );
 

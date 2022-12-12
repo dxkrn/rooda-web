@@ -197,9 +197,6 @@ if (isset($_POST['submitHapusDetail'])) {
             <div class="col-xl-10">
               <p>Terimakasih atas kepercayaan Anda :)</p>
             </div>
-            <!-- <div class="col-xl-2">
-              <button type="button" class="btn btn-primary text-capitalize" style="background-color:#60bdf3 ;">Pay Now</button>
-            </div> -->
           </div>
 
         </div>

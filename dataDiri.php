@@ -7,11 +7,6 @@ error_reporting(0);
 
 session_start();
 
-// if (!isset(($_SESSION['username']))) {
-//     header("Location:index");
-//     exit();
-// }
-
 $activeUser = $_SESSION['username'];
 $id_pelanggan = getIDPelanggan($conn, $activeUser);
 if ($activeUser == "") {
@@ -133,9 +128,6 @@ if (isset($_POST['submitUbahPassword'])) {
 
     <!-- Helpers -->
     <script src="assets/vendor/js/helpers.js"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="assets/js/config.js"></script>
 </head>
 
@@ -149,7 +141,6 @@ if (isset($_POST['submitUbahPassword'])) {
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
                     <a href="dashboardPelanggan" class="app-brand-link">
-                        <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
                         <img src="assets/img/logo/logo_rooda.png" width="100">
                     </a>
 
@@ -261,12 +252,6 @@ if (isset($_POST['submitUbahPassword'])) {
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
-                                    <!-- <li>
-                                        <a class="dropdown-item" href="dataDiri">
-                                            <i class="bx bx-user me-2"></i>
-                                            <span class="align-middle">Data Diri</span>
-                                        </a>
-                                    </li> -->
                                     <li>
                                         <a class="dropdown-item" href="<?= $buttonHref ?>.php">
                                             <i class="bx bx-power-off me-2"></i>
@@ -511,10 +496,6 @@ if (isset($_POST['submitUbahPassword'])) {
                                 <input type="password" name="repassword_new" class="form-control" placeholder="Ketikkan ulang Password baru" required />
                             </div>
                         </div>
-                        <!-- <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required />
-                            <label class="form-check-label" for="defaultCheck1"> *password  </label>
-                        </div> -->
 
                     </div>
                     <div class="modal-footer">

@@ -68,41 +68,6 @@ if (isset($_POST['submitTambahMotorMasuk'])) {
   }
 }
 
-// Edit Motor
-// if (isset($_POST['submitEditMotor'])) {
-//   $id_motor = $_POST['id_motor'];
-//   $nama = $_POST['nama'];
-//   $id_merk = $_POST['id_merk'];
-//   $id_jenis_motor = $_POST['id_jenis_motor'];
-//   $harga = $_POST['harga'];
-//   $persentase_laba = $_POST['persentase_laba'];
-//   $persentase_sparepart = $_POST['persentase_sparepart'];
-//   $stock = $_POST['stock'];
-//   $description = $_POST['description'];
-//   $img_src = '';
-//   $tipe_mesin = $_POST['tipe_mesin'];
-//   $volume_silinder = $_POST['volume_silinder'];
-//   $tipe_transmisi = $_POST['tipe_transmisi'];
-//   $kapasitas_bbm = $_POST['kapasitas_bbm'];
-
-//   $editMotorQuery = "UPDATE tb_motor SET nama='$nama', harga='$harga', persentase_laba='$persentase_laba', persentase_sparepart='$persentase_sparepart', stock='$stock', description='$description', img_src='' WHERE id_motor='$id_motor'";
-
-//   $editSpesifikasiQuery = "UPDATE tb_spesifikasi SET tipe_mesin='$tipe_mesin', volume_silinder='$volume_silinder', tipe_transmisi='$tipe_transmisi', kapasitas_bbm='$kapasitas_bbm' WHERE id_motor='$id_motor'";
-
-//   $editMotor = mysqli_query($conn, $editMotorQuery);
-//   if ($editMotor) {
-//     $editSpesifikasi = mysqli_query($conn, $editSpesifikasiQuery);
-//     if ($editSpesifikasi) {
-//       header('refresh:0; url=stock.php');
-//       echo "<script>alert('Yeay, Edit Motor berhasil!')</script>";
-//     }
-//   } else {
-//     echo "<script>alert('Yahh :( Edit Motor gagal!')</script>";
-//     // header('location:stock.php');
-//   }
-// }
-
-
 //Hapus  Motor Masuk
 if (isset($_POST['submitHapus'])) {
   $id_motor_masuk = $_POST['id_motor_masuk'];
@@ -172,8 +137,6 @@ if (isset($_POST['submitHapus'])) {
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
   <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
 
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 </head>
 
@@ -186,7 +149,6 @@ if (isset($_POST['submitHapus'])) {
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
           <a href="dashboard" class="app-brand-link">
-            <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
 
@@ -266,7 +228,6 @@ if (isset($_POST['submitHapus'])) {
           </li>
 
           <!-- NOTE : Karyawan -->
-          <!-- NOTE : Karyawan -->
           <li class="menu-item">
             <a href="" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-group"></i>
@@ -334,13 +295,6 @@ if (isset($_POST['submitHapus'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
             <div class="navbar-nav flex-row align-items-center">
-              <!-- <i class="bx bx-search fs-4 lh-0"></i> -->
-              <!-- <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  /> -->
 
               <table>
                 <tr>
@@ -388,30 +342,6 @@ if (isset($_POST['submitHapus'])) {
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li> -->
-                  <!-- <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <div class="dropdown-divider"></div>
-                    </li> -->
                   <li>
                     <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
@@ -431,13 +361,6 @@ if (isset($_POST['submitHapus'])) {
 
           <div class="container-xxl container-p-y">
             <div class="row">
-              <!-- <div class="col-lg-12 mb-4 order-0"> -->
-
-              <!-- Hoverable Table rows -->
-
-
-              <!-- responsive table -->
-
               <div class="card">
                 <h3 class="card-header">
                   <div class="row g-2 d-flex justify-content-between">
@@ -559,8 +482,6 @@ if (isset($_POST['submitHapus'])) {
                           <td><?= $jumlah ?></td>
                           <td><?= tanggal($tgl_masuk) ?></td>
                         </tr>
-
-                        <!-- Modal Edit NOT USED-->
 
                         <!-- Modal Hapus -->
                         <div class="modal fade" id="hapusModal<?= $id_motor_masuk; ?>" aria-labelledby="modalToggleLabel" tabindex="-1" style="display: none" aria-hidden="true">

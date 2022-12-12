@@ -27,7 +27,6 @@ if (isset($_POST['submitEditData'])) {
     echo "<script>alert('Yeay, Edit Call Center berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Edit  Call Center gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -45,36 +44,17 @@ if (isset($_POST['submitEditData'])) {
 
   <meta name="description" content="" />
 
-  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="assets/img/favicon/icon_favicon.png" />
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-
-  <!-- Icons. Uncomment required icon fonts -->
   <link rel="stylesheet" href="assets/vendor/fonts/boxicons.css" />
-
-  <!-- Core CSS -->
   <link rel="stylesheet" href="assets/vendor/css/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
   <link rel="stylesheet" href="assets/css/demo.css" />
-
-  <!-- Vendors CSS -->
   <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
   <link rel="stylesheet" href="assets/vendor/libs/apex-charts/apex-charts.css" />
-
-  <!-- <link rel="stylesheet" href="assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
-
-  <!-- Page CSS -->
-
-  <!-- Helpers -->
   <script src="assets/vendor/js/helpers.js"></script>
-
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 
 
@@ -82,8 +62,6 @@ if (isset($_POST['submitEditData'])) {
   <!-- <link rel="stylesheet" href="assets/vendor/libs/datatables/dataTables.bootstrap5.css" /> -->
   <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"> -->
   <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
-  <!-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
 
 </head>
 
@@ -92,20 +70,15 @@ if (isset($_POST['submitEditData'])) {
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
       <!-- Menu -->
-
       <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
         <div class="app-brand demo">
           <a href="dashboard" class="app-brand-link">
-            <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             <img src="assets/img/logo/logo_rooda.png" width="100">
           </a>
-
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
           </a>
         </div>
-
-        <div class="menu-inner-shadow"></div>
 
         <ul class="menu-inner py-1">
           <!-- NOTE : Dashboard -->
@@ -240,16 +213,7 @@ if (isset($_POST['submitEditData'])) {
           </div>
 
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-            <!-- Search -->
             <div class="navbar-nav flex-row align-items-center">
-              <!-- <i class="bx bx-search fs-4 lh-0"></i> -->
-              <!-- <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  /> -->
-
               <table>
                 <tr>
                   <td>
@@ -266,7 +230,6 @@ if (isset($_POST['submitEditData'])) {
               </table>
 
             </div>
-            <!-- /Search -->
 
             <ul class="navbar-nav flex-row align-items-center ms-auto">
 
@@ -304,23 +267,13 @@ if (isset($_POST['submitEditData'])) {
                   </li>
                 </ul>
               </li>
-              <!--/ User -->
+              <!-- User -->
             </ul>
           </div>
         </nav>
-        <!-- Content wrapper -->
         <div class="content-wrapper">
-          <!-- Content -->
-
           <div class="container-xxl container-p-y">
             <div class="row">
-              <!-- <div class="col-lg-12 mb-4 order-0"> -->
-
-              <!-- Hoverable Table rows -->
-
-
-              <!-- responsive table -->
-
               <div class="card">
                 <h3 class="card-header"></h3>
                 <div class="table-responsive text-nowrap">
@@ -333,10 +286,8 @@ if (isset($_POST['submitEditData'])) {
                       </tr>
                     </thead>
                     <tbody>
+
                       <?php
-
-
-
                       $ambil_data = mysqli_query(
                         $conn,
                         "SELECT * FROM call_center"
@@ -404,25 +355,16 @@ if (isset($_POST['submitEditData'])) {
                   </table>
                 </div>
               </div>
-
-              <!-- responsive table -->
-
-
             </div>
           </div>
-          <!-- / Content -->
 
           <div class="content-backdrop fade"></div>
         </div>
-        <!-- Content wrapper -->
       </div>
-      <!-- / Layout page -->
     </div>
 
-    <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
   </div>
-  <!-- / Layout wrapper -->
 
   <!-- NOTE : BUTTON ADD -->
   <div class="add">
@@ -438,31 +380,16 @@ if (isset($_POST['submitEditData'])) {
     });
   </script>
 
-  <!-- Core JS -->
-  <!-- build:js assets/vendor/js/core.js -->
   <script src="assets/vendor/libs/jquery/jquery.js"></script>
   <script src="assets/vendor/libs/popper/popper.js"></script>
   <script src="assets/vendor/js/bootstrap.js"></script>
   <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-
   <script src="assets/vendor/js/menu.js"></script>
-  <!-- endbuild -->
-
-  <!-- Vendors JS -->
   <script src="assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-  <!-- Main JS -->
   <script src="assets/js/main.js"></script>
-
-  <!-- Page JS -->
   <script src="assets/js/dashboards-analytics.js"></script>
-
-  <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 
 </body>

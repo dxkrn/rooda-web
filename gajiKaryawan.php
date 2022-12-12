@@ -56,7 +56,6 @@ if (isset($_POST['submitTambahData'])) {
     echo "<script>alert('Yeay, Tambah Karyawan berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Tambah Karyawan gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -79,7 +78,6 @@ if (isset($_POST['submitEditData'])) {
     echo "<script>alert('Yeay, Edit Karyawan berhasil!')</script>";
   } else {
     echo "<script>alert('Yahh :( Edit Karyawan gagal!')</script>";
-    // header('location:stock.php');
   }
 }
 
@@ -140,8 +138,6 @@ if (isset($_POST['submitHapus'])) {
   <!-- Helpers -->
   <script src="assets/vendor/js/helpers.js"></script>
 
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="assets/js/config.js"></script>
 
 
@@ -309,13 +305,6 @@ if (isset($_POST['submitHapus'])) {
           <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
             <!-- Search -->
             <div class="navbar-nav flex-row align-items-center">
-              <!-- <i class="bx bx-search fs-4 lh-0"></i> -->
-              <!-- <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  /> -->
 
               <table>
                 <tr>
@@ -363,30 +352,6 @@ if (isset($_POST['submitHapus'])) {
                   <li>
                     <div class="dropdown-divider"></div>
                   </li>
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li> -->
-                  <!-- <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li> -->
-                  <!-- <li>
-                      <div class="dropdown-divider"></div>
-                    </li> -->
                   <li>
                     <a class="dropdown-item" href="logout.php">
                       <i class="bx bx-power-off me-2"></i>
@@ -493,50 +458,7 @@ if (isset($_POST['submitHapus'])) {
 
                       $ambil_data = mysqli_query(
                         $conn,
-                        // "SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
-                        // (COUNT(id_transaksi) * dt.jumlah* 200000) as bonus
-                        // FROM tb_karyawan kr
-                        // LEFT JOIN tb_transaksi tr
-                        // USING(id_karyawan)
-                        // LEFT JOIN tb_detail_transaksi dt
-                        // USING(id_transaksi)
-                        // WHERE id_karyawan LIKE '%$searchValue%' OR nama LIKE '%$searchValue%'
-                        //   OR posisi LIKE '%$searchValue%'
-                        //   OR MONTHNAME(tgl_lahir) LIKE '%$searchValue%'
-                        // GROUP BY id_karyawan
-                        // "
-
-                        // "SELECT *
-                        // FROM (
-                        // SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
-                        // IFNULL((COUNT(id_transaksi) * dt.jumlah* 200000),0) as bonus
-                        // FROM tb_karyawan kr
-                        // LEFT JOIN tb_transaksi tr
-                        // USING(id_karyawan)
-                        // LEFT JOIN tb_detail_transaksi dt
-                        // USING(id_transaksi)
-                        //     WHERE kr.posisi='sales' 
-                        //     -- AND MONTHNAME(tr.tgl_transaksi)='$bulan' 
-                        //     -- AND YEAR(tr.tgl_transaksi)='2022'
-                        // GROUP BY id_karyawan
-                        // UNION
-                        // SELECT kr.id_karyawan, kr.nama, kr.posisi, kr.gaji,
-                        // (COUNT(id_perbaikan) * 5000) as bonus
-                        // FROM tb_karyawan kr
-                        // LEFT JOIN tb_perbaikan pb
-                        // USING(id_karyawan)
-                        // LEFT JOIN tb_detail_perbaikan dp
-                        // USING(id_perbaikan)
-                        // LEFT JOIN tb_jenis_perbaikan jp
-                        // USING(id_jenis_perbaikan)
-                        //         WHERE kr.posisi='mekanik'
-                        //         -- AND MONTHNAME(pb.tgl_perbaikan)='$bulan' 
-                        //         -- AND YEAR(pb.tgl_perbaikan)='2022'
-                        // GROUP BY id_karyawan
-                        // ) a ORDER by id_karyawan
-                        // "
-                        "
-                        SELECT id_karyawan, nama, posisi, gaji, SUM(bonus) as bonus
+                        "SELECT id_karyawan, nama, posisi, gaji, SUM(bonus) as bonus
                         FROM
                         (
                           SELECT *
@@ -599,7 +521,6 @@ if (isset($_POST['submitHapus'])) {
                 </div>
               </div>
 
-              <!-- responsive table -->
 
 
             </div>
