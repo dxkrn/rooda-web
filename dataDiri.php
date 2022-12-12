@@ -354,7 +354,7 @@ if (isset($_POST['submitUbahPassword'])) {
                                                         <p class="card-title ">Tanggal Lahir</p>
                                                     </div>
                                                     <div class="col-md-8">
-                                                        <p class="card-title ">: <b><?= $tgl_lahir ?></b></p>
+                                                        <p class="card-title ">: <b><?= tanggal($tgl_lahir) ?></b></p>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <p class="card-title ">Alamat</p>
